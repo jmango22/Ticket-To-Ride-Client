@@ -1,9 +1,10 @@
-package edu.byu.cs240.rachel.phase1;
+package goldenhammer.ticket_to_ride_client;
 
 import java.util.List;
 
 /**
- * Created by rache on 2/3/2017.
+ * Created by rachel on 2/3/2017.
+ * This class is the interface that every Proxy class must inherit from
  */
 
 public interface IProxy {
