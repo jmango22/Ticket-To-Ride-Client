@@ -3,6 +3,13 @@ package goldenhammer.ticket_to_ride_client.communication;
 import java.util.List;
 
 class LocalProxy implements IProxy{
+    public static final LocalProxy SINGLETON = new LocalProxy();
+
+    private LocalProxy(){}
+
+    @Override
+    public void setURL(String serverHost, String serverPort) {    }
+
     @Override
     public boolean login(String username, String password) {
         return true;
