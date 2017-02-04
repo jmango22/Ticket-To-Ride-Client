@@ -1,16 +1,16 @@
-package goldenhammer.ticket_to_ride_client;
+package goldenhammer.ticket_to_ride_client.communication;
 
 import java.util.List;
 
-public class ServerProxy implements IProxy {
+class LocalProxy implements IProxy{
     @Override
     public boolean login(String username, String password) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean register(String username, String password) {
-        return false;
+        return true;
     }
 
     @Override

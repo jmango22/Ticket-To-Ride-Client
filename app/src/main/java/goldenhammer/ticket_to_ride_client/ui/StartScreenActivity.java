@@ -1,10 +1,12 @@
-package goldenhammer.ticket_to_ride_client;
+package goldenhammer.ticket_to_ride_client.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+
+import goldenhammer.ticket_to_ride_client.R;
 
 public class StartScreenActivity extends AppCompatActivity {
 

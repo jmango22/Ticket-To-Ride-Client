@@ -1,4 +1,4 @@
-package edu.goldenhammer.ticket_to_ride_client;
+package goldenhammer.ticket_to_ride_client.communication;
 
 import java.util.List;
 

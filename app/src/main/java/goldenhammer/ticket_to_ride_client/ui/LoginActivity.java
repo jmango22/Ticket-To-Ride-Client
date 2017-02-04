@@ -1,7 +1,9 @@
-package goldenhammer.ticket_to_ride_client;
+package goldenhammer.ticket_to_ride_client.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import goldenhammer.ticket_to_ride_client.R;
 
 /**
  * Created by jon on 2/3/17.
