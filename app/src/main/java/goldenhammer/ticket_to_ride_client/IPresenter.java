@@ -1,8 +1,11 @@
 package goldenhammer.ticket_to_ride_client;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by McKean on 2/3/2017.
  */
 
-public class IPresenter {
+public interface IPresenter{
 }
