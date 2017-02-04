@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client;
+package goldenhammer.ticket_to_ride_client.model;
 
 import android.icu.lang.UScript;
 
