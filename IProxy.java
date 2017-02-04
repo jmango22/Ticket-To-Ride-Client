@@ -1,10 +1,6 @@
-package edu.byu.cs240.rachel.phase1;
+package edu.goldenhammer.ticket_to_ride_client;
 
 import java.util.List;
-
-/**
- * Created by rache on 2/3/2017.
- */
 
 public interface IProxy {
     boolean login(String username, String password);
