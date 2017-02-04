@@ -12,26 +12,26 @@
     tools:context="goldenhammer.ticket_to_ride_client.StartScreenActivity">
 
     <ImageView
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_width="350px"
+        android:layout_height="350px"
+        app:srcCompat="@drawable/icon"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/imageView" />
 
     <TextView
         android:text="Ticket To Ride"
-        android:textSize="30dp"
+        android:textSize="60dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
+        android:layout_marginBottom="20dp"
         android:id="@+id/textView"
         android:layout_above="@+id/imageView"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:text="START"
-        android:textSize="20dp"
+        android:textSize="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
