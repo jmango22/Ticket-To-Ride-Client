@@ -3,6 +3,10 @@ package goldenhammer.ticket_to_ride_client.communication;
 import java.util.List;
 
 public class ServerProxy implements IProxy {
+    public static final ServerProxy SINGLETON = new ServerProxy();
+
+    private ServerProxy(){}
+
     @Override
     public boolean login(String username, String password) {
         return false;
