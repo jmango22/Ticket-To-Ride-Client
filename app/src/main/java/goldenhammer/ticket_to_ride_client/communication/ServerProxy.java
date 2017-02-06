@@ -8,6 +8,11 @@ public class ServerProxy implements IProxy {
     private ServerProxy(){}
 
     @Override
+    public void setURL(String serverHost, String serverPort) {
+
+    }
+
+    @Override
     public boolean login(String username, String password) {
         return false;
     }
