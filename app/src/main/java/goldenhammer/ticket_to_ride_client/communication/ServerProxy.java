@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
 public class ServerProxy implements IProxy {
@@ -24,8 +25,8 @@ public class ServerProxy implements IProxy {
     public boolean login(Username username, Password password) {
         try {
             JSONObject body = new JSONObject();
-            body.put("username", username);
-            body.put("password", password);
+            body.put("username", username.getUsername());
+            body.put("password", password.getPassword());
             String url = "/login";
             communicator.post(url, body, null);
             return false;
