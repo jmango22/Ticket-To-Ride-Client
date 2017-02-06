@@ -29,4 +29,24 @@ class LocalProxy implements IProxy{
     public List<String> getAllGames() {
         return null;
     }
+
+    @Override
+    public boolean createGame(String gameName) {
+        return false;
+    }
+
+    @Override
+    public boolean joinGame(String gameName) {
+        return false;
+    }
+
+    @Override
+    public void playGame(String gameName) {
+
+    }
+
+    @Override
+    public boolean leaveGame(String gameName) {
+        return false;
+    }
 }
