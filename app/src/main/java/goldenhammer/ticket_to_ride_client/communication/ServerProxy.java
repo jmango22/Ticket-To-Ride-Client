@@ -36,7 +36,7 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public boolean register(String username, String password) {
+    public boolean register(Username username, Password password) {
         try{
             JSONObject body = new JSONObject();
             body.put("username", username);
@@ -66,7 +66,7 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public List<String> getPlayerGames(String username) {
+    public List<String> getPlayerGames(Username username) {
         String url = "/listofgames?" + username;
         return null;
     }

@@ -11,9 +11,9 @@ public interface IProxy {
 
     boolean login(Username username, Password password);
 
-    boolean register(String username, String password);
+    boolean register(Username username, Password password);
 
-    List<String> getPlayerGames(String username);
+    List<String> getPlayerGames(Username username);
 
     List<String> getAllGames();
 

@@ -19,12 +19,12 @@ class LocalProxy implements IProxy{
     }
 
     @Override
-    public boolean register(String username, String password) {
+    public boolean register(Username username, Password password) {
         return true;
     }
 
     @Override
-    public List<String> getPlayerGames(String username) {
+    public List<String> getPlayerGames(Username username) {
         return null;
     }
 
