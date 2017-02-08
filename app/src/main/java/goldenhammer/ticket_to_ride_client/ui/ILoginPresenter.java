@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client.model;
+package goldenhammer.ticket_to_ride_client.ui;
 
 import java.util.Observable;
 import java.util.Observer;
