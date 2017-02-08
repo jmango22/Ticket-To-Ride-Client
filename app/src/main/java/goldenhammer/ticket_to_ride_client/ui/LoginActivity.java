@@ -7,8 +7,6 @@ import android.widget.TextView;
 import android.content.Context;
 import android.widget.Toast;
 
-import java.util.concurrent.Callable;
-
 import goldenhammer.ticket_to_ride_client.R;
 
 /**
@@ -28,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
     }
 
     private void toastMessage(String message) {

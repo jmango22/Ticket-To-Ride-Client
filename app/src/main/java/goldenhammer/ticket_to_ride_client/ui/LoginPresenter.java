@@ -10,7 +10,7 @@ import java.util.Observer;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
-import goldenhammer.ticket_to_ride_client.model.ILoginPresenter;
+import goldenhammer.ticket_to_ride_client.communication.ILoginPresenter;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 import goldenhammer.ticket_to_ride_client.ui.LoginActivity;
