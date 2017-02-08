@@ -10,6 +10,15 @@ public class Password{
     private String password;
 
     public Password(String password) throws IOException {
+        if (password == null){
+            throw new IOException("You must enter a password!");
+        }
+        else if (password.length()<3){
+            throw new IOException("Your password must be at least 3 characters!");
+        }
+        else if (password.length()>20){
+            throw new IOException("Your password must be fewer than 20 characters!");
+        }
         for (int i=0; i<password.length(); i++){
             if (!Character.isAlphabetic(password.charAt(i)) && !Character.isDigit(password.charAt(i))){
                 throw new IOException("Invalid character");
@@ -18,7 +27,7 @@ public class Password{
         this.password = password;
     }
 
-    public String getPassword() {
+    public String getString() {
         return password;
     }
 
