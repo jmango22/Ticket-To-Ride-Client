@@ -22,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView usernameText = (TextView) findViewById(R.id.usernameText);
     private TextView passwordText = (TextView) findViewById(R.id.passwordText);
+    private TextView host = (TextView) findViewById(R.id.hostText);
+    private TextView port = (TextView) findViewById(R.id.portText);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
