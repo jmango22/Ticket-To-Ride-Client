@@ -3,6 +3,7 @@ package goldenhammer.ticket_to_ride_client.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.TextView;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -16,8 +17,11 @@ import goldenhammer.ticket_to_ride_client.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginButton = (Button) findViewById(R.id.loginButton);
-    Button registerButton = (Button) findViewById(R.id.registerButton);
+    private Button loginButton = (Button) findViewById(R.id.loginButton);
+    private Button registerButton = (Button) findViewById(R.id.registerButton);
+
+    private TextView usernameText = (TextView) findViewById(R.id.usernameText);
+    private TextView passwordText = (TextView) findViewById(R.id.passwordText);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
