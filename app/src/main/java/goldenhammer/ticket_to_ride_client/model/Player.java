@@ -13,11 +13,11 @@ public class Player {
         mPassword = password;
     }
 
-    public String getUsername(){
-        return mUsername.getUsername();
+    public Username getUsername(){
+        return mUsername;
     }
 
-    public String getPassword(){
-        return mPassword.getPassword();
+    public Password getPassword(){
+        return mPassword;
     }
 }

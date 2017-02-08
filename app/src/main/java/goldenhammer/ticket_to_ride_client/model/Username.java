@@ -12,15 +12,24 @@ public class Username {
     private String username;
 
     public Username(String username) throws IOException {
+        if (username == null){
+            throw new IOException("You must enter a username!");
+        }
+        else if (username.length()<3){
+            throw new IOException("Your username must have at least 3 characters!");
+        }
+        else if (username.length()>20){
+            throw new IOException("Your username must have fewer than 20 characters!");
+        }
         for (int i=0; i<username.length(); i++){
             if (!Character.isAlphabetic(username.charAt(i)) && !Character.isDigit(username.charAt(i))){
-                throw new IOException("Invalid character");
+                throw new IOException("Your username may only contain letters and numbers");
             }
         }
         this.username = username;
     }
 
-    public String getUsername() {
+    public String getString() {
         return username;
     }
 
