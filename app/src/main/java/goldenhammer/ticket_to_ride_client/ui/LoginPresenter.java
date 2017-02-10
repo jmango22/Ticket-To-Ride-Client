@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Password;
@@ -15,14 +16,16 @@ import goldenhammer.ticket_to_ride_client.model.Username;
  * Created by McKean on 2/3/2017.
  */
 
-public class LoginPresenter implements Observer {
+public class LoginPresenter implements Observer, ILoginPresenter {
     private LoginActivity owner;
     private String portNum;
     private String hostNum;
+    private IProxy proxy;
 
     public LoginPresenter(LoginActivity loginActivity){
         owner = loginActivity;
         ClientModelFacade.SINGLETON.addObserver(this);
+        proxy = ServerProxy.SINGLETON;
     }
     @Override
     public void update(Observable o, Object arg) {
@@ -49,7 +52,7 @@ public class LoginPresenter implements Observer {
     public void sendLogin(String username, String password) {
         Pair<Username,Password> credentials = check(username, password);
         if (credentials != null){
-            ServerProxy.SINGLETON.login(credentials.first, credentials.second);
+            proxy.login(credentials.first, credentials.second);
         }
     }
 
@@ -68,8 +71,14 @@ public class LoginPresenter implements Observer {
     public void sendRegistration(String username, String password) {
         Pair<Username, Password> credentials = check(username,password);
         if (credentials != null){
-            ServerProxy.SINGLETON.register(credentials.first, credentials.second);
+           proxy.register(credentials.first, credentials.second);
         }
     }
+
+    @Override
+    public void setURL(String host, String port) {
+        proxy.setURL(host,port);
+    }
+
 
 }
