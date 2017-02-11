@@ -14,4 +14,6 @@ public interface ILoginPresenter {
 
     public void sendRegistration(String username, String password);
 
+    public void setURL(String host, String port);
+
 }
