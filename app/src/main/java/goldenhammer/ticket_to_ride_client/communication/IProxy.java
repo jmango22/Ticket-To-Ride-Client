@@ -14,15 +14,15 @@ public interface IProxy {
 
     boolean register(Username username, Password password);
 
-    List<String> getPlayerGames(Username username);
+    boolean getPlayerGames(Username username);
 
-    List<String> getAllGames();
+    boolean getAllGames();
 
     boolean createGame(GameName gameName);
 
     boolean joinGame(GameName gameName);
 
-    void playGame(GameName gameName);
+    boolean playGame(GameName gameName);
 
     boolean leaveGame(GameName gameName);
 }

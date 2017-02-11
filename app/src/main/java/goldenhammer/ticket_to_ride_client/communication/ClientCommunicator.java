@@ -25,12 +25,17 @@ public class ClientCommunicator {
         serverPort = port;
     }
 
-    public void setAuthorizationToken(){
+    public boolean setAuthorizationToken(){
         try{
             authorizationToken = results.getString("authorization");
             results = null;
+            if(authorizationToken == null){
+                return false;
+            }
+            return true;
         }catch(JSONException e){
             authorizationToken = null;
+            return false;
         }
     }
 

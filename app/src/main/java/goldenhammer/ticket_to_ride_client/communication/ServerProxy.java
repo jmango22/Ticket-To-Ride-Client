@@ -3,9 +3,6 @@ package goldenhammer.ticket_to_ride_client.communication;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
@@ -31,9 +28,9 @@ public class ServerProxy implements IProxy {
             String url = "/login";
             boolean result = communicator.post(url,body, null);
             if(result){
-                communicator.setAuthorizationToken();
+                return communicator.setAuthorizationToken();
             }
-            return result;
+            return false;
         }catch(JSONException e){
             return false;
         }
@@ -48,9 +45,9 @@ public class ServerProxy implements IProxy {
             String url = "/register";
             boolean result = communicator.post(url,body, null);
             if(result){
-                communicator.setAuthorizationToken();
+                return communicator.setAuthorizationToken();
             }
-            return result;
+            return false;
         }catch(JSONException e) {
             return false;
         }
@@ -65,35 +62,34 @@ public class ServerProxy implements IProxy {
     @Override
     public boolean joinGame(GameName gameName) {
         String url = "/joingame";
-        communicator.post(url, null, gameName.getString());
-        return false;
+        return communicator.post(url, null, gameName.getString());
     }
 
     @Override
     public boolean leaveGame(GameName gameName) {
         String url = "/leavegame";
-        communicator.post(url, null, gameName.getString());
+        return communicator.post(url, null, gameName.getString());
+    }
+
+    @Override
+    public boolean getPlayerGames(Username username) {
+        String url = "/listofgames?" + username;
+        communicator.get(url, null);
         return false;
     }
 
     @Override
-    public List<String> getPlayerGames(Username username) {
-        String url = "/listofgames?" + username;
-        communicator.get(url, null);
-        return null;
-    }
-
-    @Override
-    public List<String> getAllGames() {
+    public boolean getAllGames() {
         String url = "/listofgames";
         communicator.get(url, null);
-        return null;
+        return false;
     }
 
     @Override
-    public void playGame(GameName gameName) {
+    public boolean playGame(GameName gameName) {
         String url = "/playgame";
         communicator.get(url, gameName.getString());
+        return false;
     }
 
 }
