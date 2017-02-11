@@ -13,9 +13,9 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
  */
 
 public class MyGamesPresenter extends GameSelectionPresenter implements Observer {
-    private GameSelectionActivity owner;
+    private GameSelectorActivity owner;
 
-    public MyGamesPresenter(GameSelectionActivity activity){ //TODO Include GameSelectionActivity in constructor
+    public MyGamesPresenter(GameSelectorActivity activity){ //TODO Include GameSelectionActivity in constructor
         owner = activity;
     }
 
