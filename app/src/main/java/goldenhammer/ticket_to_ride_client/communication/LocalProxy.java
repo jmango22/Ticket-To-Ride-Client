@@ -2,6 +2,7 @@ package goldenhammer.ticket_to_ride_client.communication;
 
 import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
@@ -34,22 +35,22 @@ class LocalProxy implements IProxy{
     }
 
     @Override
-    public boolean createGame(String gameName) {
+    public boolean createGame(GameName gameName) {
         return false;
     }
 
     @Override
-    public boolean joinGame(String gameName) {
+    public boolean joinGame(GameName gameName) {
         return false;
     }
 
     @Override
-    public void playGame(String gameName) {
+    public void playGame(GameName gameName) {
 
     }
 
     @Override
-    public boolean leaveGame(String gameName) {
+    public boolean leaveGame(GameName gameName) {
         return false;
     }
 }
