@@ -15,10 +15,8 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
 
 public class MyGamesPresenter extends GameSelectionPresenter implements Observer {
     private GameSelectorActivity owner;
-<<<<<<< HEAD
     private IProxy proxy;
-=======
->>>>>>> origin/master
+
 
     public MyGamesPresenter(GameSelectorActivity activity){ //TODO Include GameSelectionActivity in constructor
         owner = activity;
@@ -32,7 +30,7 @@ public class MyGamesPresenter extends GameSelectionPresenter implements Observer
     public void createGame(String name){
         try{
             GameName g = new GameName(name);
-            ServerProxy.SINGLETON.createGame(g.getString());
+            ServerProxy.SINGLETON.createGame(g);
         }catch(IOException e){
 
             owner.toastMessage(e.getMessage());
@@ -42,7 +40,7 @@ public class MyGamesPresenter extends GameSelectionPresenter implements Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        owner.setMyGames(ClientModelFacade.SINGLETON.getMyGames());
+        owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());
     }
 
     public void joinGame(String gameName){
