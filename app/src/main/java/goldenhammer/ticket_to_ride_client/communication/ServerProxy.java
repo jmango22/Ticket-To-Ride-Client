@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
@@ -22,8 +23,8 @@ public class ServerProxy implements IProxy {
     public boolean login(Username username, Password password) {
         try {
             JSONObject body = new JSONObject();
-            body.put("username", username.getUsername());
-            body.put("password", password.getPassword());
+            body.put("username", username.getString());
+            body.put("password", password.getString());
             String url = "/login";
             boolean result = communicator.post(url,body, null);
             if(result){
@@ -53,23 +54,21 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public boolean createGame(String gameName) {
+    public boolean createGame(GameName gameName) {
         String url = "/creategame";
-        return communicator.post(url, null, gameName);
+        return communicator.post(url, null, gameName.getString());
     }
 
     @Override
-    public boolean joinGame(String gameName) {
+    public boolean joinGame(GameName gameName) {
         String url = "/joingame";
-        communicator.post(url, null, gameName);
-        return false;
+        return communicator.post(url, null, gameName.getString());
     }
 
     @Override
-    public boolean leaveGame(String gameName) {
+    public boolean leaveGame(GameName gameName) {
         String url = "/leavegame";
-        communicator.post(url, null, gameName);
-        return false;
+        return communicator.post(url, null, gameName.getString());
     }
 
     @Override
@@ -87,9 +86,9 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public void playGame(String gameName) {
+    public void playGame(GameName gameName) {
         String url = "/playgame";
-        communicator.get(url, gameName);
+        communicator.get(url, gameName.getString());
     }
 
 }
