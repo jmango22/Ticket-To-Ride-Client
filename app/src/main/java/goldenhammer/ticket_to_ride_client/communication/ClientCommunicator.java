@@ -71,7 +71,7 @@ public class ClientCommunicator {
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             setHeader(connection, gameName);
             connection.setDoOutput(false);
             connection.connect();
