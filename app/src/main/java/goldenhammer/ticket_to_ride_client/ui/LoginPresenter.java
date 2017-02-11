@@ -52,7 +52,9 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public void sendLogin(String username, String password) {
         Pair<Username,Password> credentials = check(username, password);
         if (credentials != null){
-            proxy.login(credentials.first, credentials.second);
+            if (!proxy.login(credentials.first, credentials.second)){
+                owner.toastMessage("Username or password incorrect.");
+            }
         }
     }
 
@@ -71,7 +73,9 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public void sendRegistration(String username, String password) {
         Pair<Username, Password> credentials = check(username,password);
         if (credentials != null){
-           proxy.register(credentials.first, credentials.second);
+           if (!proxy.register(credentials.first, credentials.second)){
+               owner.toastMessage("Username not available");
+           }
         }
     }
 
