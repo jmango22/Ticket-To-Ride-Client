@@ -25,13 +25,13 @@ class LocalProxy implements IProxy{
     }
 
     @Override
-    public List<String> getPlayerGames(Username username) {
-        return null;
+    public boolean getPlayerGames(Username username) {
+        return true;
     }
 
     @Override
-    public List<String> getAllGames() {
-        return null;
+    public boolean getAllGames() {
+        return false;
     }
 
     @Override
@@ -45,9 +45,7 @@ class LocalProxy implements IProxy{
     }
 
     @Override
-    public void playGame(GameName gameName) {
-
-    }
+    public boolean playGame(GameName gameName) { return false;   }
 
     @Override
     public boolean leaveGame(GameName gameName) {

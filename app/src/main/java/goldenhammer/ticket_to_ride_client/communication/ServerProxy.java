@@ -4,6 +4,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+import goldenhammer.ticket_to_ride_client.model.GameList;
+import goldenhammer.ticket_to_ride_client.model.GameModel;
+
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -28,9 +32,9 @@ public class ServerProxy implements IProxy {
             String url = "/login";
             boolean result = communicator.post(url,body, null);
             if(result){
-                communicator.setAuthorizationToken();
+                return communicator.setAuthorizationToken();
             }
-            return result;
+            return false;
         }catch(JSONException e){
             return false;
         }
@@ -45,9 +49,9 @@ public class ServerProxy implements IProxy {
             String url = "/register";
             boolean result = communicator.post(url,body, null);
             if(result){
-                communicator.setAuthorizationToken();
+                return communicator.setAuthorizationToken();
             }
-            return result;
+            return false;
         }catch(JSONException e) {
             return false;
         }
@@ -72,23 +76,46 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public List<String> getPlayerGames(Username username) {
+    public boolean getPlayerGames(Username username) {
         String url = "/listofgames?" + username;
-        communicator.get(url, null);
-        return null;
+        if(communicator.get(url, null)){
+            ClientModelFacade.SINGLETON.setMyGames(deserializeGames());
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public List<String> getAllGames() {
+    public boolean getAllGames() {
         String url = "/listofgames";
-        communicator.get(url, null);
-        return null;
+        if(communicator.get(url, null)){
+            ClientModelFacade.SINGLETON.setAvailableGames(deserializeGames());
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void playGame(GameName gameName) {
+    public boolean playGame(GameName gameName) {
         String url = "/playgame";
-        communicator.get(url, gameName.getString());
+        if (communicator.get(url, gameName.getString())){
+            GameModel game = deserializeGameModel();
+            if(game != null) {
+                ClientModelFacade.SINGLETON.setCurrentGame(game);
+                return true;
+            }
+        }
+        return false;
     }
 
+
+    private GameList deserializeGames(){
+        JSONObject games = communicator.getResults();
+
+        return null;
+    }
+
+    private GameModel deserializeGameModel(){
+        return null;
+    }
 }

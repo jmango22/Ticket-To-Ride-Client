@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class ClientCommunicator {
@@ -26,13 +25,22 @@ public class ClientCommunicator {
         serverPort = port;
     }
 
-    public void setAuthorizationToken(){
+    public boolean setAuthorizationToken(){
         try{
             authorizationToken = results.getString("authorization");
             results = null;
+            if(authorizationToken == null){
+                return false;
+            }
+            return true;
         }catch(JSONException e){
             authorizationToken = null;
+            return false;
         }
+    }
+
+    public JSONObject getResults(){
+        return results;
     }
 
     public boolean post(String suffix, JSONObject body, String gameName){
@@ -40,6 +48,7 @@ public class ClientCommunicator {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            setHeader(connection, gameName);
             connection.setDoOutput(true);
             setHeader(connection, gameName);
             OutputStream send = connection.getOutputStream();
