@@ -7,13 +7,11 @@ import java.util.ArrayList;
  */
 
 public class GameListItem {
-    private String id;
     private String name;
     private boolean started;
     private ArrayList<Player> players;
 
-    public GameListItem(String id, String name, boolean started, ArrayList<Player> players){
-        this.id = id;
+    public GameListItem(String name, boolean started, ArrayList<Player> players){
         this.name = name;
         this.started = started;
         this.players = players;
@@ -27,13 +25,7 @@ public class GameListItem {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public ArrayList<Player> getPlayers() {
         return players;
