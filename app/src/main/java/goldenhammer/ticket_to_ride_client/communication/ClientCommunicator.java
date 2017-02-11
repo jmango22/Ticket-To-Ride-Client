@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class ClientCommunicator {
@@ -40,12 +39,13 @@ public class ClientCommunicator {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            setHeader(connection, gameName);
             connection.setDoOutput(true);
             OutputStream send = connection.getOutputStream();
             output(send, body);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                input(connection.getInputStream());
+                setResults(connection.getInputStream());
                 return true;
             }
             else{
@@ -63,10 +63,11 @@ public class ClientCommunicator {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            setHeader(connection, gameName);
             connection.setDoOutput(false);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                input(connection.getInputStream());
+                setResults(connection.getInputStream());
                 return true;
             }
             else{
@@ -100,7 +101,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void input(InputStream input){
+    private void setResults(InputStream input){
         try {
             StringBuilder string = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
