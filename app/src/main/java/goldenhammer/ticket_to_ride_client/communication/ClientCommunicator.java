@@ -39,6 +39,10 @@ public class ClientCommunicator {
         }
     }
 
+    public JSONObject getResults(){
+        return results;
+    }
+
     public boolean post(String suffix, JSONObject body, String gameName){
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
