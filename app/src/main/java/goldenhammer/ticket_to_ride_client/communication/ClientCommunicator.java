@@ -41,6 +41,7 @@ public class ClientCommunicator {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
+            setHeader(connection, gameName);
             OutputStream send = connection.getOutputStream();
             output(send, body);
             connection.connect();
@@ -64,6 +65,7 @@ public class ClientCommunicator {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(false);
+            setHeader(connection, gameName);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 input(connection.getInputStream());

@@ -2,10 +2,7 @@ package goldenhammer.ticket_to_ride_client.communication;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
