@@ -21,10 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String username;
     private String password;
-
-    private EditText host = (EditText) findViewById(R.id.hostText);
-    private EditText port = (EditText) findViewById(R.id.portText);
-
+    
     public void toastMessage(String message) {
         Context context = this.getApplicationContext();
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
@@ -83,5 +80,15 @@ public class LoginActivity extends AppCompatActivity {
     private void setPassword() {
         EditText passwordText = (EditText) findViewById(R.id.passwordText);
         password = passwordText.getText().toString();
+    }
+
+    private void setURL() {
+        EditText hostText = (EditText) findViewById(R.id.hostText);
+        EditText portText = (EditText) findViewById(R.id.portText);
+
+        String host = hostText.getText().toString();
+        String port = portText.getText().toString();
+
+        loginPreseter.setURL(host, port);
     }
 }
