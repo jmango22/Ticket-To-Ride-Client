@@ -28,8 +28,11 @@ public class ServerProxy implements IProxy {
             body.put("username", username.getUsername());
             body.put("password", password.getPassword());
             String url = "/login";
-            communicator.post(url, body, null);
-            return false;
+            boolean result = communicator.post(url,body, null);
+            if(result){
+                communicator.setAuthorizationToken();
+            }
+            return result;
         }catch(JSONException e){
             return false;
         }
@@ -42,8 +45,11 @@ public class ServerProxy implements IProxy {
             body.put("username", username);
             body.put("password", password);
             String url = "/register";
-            communicator.post(url, body, null);
-            return false;
+            boolean result = communicator.post(url,body, null);
+            if(result){
+                communicator.setAuthorizationToken();
+            }
+            return result;
         }catch(JSONException e) {
             return false;
         }
@@ -51,35 +57,42 @@ public class ServerProxy implements IProxy {
 
     @Override
     public boolean createGame(String gameName) {
-        Map<String, String> header = new HashMap<>();
-        return false;
+        String url = "/creategame";
+        return communicator.post(url, null, gameName);
     }
 
     @Override
     public boolean joinGame(String gameName) {
+        String url = "/joingame";
+        communicator.post(url, null, gameName);
         return false;
     }
 
     @Override
     public boolean leaveGame(String gameName) {
+        String url = "/leavegame";
+        communicator.post(url, null, gameName);
         return false;
     }
 
     @Override
     public List<String> getPlayerGames(Username username) {
         String url = "/listofgames?" + username;
+        communicator.get(url, null);
         return null;
     }
 
     @Override
     public List<String> getAllGames() {
         String url = "/listofgames";
+        communicator.get(url, null);
         return null;
     }
 
     @Override
     public void playGame(String gameName) {
-
+        String url = "/playgame";
+        communicator.get(url, gameName);
     }
 
 }
