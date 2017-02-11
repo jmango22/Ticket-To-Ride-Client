@@ -41,11 +41,12 @@ public class ClientCommunicator {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
+            setHeader(connection, gameName);
             OutputStream send = connection.getOutputStream();
             output(send, body);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                input(connection.getInputStream());
+                setResults(connection.getInputStream());
                 return true;
             }
             else{
@@ -62,11 +63,12 @@ public class ClientCommunicator {
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             connection.setDoOutput(false);
+            setHeader(connection, gameName);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                input(connection.getInputStream());
+                setResults(connection.getInputStream());
                 return true;
             }
             else{
@@ -100,7 +102,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void input(InputStream input){
+    private void setResults(InputStream input){
         try {
             StringBuilder string = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
