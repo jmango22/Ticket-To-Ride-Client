@@ -13,12 +13,12 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
  * Created by McKean on 2/6/2017.
  */
 
-public class MyGamesPresenter extends GameSelectionPresenter implements Observer {
+public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     private GameSelectorActivity owner;
     private IProxy proxy;
 
 
-    public MyGamesPresenter(GameSelectorActivity activity){ //TODO Include GameSelectionActivity in constructor
+    public MyGamesPresenter(GameSelectorActivity activity){
         owner = activity;
         proxy = ServerProxy.SINGLETON;
     }
@@ -45,7 +45,9 @@ public class MyGamesPresenter extends GameSelectionPresenter implements Observer
 
     public void joinGame(String gameName){
         try {
-            proxy.joinGame(new GameName(gameName));
+            if (!proxy.joinGame(new GameName(gameName))){
+                owner.toastMessage("Unable to join game.");
+            }
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
@@ -53,7 +55,9 @@ public class MyGamesPresenter extends GameSelectionPresenter implements Observer
 
     public void leaveGame(String gameName){
         try {
-            proxy.leaveGame(new GameName(gameName));
+            if (!proxy.leaveGame(new GameName(gameName))){
+                owner.toastMessage("Unable to leave game.");
+            }
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
