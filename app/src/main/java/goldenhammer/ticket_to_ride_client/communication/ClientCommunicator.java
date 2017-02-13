@@ -18,7 +18,7 @@ public class ClientCommunicator {
     private String serverHost;
     private String serverPort;
     private String authorizationToken;
-    private JSONObject results;
+    private String results;
 
     public ClientCommunicator(String host, String port){
         serverHost = host;
@@ -27,7 +27,8 @@ public class ClientCommunicator {
 
     public boolean setAuthorizationToken(){
         try{
-            authorizationToken = results.getString("authorization");
+            JSONObject resultObject = new JSONObject(results);
+            authorizationToken = resultObject.getString("authorization");
             results = null;
             if(authorizationToken == null){
                 return false;
@@ -39,11 +40,12 @@ public class ClientCommunicator {
         }
     }
 
-    public JSONObject getResults(){
+    public String getResults(){
         return results;
     }
 
     public boolean post(String suffix, JSONObject body, String gameName){
+        results = null;
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -68,6 +70,7 @@ public class ClientCommunicator {
     }
 
     public  boolean get(String suffix, String gameName){
+        results = null;
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -119,9 +122,7 @@ public class ClientCommunicator {
                 string.append(line);
                 line = br.readLine();
             }
-            results = new JSONObject(string.toString());
-
-        }catch(JSONException e){
+            results = string.toString();
         }catch (IOException e){
         }
 

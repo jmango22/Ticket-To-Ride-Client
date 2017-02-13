@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,13 +111,13 @@ public class ServerProxy implements IProxy {
 
 
     private GameList deserializeGames(){
-        JSONObject games = communicator.getResults();
-
-        return null;
+        Gson gson = new Gson();
+        return gson.fromJson(communicator.getResults(),GameList.class);
     }
 
     private GameModel deserializeGameModel(){
-        return null;
+        Gson gson = new Gson();
+        return gson.fromJson(communicator.getResults(), GameModel.class);
     }
 
 }
