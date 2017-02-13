@@ -4,11 +4,12 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
+
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -119,5 +120,4 @@ public class ServerProxy implements IProxy {
         Gson gson = new Gson();
         return gson.fromJson(communicator.getResults(), GameModel.class);
     }
-
 }
