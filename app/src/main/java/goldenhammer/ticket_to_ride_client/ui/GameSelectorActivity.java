@@ -117,8 +117,8 @@ public class GameSelectorActivity extends AppCompatActivity {
             gameListItem = g;
             gameName.setText(g.getName());
             StringBuilder playerNames = new StringBuilder();
-            for (Player p: g.getPlayers()){
-                playerNames.append(p.getUsername().getString());
+            for (String p: g.getPlayers()){
+                playerNames.append(p);
                 playerNames.append(" ");
             }
             players.setText(playerNames.toString());
@@ -176,8 +176,8 @@ public class GameSelectorActivity extends AppCompatActivity {
             gameListItem = g;
             gameName.setText(g.getName());
             StringBuilder playerNames = new StringBuilder();
-            for (Player p: g.getPlayers()){
-                playerNames.append(p.getUsername().getString());
+            for (String p: g.getPlayers()){
+                playerNames.append(p);
                 playerNames.append(" ");
             }
             players.setText(playerNames.toString());

@@ -25,8 +25,6 @@ public class GameListItem {
         this.name = name;
     }
 
-
-
     public ArrayList<String> getPlayers() {
         return players;
     }
