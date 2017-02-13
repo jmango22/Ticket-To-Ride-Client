@@ -49,10 +49,11 @@ public class LoginPresenter implements Observer, ILoginPresenter {
         this.hostNum = hostNum;
     }
 
-    public void sendLogin(String username, String password) {
+    @Override
+    public void sendLogin(String username, String password, String host, String port) {
         Pair<Username,Password> credentials = check(username, password);
         if (credentials != null){
-            if (!proxy.login(credentials.first, credentials.second)){
+            if (!proxy.login(credentials.first, credentials.second, host, port)){
                 owner.toastMessage("Username or password incorrect.");
             }
         }
@@ -69,20 +70,16 @@ public class LoginPresenter implements Observer, ILoginPresenter {
         }
         return null;
     }
-
-    public void sendRegistration(String username, String password) {
+    @Override
+    public void sendRegistration(String username, String password, String host, String port) {
         Pair<Username, Password> credentials = check(username,password);
         if (credentials != null){
-           if (!proxy.register(credentials.first, credentials.second)){
+           if (!proxy.register(credentials.first, credentials.second, host, port)){
                owner.toastMessage("Username not available");
            }
         }
     }
 
-    @Override
-    public void setURL(String host, String port) {
-        proxy.setURL(host,port);
-    }
 
 
 }
