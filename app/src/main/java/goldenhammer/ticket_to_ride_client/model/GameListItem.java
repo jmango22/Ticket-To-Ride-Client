@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class GameListItem {
     private String name;
     private boolean started;
-    private ArrayList<Player> players;
+    private ArrayList<String> players;
 
-    public GameListItem(String name, boolean started, ArrayList<Player> players){
+    public GameListItem(String name, boolean started, ArrayList<String> players){
         this.name = name;
         this.started = started;
         this.players = players;
@@ -27,11 +27,11 @@ public class GameListItem {
 
 
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<String> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<String> players) {
         this.players = players;
     }
 
