@@ -1,8 +1,9 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.GameList;
@@ -18,14 +19,14 @@ public class ServerProxy implements IProxy {
 
     private ServerProxy(){}
 
-    @Override
-    public void setURL(String serverHost, String serverPort) {
+    private void setURL(String serverHost, String serverPort) {
         communicator = new ClientCommunicator(serverHost, serverPort);
     }
 
     @Override
-    public boolean login(Username username, Password password) {
+    public boolean login(Username username, Password password, String serverHost, String serverPort) {
         try {
+            setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
             body.put("username", username.getString());
             body.put("password", password.getString());
@@ -41,11 +42,12 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public boolean register(Username username, Password password) {
+    public boolean register(Username username, Password password, String serverHost, String serverPort) {
         try{
+            setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
-            body.put("username", username);
-            body.put("password", password);
+            body.put("username", username.getString());
+            body.put("password", password.getString());
             String url = "/register";
             boolean result = communicator.post(url,body, null);
             if(result){
@@ -110,12 +112,12 @@ public class ServerProxy implements IProxy {
 
 
     private GameList deserializeGames(){
-        JSONObject games = communicator.getResults();
-
-        return null;
+        Gson gson = new Gson();
+        return gson.fromJson(communicator.getResults(),GameList.class);
     }
 
     private GameModel deserializeGameModel(){
-        return null;
+        Gson gson = new Gson();
+        return gson.fromJson(communicator.getResults(), GameModel.class);
     }
 }

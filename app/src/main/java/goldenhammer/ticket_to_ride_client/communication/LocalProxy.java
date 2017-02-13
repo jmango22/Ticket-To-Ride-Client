@@ -12,15 +12,12 @@ class LocalProxy implements IProxy{
     private LocalProxy(){}
 
     @Override
-    public void setURL(String serverHost, String serverPort) {    }
-
-    @Override
-    public boolean login(Username username, Password password) {
+    public boolean login(Username username, Password password, String serverHost, String serverPor) {
         return true;
     }
 
     @Override
-    public boolean register(Username username, Password password) {
+    public boolean register(Username username, Password password, String serverHost, String serverPor) {
         return true;
     }
 
