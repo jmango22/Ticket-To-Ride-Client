@@ -21,6 +21,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private String username;
     private String password;
+    private String host;
+    private String port;
     
     public void toastMessage(String message) {
         Context context = this.getApplicationContext();
@@ -57,19 +59,20 @@ public class LoginActivity extends AppCompatActivity {
     private void register() {
         setUsername();
         setPassword();
-
+        setURL();
         toastMessage("Sending registration with username: "+username);
 
-        loginPreseter.sendRegistration(username, password);
+        loginPreseter.sendRegistration(username, password, host, port);
     }
 
     private void login() {
         setUsername();
         setPassword();
-
+        setURL();
         toastMessage("Sending login with username: "+username);
 
-        loginPreseter.sendLogin(username, password);
+
+        loginPreseter.sendLogin(username, password, host, port);
     }
 
     private void setUsername() {
@@ -86,9 +89,8 @@ public class LoginActivity extends AppCompatActivity {
         EditText hostText = (EditText) findViewById(R.id.hostText);
         EditText portText = (EditText) findViewById(R.id.portText);
 
-        String host = hostText.getText().toString();
-        String port = portText.getText().toString();
+        host = hostText.getText().toString();
+        port = portText.getText().toString();
 
-        loginPreseter.setURL(host, port);
     }
 }
