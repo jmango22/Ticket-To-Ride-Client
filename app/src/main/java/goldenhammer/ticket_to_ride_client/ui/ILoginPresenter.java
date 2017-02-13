@@ -10,10 +10,10 @@ import java.util.concurrent.Callable;
 
 public interface ILoginPresenter {
 
-    public void sendLogin(String username, String password);
+    public void sendLogin(String username, String password, String host, String port);
 
-    public void sendRegistration(String username, String password);
+    public void sendRegistration(String username, String password, String host, String port);
 
-    public void setURL(String host, String port);
+
 
 }
