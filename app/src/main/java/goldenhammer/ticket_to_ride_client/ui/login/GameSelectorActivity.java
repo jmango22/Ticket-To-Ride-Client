@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class GameSelectorActivity extends AppCompatActivity {
 
     private static ArrayList<GameListItem> myGameList;
     private static ArrayList<GameListItem> availableGameList;
+
+    private static AvailableGamesPresenter availableGamesPresenter;
+    private static MyGamesPresenter myGamesPresenter;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -48,6 +54,19 @@ public class GameSelectorActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        availableGamesPresenter = new AvailableGamesPresenter(this);
+        myGamesPresenter = new MyGamesPresenter(this);
+
+        Button createButton = (Button) findViewById(R.id.createButton);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText gameName = (EditText) findViewById(R.id.gameNameText);
+                myGamesPresenter.createGame(gameName.getText().toString());
+            }
+        });
+
     }
 
 
@@ -140,4 +159,11 @@ public class GameSelectorActivity extends AppCompatActivity {
         return myGameList;
     }
 
+    public static MyGamesPresenter getMyGamesPresenter() {
+        return myGamesPresenter;
+    }
+
+    public static AvailableGamesPresenter getAvailableGamesPresenter() {
+        return availableGamesPresenter;
+    }
 }

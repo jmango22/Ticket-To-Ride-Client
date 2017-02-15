@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
+import goldenhammer.ticket_to_ride_client.ui.login.GameSelectorActivity;
 
 /**
  * Created by jon on 2/14/17.
@@ -27,7 +28,7 @@ public class AvailableGameListHolder extends RecyclerView.ViewHolder{
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //myGamesPresenter.joinGame(gameListItem.getName());
+                GameSelectorActivity.getAvailableGamesPresenter().joinGame(gameListItem.getName());
             }
         });
     }

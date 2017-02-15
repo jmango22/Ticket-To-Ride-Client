@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
+import goldenhammer.ticket_to_ride_client.ui.login.GameSelectorActivity;
 
 /**
  * Created by jon on 2/14/17.
@@ -30,14 +31,14 @@ public class MyGameListItemHolder extends RecyclerView.ViewHolder {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //myGamesPresenter.leaveGame(gameListItem.getName());
+                GameSelectorActivity.getMyGamesPresenter().leaveGame(gameListItem.getName());
             }
         });
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //myGamesPresenter.playGame(gameListItem.getName());
+                GameSelectorActivity.getMyGamesPresenter().playGame(gameListItem.getName());
             }
         });
     }
