@@ -11,8 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class ClientCommunicator {
     private String serverHost;
@@ -44,57 +43,32 @@ public class ClientCommunicator {
         return results;
     }
 
-    public boolean post(String suffix, JSONObject body, String gameName){
+    public String post(String suffix, JSONObject body, String gameName){
         results = null;
+        String urlText = "http://" + serverHost + ":" + serverPort + suffix;
         try {
-            URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            setHeader(connection, gameName);
-            connection.setDoOutput(true);
-            setHeader(connection, gameName);
-            OutputStream send = connection.getOutputStream();
-            output(send, body);
-            connection.connect();
-            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                setResults(connection.getInputStream());
-                return true;
-            }
-            else{
-                return false;
-            }
-        }catch(MalformedURLException e){
-            return false;
-        }catch (IOException e){
-            return false;
+            return new PostTask(body, urlText, this, authorizationToken, gameName).execute().get();
+        }catch (InterruptedException e){
+            return "ERROR: Please try again";
+
+        }catch (ExecutionException e){
+            return "ERROR: Please try again";
         }
     }
 
-    public  boolean get(String suffix, String gameName){
+    public  String get(String suffix, String gameName){
         results = null;
-        try {
-            URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(false);
-            setHeader(connection, gameName);
-            connection.connect();
-            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                setResults(connection.getInputStream());
-                return true;
-            }
-            else{
-                return false;
-            }
-        }catch(MalformedURLException e){
-            return false;
-        }catch (IOException e){
-            return false;
+        String url = "http://" + serverHost + ":" + serverPort + suffix;
+        try{
+            return new GetTask(url,gameName,this).execute().get();
+        }catch(InterruptedException e){
+            return "ERROR: Please try again";
+        }catch (ExecutionException e){
+            return "ERROR: Please try again";
         }
-
     }
 
-    private void setHeader(HttpURLConnection connection, String gameName){
+    public void setHeader(HttpURLConnection connection, String gameName){
         if(authorizationToken != null){
             connection.setRequestProperty("authorization", authorizationToken);
         }
@@ -103,7 +77,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void output(OutputStream os, JSONObject data){
+    public void output(OutputStream os, JSONObject data){
         try {
             OutputStreamWriter writer = new OutputStreamWriter(os);
             writer.write(data.toString());
@@ -114,7 +88,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void setResults(InputStream input){
+    public void setResults(InputStream input){
         try {
             StringBuilder string = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
