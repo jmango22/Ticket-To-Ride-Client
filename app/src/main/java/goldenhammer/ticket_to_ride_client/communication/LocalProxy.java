@@ -12,40 +12,40 @@ class LocalProxy implements IProxy{
     private LocalProxy(){}
 
     @Override
-    public boolean login(Username username, Password password, String serverHost, String serverPor) {
-        return true;
+    public String login(Username username, Password password, String serverHost, String serverPor) {
+        return "Test";
     }
 
     @Override
-    public boolean register(Username username, Password password, String serverHost, String serverPor) {
-        return true;
+    public String register(Username username, Password password, String serverHost, String serverPor) {
+        return "Test";
     }
 
     @Override
-    public boolean getPlayerGames(Username username) {
-        return true;
+    public String getPlayerGames(Username username) {
+        return "Test";
     }
 
     @Override
-    public boolean getAllGames() {
-        return false;
+    public String getAllGames() {
+        return "Test";
     }
 
     @Override
-    public boolean createGame(GameName gameName) {
-        return false;
+    public String createGame(GameName gameName) {
+        return "Test";
     }
 
     @Override
-    public boolean joinGame(GameName gameName) {
-        return false;
+    public String joinGame(GameName gameName) {
+        return "Test";
     }
 
     @Override
-    public boolean playGame(GameName gameName) { return false;   }
+    public String playGame(GameName gameName) { return "Test";   }
 
     @Override
-    public boolean leaveGame(GameName gameName) {
-        return false;
+    public String leaveGame(GameName gameName) {
+        return "Test";
     }
 }

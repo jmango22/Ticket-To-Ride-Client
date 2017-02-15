@@ -53,13 +53,13 @@ public class ServerProxy implements IProxy {
             String url = "/register";
             String resultMessage = communicator.post(url,body, null);
             if(resultMessage.equals("Success!")){
-               if(communicator.setAuthorizationToken()){
-                   return "ERROR!";
+               if(!communicator.setAuthorizationToken()){
+                   return "set auth failed";
                }
             }
             return resultMessage;
         }catch(JSONException e) {
-            return "ERROR!";
+            return e.getMessage();
         }
     }
 
