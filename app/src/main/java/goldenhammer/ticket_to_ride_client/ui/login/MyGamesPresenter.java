@@ -66,6 +66,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     public void playGame(String gameName){
         try {
             proxy.playGame(new GameName(gameName));
+            owner.onPlayGame();
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
