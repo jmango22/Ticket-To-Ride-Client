@@ -55,7 +55,9 @@ public class LoginPresenter implements Observer, ILoginPresenter {
         if (credentials != null){
             String results = proxy.login(credentials.first, credentials.second, host, port);
                 owner.toastMessage(results);
+            if (results.equals("Success!")) {
                 owner.onLogin(username);
+            }
 
         }
     }
@@ -77,7 +79,9 @@ public class LoginPresenter implements Observer, ILoginPresenter {
         if (credentials != null){
             String results = proxy.register(credentials.first, credentials.second, host, port);
             owner.toastMessage(results);
-            owner.onLogin(username);
+            if (results.equals("Success!")) {
+                owner.onLogin(username);
+            }
         }
     }
 

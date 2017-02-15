@@ -39,14 +39,6 @@ public class PostTask extends AsyncTask<Void, Void, String> {
             URL url = new URL(urlText);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-
-            if(authorizationToken != null){
-                connection.setRequestProperty("authorization", authorizationToken);
-            }
-            if(gameName != null){
-                connection.setRequestProperty("gamename", gameName);
-            }
-
             connection.setDoOutput(true);
             caller.setHeader(connection, gameName);
             OutputStream send = connection.getOutputStream();
