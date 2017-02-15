@@ -45,7 +45,10 @@ public class ClientCommunicator {
     }
 
     public boolean post(String suffix, JSONObject body, String gameName){
-        results = null;
+        String urlText = "http://" + serverHost + ":" + serverPort + suffix;
+        new PostTask(body, urlText,this, authorizationToken, gameName).execute();
+
+        /*results = null;
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + suffix);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -67,7 +70,7 @@ public class ClientCommunicator {
             return false;
         }catch (IOException e){
             return false;
-        }
+        }*/
     }
 
     public  boolean get(String suffix, String gameName){

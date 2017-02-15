@@ -2,6 +2,8 @@ package goldenhammer.ticket_to_ride_client.communication;
 
 import android.os.AsyncTask;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -12,17 +14,20 @@ import java.net.URL;
  * Created by McKean on 2/15/2017.
  */
 
-public class WebTask extends AsyncTask<Void, Void, String> {
-    private String postData;
+public class PostTask extends AsyncTask<Void, Void, String> {
+    private JSONObject postData;
     private ClientCommunicator caller;
     private String urlText;
+    private String authorizationToken;
     private String gameName;
-    private String
 
-    public WebTask(String postData, String url, ClientCommunicator clientCommunicator){
+    public PostTask(JSONObject postData, String url, ClientCommunicator clientCommunicator,
+                    String authorizationToken,  String gameName){
         this.postData = postData;
         this.urlText = url;
         caller = clientCommunicator;
+        this.authorizationToken = authorizationToken;
+        this.gameName = gameName;
 
     }
 
@@ -34,11 +39,18 @@ public class WebTask extends AsyncTask<Void, Void, String> {
             URL url = new URL(urlText);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            caller.setHeader(connection, gameName);
+
+            if(authorizationToken != null){
+                connection.setRequestProperty("authorization", authorizationToken);
+            }
+            if(gameName != null){
+                connection.setRequestProperty("gamename", gameName);
+            }
+
             connection.setDoOutput(true);
             caller.setHeader(connection, gameName);
             OutputStream send = connection.getOutputStream();
-            caller.output(send, body);
+            caller.output(send, postData);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 caller.setResults(connection.getInputStream());
