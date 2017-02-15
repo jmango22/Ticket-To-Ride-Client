@@ -94,7 +94,7 @@ public class ClientCommunicator {
 
     }
 
-    private void setHeader(HttpURLConnection connection, String gameName){
+    public void setHeader(HttpURLConnection connection, String gameName){
         if(authorizationToken != null){
             connection.setRequestProperty("authorization", authorizationToken);
         }
@@ -103,7 +103,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void output(OutputStream os, JSONObject data){
+    public void output(OutputStream os, JSONObject data){
         try {
             OutputStreamWriter writer = new OutputStreamWriter(os);
             writer.write(data.toString());
@@ -114,7 +114,7 @@ public class ClientCommunicator {
         }
     }
 
-    private void setResults(InputStream input){
+    public void setResults(InputStream input){
         try {
             StringBuilder string = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
