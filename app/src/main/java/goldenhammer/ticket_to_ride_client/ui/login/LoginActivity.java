@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client.ui;
+package goldenhammer.ticket_to_ride_client.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;

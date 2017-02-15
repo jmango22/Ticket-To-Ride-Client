@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client.ui;
+package goldenhammer.ticket_to_ride_client.ui.login;
 
 import java.io.IOException;
 import java.util.Observable;

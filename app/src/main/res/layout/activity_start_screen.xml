@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="goldenhammer.ticket_to_ride_client.ui.StartScreenActivity">
+    tools:context="goldenhammer.ticket_to_ride_client.ui.login.StartScreenActivity">
 
     <ImageView
         android:layout_width="350px"
