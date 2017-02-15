@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="goldenhammer.ticket_to_ride_client.ui.login.GameSelectorActivity">
+    tools:context="goldenhammer.ticket_to_ride_client.ui.login.GameSelectorActivity"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gameNameText">
+        android:layout_below="@+id/gameNameEditText">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"

@@ -31,8 +31,8 @@ import goldenhammer.ticket_to_ride_client.ui.play.GameActivity;
 
 public class GameSelectorActivity extends AppCompatActivity {
 
-    private static ArrayList<GameListItem> myGameList;
-    private static ArrayList<GameListItem> availableGameList;
+    private static ArrayList<GameListItem> myGameList = new ArrayList<>();
+    private static ArrayList<GameListItem> availableGameList = new ArrayList<>();
 
     private static AvailableGamesPresenter availableGamesPresenter;
     private static MyGamesPresenter myGamesPresenter;

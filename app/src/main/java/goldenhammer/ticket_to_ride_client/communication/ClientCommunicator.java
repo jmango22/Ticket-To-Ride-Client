@@ -29,14 +29,13 @@ public class ClientCommunicator {
             JSONObject resultObject = new JSONObject(results);
             authorizationToken = resultObject.getString("authorization");
             results = null;
-            if(authorizationToken == null){
-                return false;
-            }
-            return true;
         }catch(JSONException e){
             authorizationToken = null;
+        }
+        if(authorizationToken == null){
             return false;
         }
+        return true;
     }
 
     public String getResults(){
