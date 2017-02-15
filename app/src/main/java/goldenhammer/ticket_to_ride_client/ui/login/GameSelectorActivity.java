@@ -9,13 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.Toast;
 
@@ -30,43 +26,8 @@ import goldenhammer.ticket_to_ride_client.ui.login.recycler.MyGameListAdapter;
 
 public class GameSelectorActivity extends AppCompatActivity {
 
-    // Just Some Data for Testing the Recycler Views
-    ////////////////////////////////////////////////
-    private static ArrayList<String> players1 = new ArrayList<String>() {{
-        add("joey");
-        add("peter");
-        add("Joseph");
-        add("mark");
-        add("spencer");
-    }};
-
-    private static ArrayList<String> players2 = new ArrayList<String>() {{
-        add("loopy23");
-        add("markymark");
-    }};
-
-    private static ArrayList<String> players3 = new ArrayList<String>() {{
-        add("fruitypie");
-        add("JungleJoe");
-        add("monkeywrenchlug");
-    }};
-
-    private static GameListItem game1 = new GameListItem("The Best", false, players3);
-    private static GameListItem game2 = new GameListItem("Ughh", true, players2);
-    private static GameListItem game3 = new GameListItem("BRAVO", false, players1);
-
-    //////////////////////////////////////////////////////////////////
-
-    //These need to be blank to work
-    private static ArrayList<GameListItem> myGameList = new ArrayList<GameListItem>() {{
-        add(game1);
-        add(game3);
-    }};
-
-    private static ArrayList<GameListItem> availableGameList = new ArrayList<GameListItem>() {{
-        add(game2);
-    }};
-    ////////////////////////////////////////////////////
+    private static ArrayList<GameListItem> myGameList;
+    private static ArrayList<GameListItem> availableGameList;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -87,7 +48,6 @@ public class GameSelectorActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
 
 
