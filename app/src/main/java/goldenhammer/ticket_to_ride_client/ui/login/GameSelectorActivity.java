@@ -1,6 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ import goldenhammer.ticket_to_ride_client.ui.login.recycler.AllGameFragment;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.AvailableGameListAdapter;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.MyGameFragment;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.MyGameListAdapter;
+import goldenhammer.ticket_to_ride_client.ui.play.GameActivity;
 
 public class GameSelectorActivity extends AppCompatActivity {
 
@@ -62,7 +64,7 @@ public class GameSelectorActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText gameName = (EditText) findViewById(R.id.gameNameText);
+                EditText gameName = (EditText) findViewById(R.id.gameNameEditText);
                 myGamesPresenter.createGame(gameName.getText().toString());
             }
         });
@@ -150,6 +152,12 @@ public class GameSelectorActivity extends AppCompatActivity {
         this.availableGameList = availableGameList;
         mSectionsPagerAdapter.getItem(0);
     }
+
+    public void onPlayGame() {
+        Intent intent = new Intent(getBaseContext(), GameActivity.class);
+        startActivity(intent);
+    }
+
 
     public static ArrayList<GameListItem> getAvailableGameList() {
         return availableGameList;
