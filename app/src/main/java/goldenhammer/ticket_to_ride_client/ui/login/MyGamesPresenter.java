@@ -30,12 +30,11 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     public void createGame(String name){
         try{
             GameName g = new GameName(name);
-            ServerProxy.SINGLETON.createGame(g);
+            String results = proxy.createGame(g);
+            owner.toastMessage(results);
         }catch(IOException e){
-
             owner.toastMessage(e.getMessage());
         }
-
     }
 
     @Override
@@ -45,19 +44,17 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
 
     public void joinGame(String gameName){
         try {
-            if (!proxy.joinGame(new GameName(gameName))){
-                owner.toastMessage("Unable to join game.");
-            }
+
+            String results = proxy.joinGame(new GameName(gameName));
+            owner.toastMessage(results);
         } catch (IOException e) {
-            owner.toastMessage(e.getMessage());
-        }
+            owner.toastMessage(e.getMessage());        }
     }
 
     public void leaveGame(String gameName){
         try {
-            if (!proxy.leaveGame(new GameName(gameName))){
-                owner.toastMessage("Unable to leave game.");
-            }
+            String results = proxy.leaveGame(new GameName(gameName));
+            owner.toastMessage(results);
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
@@ -65,8 +62,8 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
 
     public void playGame(String gameName){
         try {
-            proxy.playGame(new GameName(gameName));
-            owner.onPlayGame();
+            String results = proxy.playGame(new GameName(gameName));
+            owner.toastMessage(results);
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
