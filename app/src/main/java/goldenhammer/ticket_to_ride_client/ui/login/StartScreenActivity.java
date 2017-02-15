@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client.ui;
+package goldenhammer.ticket_to_ride_client.ui.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ public class StartScreenActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                Intent intent = new Intent(getBaseContext(), GameSelectorActivity.class);
                 startActivity(intent);
             }
         });
