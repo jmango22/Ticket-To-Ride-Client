@@ -64,7 +64,7 @@ public class GameSelectorActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText gameName = (EditText) findViewById(R.id.gameNameText);
+                EditText gameName = (EditText) findViewById(R.id.gameNameEditText);
                 myGamesPresenter.createGame(gameName.getText().toString());
             }
         });

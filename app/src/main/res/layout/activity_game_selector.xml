@@ -22,7 +22,7 @@
             android:inputType="textPersonName"
             android:hint="Game Name"
             android:ems="10"
-            android:id="@+id/gameNameText"
+            android:id="@+id/gameNameEditText"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/createButton"
             android:layout_alignBottom="@+id/createButton"
