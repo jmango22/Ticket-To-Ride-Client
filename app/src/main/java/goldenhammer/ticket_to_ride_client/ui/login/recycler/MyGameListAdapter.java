@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
@@ -19,9 +20,9 @@ public class MyGameListAdapter extends RecyclerView.Adapter<MyGameListItemHolder
 
     private Context context;
 
-    private ArrayList<GameListItem> myGameList;
+    private List<GameListItem> myGameList;
 
-    public MyGameListAdapter(Context context, ArrayList<GameListItem> myGameList){
+    public MyGameListAdapter(Context context, List<GameListItem> myGameList){
         this.context = context;
         this.myGameList = myGameList;
     }

@@ -20,6 +20,7 @@ public class AllGameFragment extends Fragment{
     // Requires empty public constructor
     public AllGameFragment() {}
 
+    private AvailableGameListAdapter availableGameListAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +32,17 @@ public class AllGameFragment extends Fragment{
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_games, container, false);
         RecyclerView allGames = (RecyclerView) rootView.findViewById(R.id.myRecycler);
-        AvailableGameListAdapter availableGameListAdapter = new AvailableGameListAdapter(getContext(), GameSelectorActivity.getAvailableGameList());
+        availableGameListAdapter = new AvailableGameListAdapter(getContext(), GameSelectorActivity.getAvailableGameList());
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
 
         allGames.setLayoutManager(llm);
         allGames.setAdapter(availableGameListAdapter);
 
         return rootView;
+    }
+
+    public void update(){
+        availableGameListAdapter= new AvailableGameListAdapter(getContext(), GameSelectorActivity.getAvailableGameList());
     }
 
 }

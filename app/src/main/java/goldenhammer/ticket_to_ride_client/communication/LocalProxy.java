@@ -22,9 +22,11 @@ class LocalProxy implements IProxy{
     }
 
     @Override
-    public String getPlayerGames(Username username) {
-        return "Test";
+    public String getPlayerGames() {
+        return null;
     }
+
+
 
     @Override
     public String getAllGames() {

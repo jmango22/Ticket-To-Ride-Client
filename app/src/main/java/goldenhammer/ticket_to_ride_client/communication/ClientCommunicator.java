@@ -67,23 +67,28 @@ public class ClientCommunicator {
         }
     }
 
-    public void setHeader(HttpURLConnection connection, String gameName){
+    public void setHeader(HttpURLConnection connection,  String username, String gameName){
         if(authorizationToken != null){
-            connection.setRequestProperty("authorization", authorizationToken);
+            connection.setRequestProperty("Authorization", authorizationToken);
         }
         if(gameName != null){
             connection.setRequestProperty("gamename", gameName);
         }
+        if (username != null){
+            connection.setRequestProperty("Username", username);
+        }
     }
 
     public void output(OutputStream os, JSONObject data){
-        try {
-            OutputStreamWriter writer = new OutputStreamWriter(os);
-            writer.write(data.toString());
-            writer.flush();
-            os.close();
-        }catch (IOException e){
+        if(data!=null) {
+            try {
+                OutputStreamWriter writer = new OutputStreamWriter(os);
+                writer.write(data.toString());
+                writer.flush();
+                os.close();
+            } catch (IOException e) {
 
+            }
         }
     }
 

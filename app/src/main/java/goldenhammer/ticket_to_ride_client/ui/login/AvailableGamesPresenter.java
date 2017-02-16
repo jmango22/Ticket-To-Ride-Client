@@ -19,7 +19,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
 
 
     public AvailableGamesPresenter(GameSelectorActivity activity){
-
+        ClientModelFacade.SINGLETON.addObserver(this);
         owner = activity;
         proxy = ServerProxy.SINGLETON;
     }
@@ -31,6 +31,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
     @Override
     public void update(Observable o, Object arg) {
         owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
+
     }
 
     public void joinGame(String gameName){

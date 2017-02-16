@@ -20,6 +20,7 @@ public class Poller {
         @Override
         public void run() {
             ServerProxy.SINGLETON.getAllGames();
+            ServerProxy.SINGLETON.getPlayerGames();
         }
     }
 }

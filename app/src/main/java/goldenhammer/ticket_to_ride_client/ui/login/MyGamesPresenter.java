@@ -21,10 +21,11 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     public MyGamesPresenter(GameSelectorActivity activity){
         owner = activity;
         proxy = ServerProxy.SINGLETON;
+        ClientModelFacade.SINGLETON.addObserver(this);
     }
 
     public void getMyGames(){
-        ServerProxy.SINGLETON.getPlayerGames(ClientModelFacade.SINGLETON.getUser().getUsername());
+        ServerProxy.SINGLETON.getPlayerGames();
     }
 
     public void createGame(String name){
@@ -40,6 +41,10 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     @Override
     public void update(Observable o, Object arg) {
         owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());
+        owner.update();
+        if (ClientModelFacade.SINGLETON.getCurrentGame() != null){
+            owner.onPlayGame();
+        }
     }
 
     public void joinGame(String gameName){

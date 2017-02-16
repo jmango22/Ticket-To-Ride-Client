@@ -16,16 +16,22 @@ import goldenhammer.ticket_to_ride_client.model.Username;
 public class ServerProxy implements IProxy {
     public static final ServerProxy SINGLETON = new ServerProxy();
     private ClientCommunicator communicator;
-
+    private Poller poller;
     private ServerProxy(){}
+    private String mUsername;
 
     private void setURL(String serverHost, String serverPort) {
         communicator = new ClientCommunicator(serverHost, serverPort);
     }
 
+    public String getUsername(){
+        return mUsername;
+    }
+
     @Override
     public String login(Username username, Password password, String serverHost, String serverPort) {
         try {
+            mUsername = username.getString();
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
             body.put("username", username.getString());
@@ -34,7 +40,7 @@ public class ServerProxy implements IProxy {
             String resultMessage = communicator.post(url,body, null);
             if(resultMessage.equals("Success!")){
                 if(!communicator.setAuthorizationToken()){
-                    return "ERROR!";
+                    return "Token ERROR!";
                 }
             }
             return resultMessage;
@@ -46,6 +52,7 @@ public class ServerProxy implements IProxy {
     @Override
     public String register(Username username, Password password, String serverHost, String serverPort) {
         try{
+            mUsername = username.getString();
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
             body.put("username", username.getString());
@@ -54,19 +61,27 @@ public class ServerProxy implements IProxy {
             String resultMessage = communicator.post(url,body, null);
             if(resultMessage.equals("Success!")){
                if(!communicator.setAuthorizationToken()){
-                   return "set auth failed";
+                   return "Token ERROR";
                }
             }
             return resultMessage;
         }catch(JSONException e) {
-            return e.getMessage();
+            return "ERROR";
         }
     }
 
     @Override
     public String createGame(GameName gameName) {
         String url = "/creategame";
-        return communicator.post(url, null, gameName.getString());
+        String results="";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name",gameName.getString());
+            results = communicator.post(url,jsonObject,gameName.getString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 
     @Override
@@ -82,8 +97,8 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public String getPlayerGames(Username username) {
-        String url = "/listofgames?" + username;
+    public String getPlayerGames() {
+        String url = "/listofgames?username=" + mUsername;
         String returnMessage = communicator.get(url, null);
         if(returnMessage.equals("Success!")){
             ClientModelFacade.SINGLETON.setMyGames(deserializeGames());
@@ -123,5 +138,15 @@ public class ServerProxy implements IProxy {
     private GameModel deserializeGameModel(){
         Gson gson = new Gson();
         return gson.fromJson(communicator.getResults(), GameModel.class);
+    }
+
+    public void startGameListPolling(){
+        if (poller == null){
+            poller = new Poller();
+        }
+    }
+
+    public void stopGameListPolling(){
+        poller = null;
     }
 }

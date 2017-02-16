@@ -12,7 +12,7 @@ public interface IProxy {
 
     String register(Username username, Password password, String serverHost, String serverPort);
 
-    String getPlayerGames(Username username);
+    String getPlayerGames();
 
     String getAllGames();
 
