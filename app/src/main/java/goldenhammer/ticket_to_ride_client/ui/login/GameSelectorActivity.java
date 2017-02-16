@@ -20,8 +20,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.AllGameFragment;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.AvailableGameListAdapter;
@@ -31,11 +33,14 @@ import goldenhammer.ticket_to_ride_client.ui.play.GameActivity;
 
 public class GameSelectorActivity extends AppCompatActivity {
 
-    private static ArrayList<GameListItem> myGameList = new ArrayList<>();
-    private static ArrayList<GameListItem> availableGameList = new ArrayList<>();
+    private static List<GameListItem> myGameList = new ArrayList<>();
+    private static List<GameListItem> availableGameList = new ArrayList<>();
 
     private static AvailableGamesPresenter availableGamesPresenter;
     private static MyGamesPresenter myGamesPresenter;
+
+    private MyGameFragment myGameFragment = new MyGameFragment();
+    private AllGameFragment allGameFragment = new AllGameFragment();
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -69,6 +74,7 @@ public class GameSelectorActivity extends AppCompatActivity {
             }
         });
 
+        ServerProxy.SINGLETON.startPolling();
     }
 
 
@@ -111,9 +117,9 @@ public class GameSelectorActivity extends AppCompatActivity {
             // Return the correct Fragment
             switch (position) {
                 case 0:
-                    return new AllGameFragment();
+                    return allGameFragment;
                 case 1:
-                    return new MyGameFragment();
+                    return myGameFragment;
             }
 
             return null;
@@ -143,14 +149,14 @@ public class GameSelectorActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void setMyGameList(ArrayList<GameListItem> myGameList) {
+    public void setMyGameList(List<GameListItem> myGameList) {
         this.myGameList = myGameList;
-        mSectionsPagerAdapter.getItem(1);
+       // mSectionsPagerAdapter.getItem(1);
     }
 
-    public void setAvailableGameList(ArrayList<GameListItem> availableGameList) {
+    public void setAvailableGameList(List<GameListItem> availableGameList) {
         this.availableGameList = availableGameList;
-        mSectionsPagerAdapter.getItem(0);
+        //mSectionsPagerAdapter.getItem(0);
     }
 
     public void onPlayGame() {
@@ -159,11 +165,11 @@ public class GameSelectorActivity extends AppCompatActivity {
     }
 
 
-    public static ArrayList<GameListItem> getAvailableGameList() {
+    public static List<GameListItem> getAvailableGameList() {
         return availableGameList;
     }
 
-    public static ArrayList<GameListItem> getMyGameList() {
+    public static List<GameListItem> getMyGameList() {
         return myGameList;
     }
 
@@ -173,5 +179,10 @@ public class GameSelectorActivity extends AppCompatActivity {
 
     public static AvailableGamesPresenter getAvailableGamesPresenter() {
         return availableGamesPresenter;
+    }
+
+    public void update(){
+        myGameFragment.update();
+        allGameFragment.update();
     }
 }

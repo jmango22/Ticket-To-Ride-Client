@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+
 /**
  * Created by McKean on 2/15/2017.
  */
@@ -20,6 +22,7 @@ public class PostTask extends AsyncTask<Void, Void, String> {
     private String urlText;
     private String authorizationToken;
     private String gameName;
+    private String username;
 
     public PostTask(JSONObject postData, String url, ClientCommunicator clientCommunicator,
                     String authorizationToken,  String gameName){
@@ -28,7 +31,9 @@ public class PostTask extends AsyncTask<Void, Void, String> {
         caller = clientCommunicator;
         this.authorizationToken = authorizationToken;
         this.gameName = gameName;
-
+        if (ServerProxy.SINGLETON.getUsername() != null) {
+            username = ServerProxy.SINGLETON.getUsername();
+        }
     }
 
 
@@ -40,16 +45,20 @@ public class PostTask extends AsyncTask<Void, Void, String> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
-            caller.setHeader(connection, gameName);
+            caller.setHeader(connection, username);
+
             OutputStream send = connection.getOutputStream();
             caller.output(send, postData);
             connection.connect();
-            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+
+
+            int responseCode = connection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
                 caller.setResults(connection.getInputStream());
                 return "Success!";
             }
             else{
-                return "Unsuccessful. Please try again.";
+                return "Unsuccessful. Response Code: " + responseCode;
             }
         }catch(MalformedURLException e){
             return "Wrong URL. Check Port and Host";

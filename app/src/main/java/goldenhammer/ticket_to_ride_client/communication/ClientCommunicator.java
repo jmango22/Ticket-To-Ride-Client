@@ -67,12 +67,14 @@ public class ClientCommunicator {
         }
     }
 
-    public void setHeader(HttpURLConnection connection, String gameName){
+    public void setHeader(HttpURLConnection connection,  String username){
         if(authorizationToken != null){
             connection.setRequestProperty("Authorization", authorizationToken);
         }
-        if(gameName != null){
-            connection.setRequestProperty("name", gameName);
+
+
+        if (username != null){
+            connection.setRequestProperty("Username", username);
         }
     }
 

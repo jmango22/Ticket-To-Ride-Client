@@ -21,6 +21,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     public MyGamesPresenter(GameSelectorActivity activity){
         owner = activity;
         proxy = ServerProxy.SINGLETON;
+        ClientModelFacade.SINGLETON.addObserver(this);
     }
 
     public void getMyGames(){
@@ -40,6 +41,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     @Override
     public void update(Observable o, Object arg) {
         owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());
+        owner.update();
     }
 
     public void joinGame(String gameName){
