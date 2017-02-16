@@ -42,7 +42,7 @@ public class AllGameFragment extends Fragment{
     }
 
     public void update(){
-        availableGameListAdapter.notifyDataSetChanged();
+        availableGameListAdapter= new AvailableGameListAdapter(getContext(), GameSelectorActivity.getAvailableGameList());
     }
 
 }

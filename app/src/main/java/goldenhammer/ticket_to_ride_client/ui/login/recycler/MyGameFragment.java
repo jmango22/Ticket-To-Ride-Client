@@ -42,7 +42,7 @@ public class MyGameFragment extends Fragment {
     }
 
     public void update(){
-        myGameListAdapter.notifyDataSetChanged();
+        myGameListAdapter = new MyGameListAdapter(getContext(),GameSelectorActivity.getMyGameList());
     }
 
 }

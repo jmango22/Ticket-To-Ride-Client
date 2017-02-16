@@ -33,7 +33,7 @@ public class GetTask extends AsyncTask<Void, Void, String> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setDoOutput(false);
-            caller.setHeader(connection, username);
+            caller.setHeader(connection, username, gameName);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 caller.setResults(connection.getInputStream());

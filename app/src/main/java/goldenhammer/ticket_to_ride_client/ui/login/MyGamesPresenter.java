@@ -25,7 +25,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     }
 
     public void getMyGames(){
-        ServerProxy.SINGLETON.getPlayerGames(ClientModelFacade.SINGLETON.getUser().getUsername());
+        ServerProxy.SINGLETON.getPlayerGames();
     }
 
     public void createGame(String name){

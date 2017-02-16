@@ -75,6 +75,8 @@ public class GameSelectorActivity extends AppCompatActivity {
         });
 
         ServerProxy.SINGLETON.startPolling();
+        update();
+
     }
 
 
@@ -182,7 +184,7 @@ public class GameSelectorActivity extends AppCompatActivity {
     }
 
     public void update(){
-        myGameFragment.update();
-        allGameFragment.update();
+        myGameFragment = new MyGameFragment();
+        allGameFragment = new AllGameFragment();
     }
 }

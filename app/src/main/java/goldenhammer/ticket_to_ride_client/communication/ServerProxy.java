@@ -97,8 +97,8 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public String getPlayerGames(Username username) {
-        String url = "/listofgames?" + username;
+    public String getPlayerGames() {
+        String url = "/listofgames?username=" + mUsername;
         String returnMessage = communicator.get(url, null);
         if(returnMessage.equals("Success!")){
             ClientModelFacade.SINGLETON.setMyGames(deserializeGames());
