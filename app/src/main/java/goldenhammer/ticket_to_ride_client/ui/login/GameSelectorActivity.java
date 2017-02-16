@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class GameSelectorActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
         tabLayout.setupWithViewPager(mViewPager);
 
         availableGamesPresenter = new AvailableGamesPresenter(this);
@@ -74,7 +76,7 @@ public class GameSelectorActivity extends AppCompatActivity {
             }
         });
 
-        ServerProxy.SINGLETON.startPolling();
+        ServerProxy.SINGLETON.startGameListPolling();
         update();
 
     }
@@ -162,6 +164,7 @@ public class GameSelectorActivity extends AppCompatActivity {
     }
 
     public void onPlayGame() {
+        ServerProxy.SINGLETON.stopGameListPolling();
         Intent intent = new Intent(getBaseContext(), GameActivity.class);
         startActivity(intent);
     }

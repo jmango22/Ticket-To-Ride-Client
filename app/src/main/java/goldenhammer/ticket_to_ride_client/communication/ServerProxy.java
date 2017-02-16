@@ -140,9 +140,13 @@ public class ServerProxy implements IProxy {
         return gson.fromJson(communicator.getResults(), GameModel.class);
     }
 
-    public void startPolling(){
+    public void startGameListPolling(){
         if (poller == null){
             poller = new Poller();
         }
+    }
+
+    public void stopGameListPolling(){
+        poller = null;
     }
 }

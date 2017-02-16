@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
@@ -42,7 +43,12 @@ public class MyGameListItemHolder extends RecyclerView.ViewHolder {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameSelectorActivity.getMyGamesPresenter().playGame(gameListItem.getName());
+                if (gameListItem.getPlayers().size()>1) {
+                    GameSelectorActivity.getMyGamesPresenter().playGame(gameListItem.getName());
+                }
+                else{
+                    Toast.makeText(itemView.getContext(), "A game requires at least two players to play",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
