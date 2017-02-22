@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import goldenhammer.ticket_to_ride_client.R;
 
-public class GameActivity extends AppCompatActivity {
+public class GamePlayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game_play);
     }
 }
