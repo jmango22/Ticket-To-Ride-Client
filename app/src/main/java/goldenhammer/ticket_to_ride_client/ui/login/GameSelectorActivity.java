@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,10 +26,8 @@ import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.AllGameFragment;
-import goldenhammer.ticket_to_ride_client.ui.login.recycler.AvailableGameListAdapter;
 import goldenhammer.ticket_to_ride_client.ui.login.recycler.MyGameFragment;
-import goldenhammer.ticket_to_ride_client.ui.login.recycler.MyGameListAdapter;
-import goldenhammer.ticket_to_ride_client.ui.play.GameActivity;
+import goldenhammer.ticket_to_ride_client.ui.play.GamePlayActivity;
 
 public class GameSelectorActivity extends AppCompatActivity {
 
@@ -165,7 +162,7 @@ public class GameSelectorActivity extends AppCompatActivity {
 
     public void onPlayGame() {
         ServerProxy.SINGLETON.stopGameListPolling();
-        Intent intent = new Intent(getBaseContext(), GameActivity.class);
+        Intent intent = new Intent(getBaseContext(), GamePlayActivity.class);
         startActivity(intent);
     }
 

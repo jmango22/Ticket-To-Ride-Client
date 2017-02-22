@@ -20,7 +20,7 @@
             android:name=".ui.login.GameSelectorActivity"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.play.GameActivity"></activity>
+        <activity android:name=".ui.play.GamePlayActivity"></activity>
     </application>
 
 </manifest>
