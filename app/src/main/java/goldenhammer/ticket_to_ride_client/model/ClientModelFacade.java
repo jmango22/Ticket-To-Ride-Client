@@ -137,28 +137,40 @@ public class ClientModelFacade extends Observable {
         notifyObservers();
     }
 
-    //TODO: return unwanted destination cards to the server through the Server Proxy
-    public Boolean returnDestCards(List<DestCard> cards) {
-        return false;
-    }
-
-    //TODO: lets the user claim a track,
-    public Boolean claimTrack(PointF clicked) {
-        return false;
-    }
-
-    //TODO: request destination cards from the deck
+    //TODO: add the destination card to the player's hand
     public void drawDestCards() {
 
     }
 
-    //TODO: request train cards from the server deck
+    //TODO: add train cards to the player's hand
     public void drawTrainCards() {
 
     }
 
-    //TODO: take a card from the bank face up cards
+    //TODO: remove Destination cards from the player's hand.
+    public void removeDestCards(List<DestCard> cards) {
+
+    }
+
+    //TODO: remove Train cards from the player's hand
+    public void removeTrainCards(List<TrainCard> cards) {
+
+    }
+
+    //TODO: add a bank card to the player's hand
     public Boolean takeBankCard(TrainCard card) {
         return false;
+    }
+
+
+    //TODO: the server claim a track for any player in the model
+    public Boolean claimTrack(Track track, int player) {
+        return false;
+    }
+
+
+    //TODO: update all visible player objects
+    public void setPlayerHands(List<PlayerOverview> players) {
+
     }
 }

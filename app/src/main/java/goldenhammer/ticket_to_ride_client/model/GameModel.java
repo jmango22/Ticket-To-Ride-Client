@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class GameModel {
-    private List<Player> players;
+    private List<PlayerOverview> players;
     private List<DestCard> destinationDeck;
     private List<TrainCard> trainCardDeck;
     private Map map;
