@@ -42,29 +42,18 @@ public class ClientCommunicator {
         return results;
     }
 
-    public String post(String suffix, JSONObject body, String gameName){
+    public boolean post(String suffix, JSONObject body, String gameName){
         results = null;
         String urlText = "http://" + serverHost + ":" + serverPort + suffix;
-        try {
-            return new PostTask(body, urlText, this, authorizationToken, gameName).execute().get();
-        }catch (InterruptedException e){
-            return "ERROR: Please try again";
-
-        }catch (ExecutionException e){
-            return "ERROR: Please try again";
-        }
+        new PostTask(body, urlText, this, authorizationToken, gameName).execute();
+        return true;
     }
 
-    public  String get(String suffix, String gameName){
+    public  boolean get(String suffix, String gameName){
         results = null;
         String url = "http://" + serverHost + ":" + serverPort + suffix;
-        try{
-            return new GetTask(url,gameName,this).execute().get();
-        }catch(InterruptedException e){
-            return "ERROR: Please try again";
-        }catch (ExecutionException e){
-            return "ERROR: Please try again";
-        }
+            new GetTask(url,gameName,this).execute();
+            return true;
     }
 
     public void setHeader(HttpURLConnection connection,  String username, String gameName){

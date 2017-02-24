@@ -3,120 +3,156 @@
 
     <item
         is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="3f25b294d2d9b8b98048c73e4dde52a045f2b951">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_56962e489b13cfb76f34110ac07ba35fd17acc8a/classes.dex" />
+        sha1="7bc118547b8bb5ad375a9c58d35f080d3eb867e7">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_6606fd880b609c03c22a519f1e84b4dc565efe5e\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_d20cbd0beb83e61e9f8697957c973a88db04a9b3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_378c74d58a0a66d19c51107cfb50c259ebbcc716/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="fdbea8e7fa1d073ec8f9996e1d2679bc05db2a77">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_0129805c5a966dcee1ac7925f067b8385e954661/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_d90e9b3d6ea1827a7b269e5fe8a6f6637e7dc0fa/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_2fd80d9927298c0115fd62a83bc9f881b6ddaab3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_85f9957388a67e0c0aeac18060e395ffb9717c14/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_0f930e589c4ede3cd6e66d5695788ae4208751c5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_986f85462225aafd7703dca551bdb6ca225d8607/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_f1826efe2ed7a9d767d1df947a982cd560fe240e/classes.dex" />
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.1.1_888bf21b6a78cd8d1286d49090524f657f9f5b79\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_071a9c6666bc17b02c4c624d527d5c5f7111ecd5/classes.dex" />
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.1.1_071dc4f963aaf69569ff2872315d73792650af9c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_e95f67828a1ecbddef194f8f64a993b5dbdd5a3f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.1/jars/classes.jar"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.1.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
-        <dex dex="/home/jon/Documents/Ticket-To-Ride-Client/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.1_178ea359d2505645706c41899b46e37382940d18/classes.dex" />
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.1.1_545e3760dc332945735e071e15a5b913c48476b2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fdefdcc1aa46cffff83d5f563a0418f3ffb87b19">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6ec9cc312f8c36f0d3cb16f477027ea6e8d4e811\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.1.1_533f9a83eff272b5109a1fb5612b3638bdcab8cb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.1_5d15e2fd08c0b6260080ef5a81f1b399d75ea16a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.1.1_0df0f29f5e030c5916ca98fc874b12c4c6c11d33\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\design\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.1.1_e9d5d023e2ac09b8082fef381b10dc3953fb58d8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.1\support-annotations-25.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.1_4ec0fd2e1bb1e6218e8bf232d10cd1cbb69a6095\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.1.1_cfd12bd0f1b95d699fecaa37cb74a9cbfab5d7ae\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.1_5dc62c9a2d960bf75f9d04b695e135d2cb8731b5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a8ae156c2726ac9c56daaf4b49452ec2cdb7bba9">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-25.1.1_007faea11720877f4e93ddd8f4a778a5a01ecb39\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.1_861a2176d77c38a1d9bf80462c4ed463d58e28fd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.1.1_21ef1d75bfd15bafcc6873ed8c23639c38527031\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.8.0\c4ba5371a29ac9b2ad6129b1d39ea38750043eff\gson-2.8.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.8.0_65a883d1b197476f6153b2ec2492c2575d68ca97\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\exploded-aar\com.android.support\transition\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
+        <dex dex="C:\Users\rache\Documents\Winter_2017\CS340\Ticket-To-Ride-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-25.1.1_c0542fbbf06f8d1d45a5c2f24f7d66fc3ac33377\classes.dex" />
     </item>
 
 </items>

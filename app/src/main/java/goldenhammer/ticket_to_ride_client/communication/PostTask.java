@@ -55,15 +55,11 @@ public class PostTask extends AsyncTask<Void, Void, String> {
             int responseCode = connection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
                 caller.setResults(connection.getInputStream());
-                return "Success!";
-            }
-            else{
-                return "Unsuccessful. Response Code: " + responseCode;
             }
         }catch(MalformedURLException e){
-            return "Wrong URL. Check Port and Host";
         }catch (IOException e){
             return e.getMessage();
         }
+        return null;
     }
 }

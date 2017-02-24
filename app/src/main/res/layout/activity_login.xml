@@ -23,7 +23,6 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="10.24.211.90"
         android:hint="Host" />
 
     <EditText
@@ -36,7 +35,6 @@
         style="@android:style/Widget.Holo.EditText"
         android:layout_above="@+id/hostText"
         android:layout_alignStart="@+id/hostText"
-        android:text="password"
         android:layout_alignEnd="@+id/hostText"/>
 
     <EditText

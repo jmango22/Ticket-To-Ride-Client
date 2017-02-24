@@ -24,9 +24,20 @@ public class ClientModelFacade extends Observable {
     private GameList mMyGames= new GameList(new ArrayList<GameListItem>());
     private GameModel mCurrentGame;
     private Player mUser;
+    private boolean loggedin;
     public static final ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
+    }
+
+    public void setLoggedin(boolean logged){
+        loggedin = logged;
+        notifyObservers();
+        setChanged();
+    }
+
+    public boolean getLoggedIn(){
+        return loggedin;
     }
 
     /**

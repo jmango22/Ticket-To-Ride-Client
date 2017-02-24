@@ -8,19 +8,19 @@ import goldenhammer.ticket_to_ride_client.model.Username;
 
 public interface IProxy {
 
-    String login(Username username, Password password, String serverHost, String serverPort);
+    void login(Username username, Password password, String serverHost, String serverPort);
 
-    String register(Username username, Password password, String serverHost, String serverPort);
+    void register(Username username, Password password, String serverHost, String serverPort);
 
-    String getPlayerGames();
+    void getPlayerGames();
 
-    String getAllGames();
+    void getAllGames();
 
-    String createGame(GameName gameName);
+    void createGame(GameName gameName);
 
-    String joinGame(GameName gameName);
+    void joinGame(GameName gameName);
 
-    String playGame(GameName gameName);
+    void playGame(GameName gameName);
 
-    String leaveGame(GameName gameName);
+    void leaveGame(GameName gameName);
 }

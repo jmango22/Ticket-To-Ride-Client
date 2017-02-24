@@ -35,18 +35,13 @@ public class GetTask extends AsyncTask<Void, Void, String> {
             connection.setDoOutput(false);
             caller.setHeader(connection, username, gameName);
             connection.connect();
-            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 caller.setResults(connection.getInputStream());
-                return "Success!";
-            }
-            else{
-                return "Unsuccessful. Please try again.";
             }
         }catch(MalformedURLException e){
-            return "Wrong URL. Check Port and Host";
         }catch (IOException e){
-            return "Something went wrong";
         }
+        return null;
     }
 
 }
