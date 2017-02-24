@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.model;
 
+import android.graphics.PointF;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -133,5 +135,30 @@ public class ClientModelFacade extends Observable {
         this.mUser = mUser;
         setChanged();
         notifyObservers();
+    }
+
+    //TODO: return unwanted destination cards to the server through the Server Proxy
+    public Boolean returnDestCards(List<DestCard> cards) {
+        return false;
+    }
+
+    //TODO: lets the user claim a track,
+    public Boolean claimTrack(PointF clicked) {
+        return false;
+    }
+
+    //TODO: request destination cards from the deck
+    public void drawDestCards() {
+
+    }
+
+    //TODO: request train cards from the server deck
+    public void drawTrainCards() {
+
+    }
+
+    //TODO: take a card from the bank face up cards
+    public Boolean takeBankCard(TrainCard card) {
+        return false;
     }
 }
