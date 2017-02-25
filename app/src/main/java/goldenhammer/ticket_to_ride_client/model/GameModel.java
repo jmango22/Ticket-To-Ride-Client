@@ -24,7 +24,19 @@ public class GameModel {
         return false;
     }
 
-    public Boolean claimTrack(Track track) {
-        return false;
+    public void claimTrack(Track track, int player) {
+        map.claimTrack(track, player);
+    }
+
+    public List<Track> getAllTracks() {
+        return map.getTracks();
+    }
+
+    public List<PlayerOverview> getPlayerHands() {
+        return players;
+    }
+
+    public void setPlayerHands(List<PlayerOverview> players) {
+        this.players = players;
     }
 }

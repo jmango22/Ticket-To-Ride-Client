@@ -25,70 +25,58 @@ public class Hand {
         return destinationCards;
     }
 
-    public void setDestinationCards(List<DestCard> destinationCards) {
-        this.destinationCards = destinationCards;
-    }
-
     public List<TrainCard> getTrainCards() {
         return trainCards;
     }
 
-    public void setTrainCards(List<TrainCard> trainCards) {
-        this.trainCards = trainCards;
+    public void addTrainCards(List<TrainCard> drawnCards) {
+        for(TrainCard card : drawnCards) {
+            trainCards.add(card);
+        }
     }
 
-    //TODO: return unwanted Destination Cards back to the Server
-    public Boolean returnDestCards(List<DestCard> cards) {
-        return false;
+    public void addDestCards(List<DestCard> drawnCards) {
+        for(DestCard card: drawnCards) {
+            destinationCards.add(card);
+        }
     }
 
-    //TODO: request more train cards from the bank
-    public void addTrainCards(int number) {
-
+    public void addBankCard(TrainCard card) {
+        trainCards.add(card);
     }
 
-    //TODO: request one of the face up cards from the bank
-    public Boolean addBankCard(TrainCard card) {
-        return false;
-    }
+    //TODO: test how this removes Destination cards from the player's hand.
+    public void removeDestCards(List<DestCard> cards) {
+        Iterator<DestCard> i = destinationCards.iterator();
+        int remainder = cards.size();
 
-    //TODO: create a good test for this.
-    public Boolean hasNeededTrainCards(Color color, int number) {
-        int numberCount = 0;
-        for(TrainCard card : trainCards) {
-            if(card.getColor() == color) {
-                numberCount = numberCount+1;
+        while((i.hasNext()) && (remainder > 0)) {
+            DestCard card = i.next();
+            for(DestCard neededCard: cards) {
+                if(card.equals(neededCard)) {
+                    remainder = remainder - 1;
+                    i.remove();
+                }
             }
         }
-        if(numberCount == number) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
-    /**
-     * @post the cards are removed from the players hand and returned to the caller
-     * @param color the color of the cards needed
-     * @param number the number of the cards needed
-     * @return
-     */
-    //TODO: Create a good test for this.
-    public List<TrainCard> getNeededTrainCards(Color color, int number) {
-        List<TrainCard> neededCards = new ArrayList<>();
-        Iterator<TrainCard> i = neededCards.iterator();
-        int remainder = number;
+    //TODO: test how this removes Train cards from the player's hand
+    public void removeTrainCards(List<TrainCard> cards) {
+        Iterator<TrainCard> i = trainCards.iterator();
+        int remainder = cards.size();
 
-        while (i.hasNext()) {
+        while((i.hasNext()) && (remainder > 0)) {
             TrainCard card = i.next();
-            if(card.getColor() == color) {
-                neededCards.add(card);
-                remainder = remainder - 1;
-                i.remove();
+            for(TrainCard neededCard: cards) {
+                if(card.equals(neededCard)) {
+                    remainder = remainder - 1;
+                    i.remove();
+                }
             }
         }
-
-        return neededCards;
     }
+
+
 
 }

@@ -53,8 +53,9 @@ public class ClientModelFacade extends Observable {
      * @pre The player or games have changed.
      * @post The observers of this class know that it has changed.
      */
-    public void changed(){
+    private void changed(){
         setChanged();
+        notifyObservers();
     }
 
     /**
@@ -73,8 +74,7 @@ public class ClientModelFacade extends Observable {
      */
     public void setAvailableGames(GameList games) {
         mAvailableGames = games;
-        setChanged();
-        notifyObservers();
+        changed();
     }
 
     /**
@@ -93,8 +93,7 @@ public class ClientModelFacade extends Observable {
      */
     public void setMyGames(GameList mMyGames) {
         this.mMyGames = mMyGames;
-        setChanged();
-        notifyObservers();
+        changed();
     }
 
     /**
@@ -113,8 +112,7 @@ public class ClientModelFacade extends Observable {
      */
     public void setCurrentGame(GameModel mCurrentGame) {
         this.mCurrentGame = mCurrentGame;
-        setChanged();
-        notifyObservers();
+        changed();
     }
 
     /**
@@ -133,44 +131,66 @@ public class ClientModelFacade extends Observable {
      */
     public void setUser(Player mUser) {
         this.mUser = mUser;
-        setChanged();
-        notifyObservers();
+        changed();
     }
 
-    //TODO: add the destination card to the player's hand
-    public void drawDestCards() {
-
+    //get user train cards
+    public List<TrainCard> getUserTrainCards() {
+        return mUser.getTrainCards();
     }
 
-    //TODO: add train cards to the player's hand
-    public void drawTrainCards() {
-
+    //get user destination cards
+    public List<DestCard> getUserDestCards() {
+        return mUser.getDestinationCards();
     }
 
-    //TODO: remove Destination cards from the player's hand.
+    //add destination cards to the player's hand
+    public void drawDestCards(List<DestCard> drawnCards) {
+        mUser.addDestCards(drawnCards);
+        changed();
+    }
+
+    //add train cards to the player's hand
+    public void drawTrainCards(List<TrainCard> drawnCards) {
+        mUser.addTrainCards(drawnCards);
+        changed();
+    }
+
+    //remove Destination cards from the player's hand.
     public void removeDestCards(List<DestCard> cards) {
-
+        mUser.removeDestCards(cards);
+        changed();
     }
 
-    //TODO: remove Train cards from the player's hand
+    //remove Train cards from the player's hand
     public void removeTrainCards(List<TrainCard> cards) {
-
+        mUser.removeTrainCards(cards);
+        changed();
     }
 
-    //TODO: add a bank card to the player's hand
-    public Boolean takeBankCard(TrainCard card) {
-        return false;
+    //add a bank card to the player's hand
+    public void takeBankCard(TrainCard card) {
+        mUser.addBankCard(card);
+        changed();
     }
 
-
-    //TODO: the server claim a track for any player in the model
-    public Boolean claimTrack(Track track, int player) {
-        return false;
+    public void claimTrack(Track track, int player) {
+        mCurrentGame.claimTrack(track, player);
+        changed();
     }
 
+    public List<Track> getAllTracks() {
+        return mCurrentGame.getAllTracks();
+    }
 
-    //TODO: update all visible player objects
+    //update all visible player objects
     public void setPlayerHands(List<PlayerOverview> players) {
+        mCurrentGame.setPlayerHands(players);
+        changed();
+    }
 
+    //get all visible player objects
+    public List<PlayerOverview> getPlayerHands() {
+        return mCurrentGame.getPlayerHands();
     }
 }

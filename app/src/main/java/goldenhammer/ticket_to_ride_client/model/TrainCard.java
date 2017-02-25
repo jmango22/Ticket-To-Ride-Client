@@ -23,4 +23,16 @@ public class TrainCard {
         this.color = color;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        else if(!(obj instanceof TrainCard)) {
+            return false;
+        }
+        else {
+             return (((TrainCard) obj).getColor() == color);
+        }
+    }
 }

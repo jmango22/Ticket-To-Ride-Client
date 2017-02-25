@@ -48,4 +48,24 @@ public class DestCard {
     public void setPointsWorth(int pointsWorth) {
         this.pointsWorth = pointsWorth;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        else if(!(obj instanceof DestCard)) {
+            return false;
+        }
+        else {
+            if(((DestCard) obj).getCity1() == city1) {
+                if(((DestCard) obj).getCity2() == city2) {
+                   if(((DestCard) obj).getPointsWorth() == pointsWorth) {
+                       return true;
+                   }
+                }
+            }
+            return false;
+        }
+    }
 }

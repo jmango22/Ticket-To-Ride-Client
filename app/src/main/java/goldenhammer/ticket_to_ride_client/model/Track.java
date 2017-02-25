@@ -37,10 +37,39 @@ public class Track {
         this.location2 = location2;
     }
 
+    public int getOwner() {
+        return owner;
+    }
+
     public void setOwner(int owner) {
         this.owner = owner;
     }
 
+    public PointF getLocation1() {
+        return location1;
+    }
 
+    public PointF getLocation2() {
+        return location2;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        else if(!(obj instanceof Track)) {
+            return false;
+        }
+        else {
+            if(((Track) obj).getLocation1() == location1) {
+                if(((Track) obj).getLocation2() == location2) {
+                    if(((Track) obj).getOwner() == owner) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
 }

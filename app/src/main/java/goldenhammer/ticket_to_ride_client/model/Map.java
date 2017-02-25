@@ -21,13 +21,24 @@ public class Map {
         this.cities = cities;
     }
 
-    //Checks the track to see if an owner exists or is -1
-    public Boolean isTrackAvailable(Track track) {
-        return false;
+    //Claims the track for the player
+    public void claimTrack(Track track, int player) {
+        for(Track trackey : tracks) {
+            if(trackey.equals(track)) {
+                trackey.setOwner(player);
+            }
+        }
     }
 
-    //Claims the track for the player
-    public Boolean claimTrack(Track track, List<TrainCard> neededCards, int player) {
-        return false;
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
     }
 }
