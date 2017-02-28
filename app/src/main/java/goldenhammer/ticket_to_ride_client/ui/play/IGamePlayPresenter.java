@@ -5,4 +5,9 @@ package goldenhammer.ticket_to_ride_client.ui.play;
  */
 
 public interface IGamePlayPresenter {
+  void takeTrainCard();
+  void takeDestCard();
+  void takeTrack();
+  void loadGame();
+  void update();
 }
