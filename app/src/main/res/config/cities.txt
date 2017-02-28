@@ -1,0 +1,35 @@
+Forlindon,95,273
+Grey Havens,272,297
+Harlindon,229,522
+Hobbiton,470,383
+Lake Evendim,496,248
+Bree,618,388
+Tharbad,604,515
+Eryn Vorn,371,599
+Lond Daer,478,695
+Ettenmoors,871,158
+Amon Sul,757,305
+Rivendell,884,326
+Moria's Gate,835,517
+Isengard,692,641
+Helm's Deep,767,796
+Lorien,990,523
+The Lonely Mountain,1216,262
+East Bight,1100,410
+Dol Guldur,1144,561
+Fangorn,949,662
+Emyn Muil,1142,671
+Edoras,861,824
+Falls of Rauros,1065,772
+Minas Tirith,1111,918
+Dagorlad (Battle Plains),1321,696
+Minas Morgul,1186,885
+Iron Hills,1418,204
+Sea of Rhun,1464,505
+Ash Mountains,1528,759
+Barad Dur,1392,845
+Erech,758,908
+Ras Morthil,495,977
+Edhellond,886,993
+Crossings of Poros,1150,1091
+Sea of Nurnen,1422,1030
