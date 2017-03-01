@@ -41,4 +41,8 @@ public class Map {
     public void setCities(List<City> cities) {
         this.cities = cities;
     }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
+    }
 }

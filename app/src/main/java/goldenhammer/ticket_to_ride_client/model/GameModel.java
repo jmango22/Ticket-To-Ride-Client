@@ -39,4 +39,12 @@ public class GameModel {
     public void setPlayerHands(List<PlayerOverview> players) {
         this.players = players;
     }
+
+    public void setCities(List<City> cities) {
+        map.setCities(cities);
+    }
+
+    public void setTracks(List<Track> tracks) {
+        map.setTracks(tracks);
+    }
 }
