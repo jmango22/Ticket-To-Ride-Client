@@ -134,6 +134,10 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+
+    /**
+     * Presenter Code
+     */
     //get user train cards
     public List<TrainCard> getUserTrainCards() {
         return mUser.getTrainCards();
@@ -193,4 +197,21 @@ public class ClientModelFacade extends Observable {
     public List<PlayerOverview> getPlayerHands() {
         return mCurrentGame.getPlayerHands();
     }
+
+    //END PRESENTER CODE
+
+    /**
+     *
+     * initializing code
+     */
+
+    public void setCities(List<City> cities) {
+        mCurrentGame.setCities(cities);
+    }
+
+    public void setTracks(List<Track> tracks) {
+        mCurrentGame.setTracks(tracks);
+    }
+
+    //END INITIALIZING CODE
 }
