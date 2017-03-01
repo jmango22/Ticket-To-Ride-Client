@@ -1,6 +1,5 @@
 package goldenhammer.ticket_to_ride_client.ui.login.recycler;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +9,6 @@ import android.widget.Toast;
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
 import goldenhammer.ticket_to_ride_client.ui.login.GameSelectorActivity;
-import goldenhammer.ticket_to_ride_client.ui.play.GameActivity;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by jon on 2/14/17.
