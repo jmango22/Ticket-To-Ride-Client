@@ -2,6 +2,8 @@ package goldenhammer.ticket_to_ride_client.ui.play;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
@@ -48,5 +50,22 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     @Override
     public void update() {
 
+    }
+
+    public void demo() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("hey");
+
+//                new Timer().schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        System.out.println("jude");
+//                    }
+//                },1000);
+            }
+        },1000);
     }
 }
