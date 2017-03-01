@@ -1,5 +1,8 @@
 package goldenhammer.ticket_to_ride_client.model;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by McKean on 2/3/2017.
  */
@@ -7,10 +10,12 @@ package goldenhammer.ticket_to_ride_client.model;
 public class Player {
     private Username mUsername;
     private Password mPassword;
+    private Hand mHand;
 
     public Player(Username username, Password password){
         mUsername = username;
         mPassword = password;
+        mHand = new Hand();
     }
 
     public Username getUsername(){
@@ -19,5 +24,33 @@ public class Player {
 
     public Password getPassword(){
         return mPassword;
+    }
+
+    public List<DestCard> getDestinationCards() {
+        return mHand.getDestinationCards();
+    }
+
+    public List<TrainCard> getTrainCards() {
+        return mHand.getTrainCards();
+    }
+
+    public void addTrainCards(List<TrainCard> drawnCards) {
+        mHand.addTrainCards(drawnCards);
+    }
+
+    public void addDestCards(List<DestCard> drawnCards) {
+        mHand.addDestCards(drawnCards);
+    }
+
+    public void addBankCard(TrainCard card) {
+        mHand.addBankCard(card);
+    }
+
+    public void removeDestCards(List<DestCard> cards) {
+        mHand.removeDestCards(cards);
+    }
+
+    public void removeTrainCards(List<TrainCard> cards) {
+        mHand.removeTrainCards(cards);
     }
 }
