@@ -25,6 +25,7 @@ public class ClientModelFacade extends Observable {
     private GameList mAvailableGames = new GameList(new ArrayList<GameListItem>());
     private GameList mMyGames= new GameList(new ArrayList<GameListItem>());
     private GameModel mCurrentGame;
+    private Bank mBank;
     private Player mUser;
     public static final ClientModelFacade SINGLETON = new ClientModelFacade();
 
@@ -198,6 +199,17 @@ public class ClientModelFacade extends Observable {
         return mCurrentGame.getPlayerHands();
     }
 
+
+
+
+    public void replaceBankTrainCard(TrainCard card, int pos) {
+        mBank.replaceAvailableTrainCard(card, pos);
+    }
+
+    public TrainCard getBankTrainCard(int pos) {
+        return mBank.getTrainCard(pos);
+    }
+
     //END PRESENTER CODE
 
     /**
@@ -211,6 +223,10 @@ public class ClientModelFacade extends Observable {
 
     public void setTracks(List<Track> tracks) {
         mCurrentGame.setTracks(tracks);
+    }
+
+    public void setBankCards(TrainCard[] trainCards) {
+        mBank = new Bank(trainCards);
     }
 
     //END INITIALIZING CODE
