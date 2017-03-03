@@ -8,24 +8,17 @@ import java.util.List;
  */
 
 public class DrawnDestCards {
-    private DestCard[] cards = new DestCard[3];
+    private DestCard[] cards;
 
-    public DrawnDestCards(List<DestCard> cards) throws IllegalArgumentException {
-        if(cards.size() != 3) {
-            throw new IllegalArgumentException();
-        } else {
-            for(int i=0; i<cards.size(); i++) {
-                this.cards[0] = cards.get(0);
-            }
+    public DrawnDestCards(List<DestCard> cards) {
+        this.cards = new DestCard[cards.size()];
+        for(int i=0; i<cards.size(); i++) {
+            this.cards[0] = cards.get(0);
         }
     }
 
-    public DrawnDestCards(DestCard[] cards) throws IllegalArgumentException {
-        if(cards.length != 3) {
-            throw new IllegalArgumentException();
-        } else {
-            this.cards = cards;
-        }
+    public DrawnDestCards(DestCard[] cards) {
+        this.cards = cards;
     }
 
     public DestCard getDestCard(int pos) {
