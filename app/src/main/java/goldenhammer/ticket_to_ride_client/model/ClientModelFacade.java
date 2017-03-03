@@ -54,7 +54,7 @@ public class ClientModelFacade extends Observable {
      * @pre The player or games have changed.
      * @post The observers of this class know that it has changed.
      */
-    private void changed(){
+    public void changed(){
         setChanged();
         notifyObservers();
     }
@@ -169,10 +169,12 @@ public class ClientModelFacade extends Observable {
 
     public void setDrawnDestCards(List<DestCard> cards) {
         mUser.setDrawDestCards(cards);
+        changed();
     }
 
     public void moveDrawnDestCardsToHand(int[] positions) {
         mUser.moveDrawnDestCards(positions);
+        changed();
     }
 
     public void claimTrack(Track track, int player) {
@@ -198,6 +200,7 @@ public class ClientModelFacade extends Observable {
 
     public void replaceBankTrainCard(TrainCard card, int pos) {
         mBank.replaceAvailableTrainCard(card, pos);
+        changed();
     }
 
     public TrainCard getBankTrainCard(int pos) {
@@ -215,14 +218,17 @@ public class ClientModelFacade extends Observable {
 
     public void setCities(List<City> cities) {
         mCurrentGame.setCities(cities);
+        changed();
     }
 
     public void setTracks(List<Track> tracks) {
         mCurrentGame.setTracks(tracks);
+        changed();
     }
 
     public void setBankCards(TrainCard[] trainCards) {
         mBank = new Bank(trainCards);
+        changed();
     }
 
     //END INITIALIZING CODE
