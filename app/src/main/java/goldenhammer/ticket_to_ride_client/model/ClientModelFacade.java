@@ -26,9 +26,8 @@ public class ClientModelFacade extends Observable {
     private GameList mMyGames= new GameList(new ArrayList<GameListItem>());
     private GameModel mCurrentGame;
     private Bank mBank;
-    private DrawnDestCards mDrawnDestCards;
     private Player mUser;
-    public static final ClientModelFacade SINGLETON = new ClientModelFacade();
+    public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
     }
@@ -150,21 +149,9 @@ public class ClientModelFacade extends Observable {
         return mUser.getDestinationCards();
     }
 
-    //add destination cards to the player's hand
-    public void drawDestCards(List<DestCard> drawnCards) {
-        mUser.addDestCards(drawnCards);
-        changed();
-    }
-
     //add train cards to the player's hand
     public void drawTrainCards(List<TrainCard> drawnCards) {
         mUser.addTrainCards(drawnCards);
-        changed();
-    }
-
-    //remove Destination cards from the player's hand.
-    public void removeDestCards(List<DestCard> cards) {
-        mUser.removeDestCards(cards);
         changed();
     }
 
@@ -180,6 +167,14 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+    public void setDrawnDestCards(List<DestCard> cards) {
+        mUser.setDrawDestCards(cards);
+    }
+
+    public void moveDrawnDestCardsToHand(int[] positions) {
+        mUser.moveDrawnDestCards(positions);
+    }
+
     public void claimTrack(Track track, int player) {
         mCurrentGame.claimTrack(track, player);
         changed();
@@ -190,14 +185,14 @@ public class ClientModelFacade extends Observable {
     }
 
     //update all visible player objects
-    public void setPlayerHands(List<PlayerOverview> players) {
-        mCurrentGame.setPlayerHands(players);
+    public void setLeaderboard(List<PlayerOverview> players) {
+        mCurrentGame.setLeaderBoard(players);
         changed();
     }
 
     //get all visible player objects
-    public List<PlayerOverview> getPlayerHands() {
-        return mCurrentGame.getPlayerHands();
+    public List<PlayerOverview> getLeaderboard() {
+        return mCurrentGame.getLeaderBoard();
     }
 
 
@@ -209,13 +204,7 @@ public class ClientModelFacade extends Observable {
         return mBank.getTrainCard(pos);
     }
 
-    public void setDrawnDestCards(List<DestCard> cards) {
-        mDrawnDestCards = new DrawnDestCards(cards);
-    }
 
-    public List<DestCard> getRemainingDestCards() {
-        return mDrawnDestCards.getDestCards();
-    }
 
     //END PRESENTER CODE
 

@@ -28,17 +28,8 @@ public class DrawnDestCards {
         }
     }
 
-    public List<DestCard> getDestCards() {
-        List<DestCard> remainingCards = new ArrayList<>();
-        for(int i=0; i<cards.length; i++) {
-            if(cards[i] != null) {
-                remainingCards.add(cards[i]);
-            }
-        }
-        return remainingCards;
+    public DestCard getDestCard(int pos) {
+        return cards[pos];
     }
 
-    public void deleteDestCard(int pos) {
-        cards[pos] = null;
-    }
 }

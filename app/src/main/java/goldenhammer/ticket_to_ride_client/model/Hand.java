@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Hand {
     private List<DestCard> destinationCards;
     private List<TrainCard> trainCards;
+    private DrawnDestCards drawnDestCards;
 
     public Hand() {
         destinationCards = new ArrayList<>();
@@ -35,30 +36,22 @@ public class Hand {
         }
     }
 
-    public void addDestCards(List<DestCard> drawnCards) {
+    public void addDestCard(List<DestCard> drawnCards) {
         for(DestCard card: drawnCards) {
             destinationCards.add(card);
         }
     }
 
-    public void addBankCard(TrainCard card) {
-        trainCards.add(card);
+    public void setDrawnDestCards(List<DestCard> drawnDestCards) {
+        this.drawnDestCards = new DrawnDestCards(drawnDestCards);
     }
 
-    //TODO: test how this removes Destination cards from the player's hand.
-    public void removeDestCards(List<DestCard> cards) {
-        Iterator<DestCard> i = destinationCards.iterator();
-        int remainder = cards.size();
+    public void moveDrawnDestCardToHand(int pos) {
+        destinationCards.add(drawnDestCards.getDestCard(pos));
+    }
 
-        while((i.hasNext()) && (remainder > 0)) {
-            DestCard card = i.next();
-            for(DestCard neededCard: cards) {
-                if(card.equals(neededCard)) {
-                    remainder = remainder - 1;
-                    i.remove();
-                }
-            }
-        }
+    public void addBankCard(TrainCard card) {
+        trainCards.add(card);
     }
 
     //TODO: test how this removes Train cards from the player's hand
