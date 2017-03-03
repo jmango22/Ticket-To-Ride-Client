@@ -25,8 +25,9 @@ public class ClientModelFacade extends Observable {
     private GameList mAvailableGames = new GameList(new ArrayList<GameListItem>());
     private GameList mMyGames= new GameList(new ArrayList<GameListItem>());
     private GameModel mCurrentGame;
+    private Bank mBank;
     private Player mUser;
-    public static final ClientModelFacade SINGLETON = new ClientModelFacade();
+    public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
     }
@@ -53,7 +54,7 @@ public class ClientModelFacade extends Observable {
      * @pre The player or games have changed.
      * @post The observers of this class know that it has changed.
      */
-    private void changed(){
+    public void changed(){
         setChanged();
         notifyObservers();
     }
@@ -148,21 +149,9 @@ public class ClientModelFacade extends Observable {
         return mUser.getDestinationCards();
     }
 
-    //add destination cards to the player's hand
-    public void drawDestCards(List<DestCard> drawnCards) {
-        mUser.addDestCards(drawnCards);
-        changed();
-    }
-
     //add train cards to the player's hand
     public void drawTrainCards(List<TrainCard> drawnCards) {
         mUser.addTrainCards(drawnCards);
-        changed();
-    }
-
-    //remove Destination cards from the player's hand.
-    public void removeDestCards(List<DestCard> cards) {
-        mUser.removeDestCards(cards);
         changed();
     }
 
@@ -178,6 +167,16 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+    public void setDrawnDestCards(List<DestCard> cards) {
+        mUser.setDrawDestCards(cards);
+        changed();
+    }
+
+    public void moveDrawnDestCardsToHand(int[] positions) {
+        mUser.moveDrawnDestCards(positions);
+        changed();
+    }
+
     public void claimTrack(Track track, int player) {
         mCurrentGame.claimTrack(track, player);
         changed();
@@ -188,15 +187,27 @@ public class ClientModelFacade extends Observable {
     }
 
     //update all visible player objects
-    public void setPlayerHands(List<PlayerOverview> players) {
-        mCurrentGame.setPlayerHands(players);
+    public void setLeaderboard(List<PlayerOverview> players) {
+        mCurrentGame.setLeaderBoard(players);
         changed();
     }
 
     //get all visible player objects
-    public List<PlayerOverview> getPlayerHands() {
-        return mCurrentGame.getPlayerHands();
+    public List<PlayerOverview> getLeaderboard() {
+        return mCurrentGame.getLeaderBoard();
     }
+
+
+    public void replaceBankTrainCard(TrainCard card, int pos) {
+        mBank.replaceAvailableTrainCard(card, pos);
+        changed();
+    }
+
+    public TrainCard getBankTrainCard(int pos) {
+        return mBank.getTrainCard(pos);
+    }
+
+
 
     //END PRESENTER CODE
 
@@ -207,10 +218,17 @@ public class ClientModelFacade extends Observable {
 
     public void setCities(List<City> cities) {
         mCurrentGame.setCities(cities);
+        changed();
     }
 
     public void setTracks(List<Track> tracks) {
         mCurrentGame.setTracks(tracks);
+        changed();
+    }
+
+    public void setBankCards(TrainCard[] trainCards) {
+        mBank = new Bank(trainCards);
+        changed();
     }
 
     //END INITIALIZING CODE

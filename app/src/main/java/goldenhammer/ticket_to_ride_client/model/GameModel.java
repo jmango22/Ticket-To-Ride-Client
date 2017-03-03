@@ -32,11 +32,11 @@ public class GameModel {
         return map.getTracks();
     }
 
-    public List<PlayerOverview> getPlayerHands() {
+    public List<PlayerOverview> getLeaderBoard() {
         return players;
     }
 
-    public void setPlayerHands(List<PlayerOverview> players) {
+    public void setLeaderBoard(List<PlayerOverview> players) {
         this.players = players;
     }
 

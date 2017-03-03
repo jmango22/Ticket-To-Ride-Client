@@ -38,19 +38,21 @@ public class Player {
         mHand.addTrainCards(drawnCards);
     }
 
-    public void addDestCards(List<DestCard> drawnCards) {
-        mHand.addDestCards(drawnCards);
-    }
-
     public void addBankCard(TrainCard card) {
         mHand.addBankCard(card);
     }
 
-    public void removeDestCards(List<DestCard> cards) {
-        mHand.removeDestCards(cards);
-    }
-
     public void removeTrainCards(List<TrainCard> cards) {
         mHand.removeTrainCards(cards);
+    }
+
+    public void setDrawDestCards(List<DestCard> cards) {
+        mHand.setDrawnDestCards(cards);
+    }
+
+    public void moveDrawnDestCards(int[] positions) {
+        for(int i=0; i<positions.length; i++) {
+            mHand.moveDrawnDestCardToHand(positions[i]);
+        }
     }
 }
