@@ -29,8 +29,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private ClientModelFacade model;
     private Callback myCommandCallback;
     private GameName name;
-    private DoAction actionState;
-    private DoUpdate updateState;
+    private State state;
+    private boolean handInitialized;
 
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
@@ -42,26 +42,35 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 List<Command> commands = Serializer.deserializeCommands(res.getBody());
-                //TODO: tell the facade to take the new commands.
+                model.addCommands(commands);
             }
         };
-        actionState = ActionSelector.MyTurn(this);
+        state = StateSelector.MyTurn(this);
+        handInitialized = false;
+
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
-        boolean isMyTurn = model.isMyTurn();
-        if (isMyTurn) {
-            Command previousCommand = model.getPreviousCommand();
-            if (previousCommand.getClass() == null ){
 
+//        TODO: how should we handle selecting cards from the bank
+        boolean isMyTurn = model.isMyTurn();
+        if (!handInitialized && model.shouldInitializeHand()) {
+            handInitialized = true;
+            state = StateSelector.InitializeHand(this);
+
+        } else if (isMyTurn) {
+            Command previousCommand = model.getPreviousCommand();
+            if (previousCommand instanceof DrawDestCardsCommand){
+                state = StateSelector.MustReturnDestCard(this);
+            } else {
+                state = StateSelector.MyTurn(this);
             }
         } else {
-            actionState = ActionSelector.NotMyTurn(this);
-            updateState = UpdateSelector.NotMyTurn(this);
+            state = StateSelector.NotMyTurn(this);
         }
-
+        state.update();
     }
 
     @Override
@@ -71,7 +80,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeDestCards() {
-        actionState.takeDestCards();
+        state.takeDestCards();
     }
 
     void sendTakeDestCardsCommand() {
@@ -81,7 +90,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void returnDestCards(List<DestCard> toReturn) {
-        actionState.returnDestCards(toReturn);
+        state.returnDestCards(toReturn);
     }
 
     void sendReturnDestCardsCommand(List<DestCard> toReturn) {
@@ -99,11 +108,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
 
-    @Override
-    public void update() {
+    protected void updateMap() {
 
     }
 
+    protected void updatePlayers(){
+
+    }
     public void demo() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
