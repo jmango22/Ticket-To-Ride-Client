@@ -13,8 +13,10 @@ import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
+import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -25,15 +27,40 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private GamePlayActivity owner;
     private IProxy proxy;
     private ClientModelFacade model;
+    private Callback myCommandCallback;
+    private GameName name;
+    private DoAction actionState;
+    private DoUpdate updateState;
+
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
         model.addObserver(this);
+        name = model.getCurrentGame().getGameName();
+        myCommandCallback = new Callback() {
+            @Override
+            public void run(Results res) {
+                List<Command> commands = Serializer.deserializeCommands(res.getBody());
+                //TODO: tell the facade to take the new commands.
+            }
+        };
+        actionState = ActionSelector.MyTurn(this);
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
+        boolean isMyTurn = model.isMyTurn();
+        if (isMyTurn) {
+            Command previousCommand = model.getPreviousCommand();
+            if (previousCommand.getClass() == null ){
+
+            }
+        } else {
+            actionState = ActionSelector.NotMyTurn(this);
+            updateState = UpdateSelector.NotMyTurn(this);
+        }
 
     }
 
@@ -44,22 +71,26 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeDestCards() {
+        actionState.takeDestCards();
+    }
 
+    void sendTakeDestCardsCommand() {
+        DrawDestCardsCommand command = new DrawDestCardsCommand(1);
+        proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override
     public void returnDestCards(List<DestCard> toReturn) {
-        proxy.doCommand(model.getCurrentGame().getGameName(), new ReturnDestCardsCommand(toReturn), new Callback() {
-            @Override
-            public void run(Results res) {
-                List<Command> commands = Serializer.deserializeCommands(res.getBody());
-                //TODO: tell the facade to take the new commands.
-            }
-        });
+        actionState.returnDestCards(toReturn);
+    }
+
+    void sendReturnDestCardsCommand(List<DestCard> toReturn) {
+        ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
+        proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override
-    public void takeTrack(Track track) {
+    public void layTrack(Track track) {
 
     }
 

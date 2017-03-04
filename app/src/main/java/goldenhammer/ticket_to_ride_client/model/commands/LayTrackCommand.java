@@ -6,8 +6,8 @@ package goldenhammer.ticket_to_ride_client.model.commands;
 
 public class LayTrackCommand extends Command {
 
-    public LayTrackCommand() {
-        name = "LayTrack";
+    public LayTrackCommand(int commandNumber) {
+        super(commandNumber);
     }
 
     @Override
