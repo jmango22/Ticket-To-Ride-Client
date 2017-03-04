@@ -57,25 +57,27 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 //        TODO: how should we handle selecting cards from the bank
         boolean isMyTurn = model.isMyTurn();
         if (!handInitialized && model.shouldInitializeHand()) {
-            handInitialized = true;
             state = StateSelector.InitializeHand(this);
-
-        } else if (isMyTurn) {
+        }
+        else if (isMyTurn) {
+            handInitialized = true;
             Command previousCommand = model.getPreviousCommand();
             if (previousCommand instanceof DrawDestCardsCommand){
                 state = StateSelector.MustReturnDestCard(this);
             } else {
                 state = StateSelector.MyTurn(this);
             }
-        } else {
+        }
+        else {
+            handInitialized = true;
             state = StateSelector.NotMyTurn(this);
         }
-        state.update();
+        state.updateView();
     }
 
     @Override
     public void takeTrainCards() {
-
+        state.takeDestCards();
     }
 
     @Override
@@ -100,7 +102,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void layTrack(Track track) {
-
+        state.layTrack(track);
     }
 
     @Override
@@ -109,11 +111,23 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     protected void updateMap() {
-
+        owner.drawMap(model.getCurrentGame().getMap());
     }
 
     protected void updatePlayers(){
+        owner.updatePlayers(model.getLeaderboard());
+    }
 
+    protected void updateCurrentTurn(){
+        owner.updateTurn(model.getCurrentTurnPlayer());
+    }
+
+    protected void updateHand(){
+        owner.updateHand(model.getHand());
+    }
+
+    protected void showToast(String message) {
+        owner.toastMessage(message);
     }
     public void demo() {
         Timer timer = new Timer();

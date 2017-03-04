@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.model.commands;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+
 /**
  * Created by McKean on 3/3/2017.
  */
@@ -19,6 +21,7 @@ public abstract class Command {
     public Command(int commandNumber){
         this.commandNumber = commandNumber;
         this.name = this.getClass().toString();
+        this.playerNumber = ClientModelFacade.SINGLETON.getMyPlayerNumber();
     }
 
     public int getPlayerNumber(){

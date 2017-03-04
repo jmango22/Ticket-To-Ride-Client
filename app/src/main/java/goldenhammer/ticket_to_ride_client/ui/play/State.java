@@ -19,31 +19,33 @@ public class State {
      * defaults to not your turn
      */
     public void takeTrainCards(){
-
+        presenter.showToast("Can't do that");
     }
 
     /**
      * defaults to not your turn
      */
     public void takeDestCards(){
-
+        presenter.showToast("Can't do that");
     }
 
     /**
      * defaults to not your turn
      */
     public void returnDestCards(List<DestCard> toReturn){
-
+        presenter.showToast("Can't do that");
     }
 
     /**
      * defaults to not your turn
      */
-    public void takeTrack(Track track){
-
+    public void layTrack(Track track){
+        presenter.showToast("Can't do that");
     }
-    public void update(){
+    public void updateView(){
         presenter.updateMap();
         presenter.updatePlayers();
+        presenter.updateCurrentTurn();
+        presenter.updateHand();
     }
 }

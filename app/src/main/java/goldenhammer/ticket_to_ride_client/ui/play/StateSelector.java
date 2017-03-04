@@ -3,7 +3,6 @@ package goldenhammer.ticket_to_ride_client.ui.play;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.DestCard;
-import goldenhammer.ticket_to_ride_client.model.Track;
 
 /**
  * Created by devonkinghorn on 3/4/17.
@@ -11,59 +10,45 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 
 public class StateSelector {
 
-    public static State MyTurn(GamePlayPresenter parent){
-        return new State(parent) {
-            @Override
-            public void takeTrainCards() {
-
-            }
-
+    public static State MyTurn(GamePlayPresenter presenter){
+        return new State(presenter) {
             @Override
             public void takeDestCards() {
                 presenter.sendTakeDestCardsCommand();
             }
-
-            @Override
-            public void takeTrack(Track track) {
-
-            }
         };
     }
 
-    public static State NotMyTurn(GamePlayPresenter parent) {
-        return new State(parent);
+    public static State NotMyTurn(GamePlayPresenter presenter) {
+        return new State(presenter);
     }
 
-    public static State MustReturnDestCard(GamePlayPresenter parent){
-        return new State(parent){
-            @Override
-            public void takeTrainCards() {
-
-            }
-
-            @Override
-            public void takeDestCards() {
-                this.presenter.sendTakeDestCardsCommand();
-            }
-
-            @Override
-            public void takeTrack(Track track) {
-
-            }
-        };
-    }
-
-    public static State InitializeHand(GamePlayPresenter parent) {
-        return new State(parent) {
+    public static State MustReturnDestCard(GamePlayPresenter presenter){
+        return new State(presenter){
             @Override
             public void returnDestCards(List<DestCard> toReturn) {
                 presenter.sendReturnDestCardsCommand(toReturn);
             }
 
             @Override
-            public void update() {
-                super.update();
+            public void updateView() {
+                super.updateView();
+                //TODO: show the dialog maybe not call super
+            }
+        };
+    }
 
+    public static State InitializeHand(GamePlayPresenter presenter) {
+        return new State(presenter) {
+            @Override
+            public void returnDestCards(List<DestCard> toReturn) {
+                presenter.sendReturnDestCardsCommand(toReturn);
+            }
+
+            @Override
+            public void updateView() {
+                super.updateView();
+                //TODO: show the dialog maybe not call super
             }
         };
     }

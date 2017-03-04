@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
+import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.GameName;
@@ -47,8 +49,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     public void createGame(String name){
         try{
             GameName g = new GameName(name);
-            String results = proxy.createGame(g);
-            owner.toastMessage(results);
+            proxy.createGame(g, new Callback() {
+                @Override
+                public void run(Results res) {
+                    owner.toastMessage(res.getBody());
+                }
+            });
+//            String results = proxy.createGame(g);
+//            owner.toastMessage(results);
         }catch(IOException e){
             owner.toastMessage(e.getMessage());
         }
@@ -76,9 +84,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
      */
     public void joinGame(String gameName){
         try {
-
-            String results = proxy.joinGame(new GameName(gameName));
-            owner.toastMessage(results);
+            proxy.joinGame(new GameName(gameName), new Callback() {
+                @Override
+                public void run(Results res) {
+                    owner.toastMessage(res.getBody());
+                }
+            });
+//            String results = proxy.joinGame(new GameName(gameName));
+//            owner.toastMessage(results);
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());        }
     }
@@ -92,8 +105,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
      */
     public void leaveGame(String gameName){
         try {
-            String results = proxy.leaveGame(new GameName(gameName));
-            owner.toastMessage(results);
+            proxy.leaveGame(new GameName(gameName), new Callback() {
+                @Override
+                public void run(Results res) {
+                    owner.toastMessage(res.getBody());
+                }
+            });
+//            String results = proxy.leaveGame(new GameName(gameName));
+//            owner.toastMessage(results);
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
@@ -106,8 +125,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
      */
     public void playGame(String gameName){
         try {
-            String results = proxy.playGame(new GameName(gameName));
-            owner.toastMessage(results);
+            proxy.playGame(new GameName(gameName), new Callback() {
+                @Override
+                public void run(Results res) {
+                    owner.toastMessage(res.getBody());
+                }
+            });
+//            String results = proxy.playGame(new GameName(gameName));
+//            owner.toastMessage(results);
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }

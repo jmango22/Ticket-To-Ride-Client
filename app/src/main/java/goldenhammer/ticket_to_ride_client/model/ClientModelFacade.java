@@ -175,9 +175,16 @@ public class ClientModelFacade extends Observable {
         return true;
     }
 
+    //TODO: get this to work
+    public int getCurrentTurnPlayer() {
+        return 1;
+    }
     public int getMyPlayerNumber() {
         //TODO: this won't work. make it work
         return 1;
+    }
+    public Hand getHand() {
+        return mUser.getHand();
     }
     public boolean shouldInitializeHand() {
         List<Command> commands = mCommandMgr.getCommandList();
