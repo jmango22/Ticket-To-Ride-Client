@@ -9,6 +9,7 @@ public class PlayerOverview {
     private int pieces;
     private int destCards;
     private int player;
+    private String username;
 
     public PlayerOverview() {
         color = null;
@@ -32,7 +33,7 @@ public class PlayerOverview {
         this.color = color;
     }
 
-    public int getPieces() {
+    public int getNumPieces() {
         return pieces;
     }
 
@@ -40,7 +41,7 @@ public class PlayerOverview {
         this.pieces = pieces;
     }
 
-    public int getDestCards() {
+    public int getNumDestCards() {
         return destCards;
     }
 
@@ -54,5 +55,13 @@ public class PlayerOverview {
 
     public void setPlayer(int player) {
         this.player = player;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
