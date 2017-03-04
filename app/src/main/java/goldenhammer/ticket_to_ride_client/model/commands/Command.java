@@ -8,4 +8,7 @@ public abstract class Command {
     String name;
     int commandNumber;
     public abstract void execute();
+    public int getCommandNumber(){
+        return commandNumber;
+    }
 }
