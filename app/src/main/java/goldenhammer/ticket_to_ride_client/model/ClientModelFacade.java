@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
+
 /**
  * Created by McKean on 2/3/2017.
  * JavaDoc created by Jonathon Meng 2/22/2017
@@ -18,6 +20,7 @@ public class ClientModelFacade extends Observable {
     private GameModel mCurrentGame;
     private Bank mBank;
     private Player mUser;
+    private CommandManager mCommandMgr = new CommandManager();
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -100,9 +103,11 @@ public class ClientModelFacade extends Observable {
 
     //add a bank card to the player's hand
     public void takeBankCard(int pos) {
-        TrainCard card = getBankTrainCard(pos);
-        mUser.addBankCard(card);
-        changed();
+        TrainCard temp;
+        if((temp = mBank.getTrainCard(pos)) != null) {
+            mUser.addBankCard(temp);
+            changed();
+        }
     }
 
     public void setDrawnDestCards(List<DestCard> cards) {
@@ -110,8 +115,8 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
-    public void moveDrawnDestCardsToHand(int[] positions) {
-        mUser.moveDrawnDestCards(positions);
+    public void moveDrawnDestCardsToHand(List<DestCard> discardedCards) {
+        mUser.moveDrawnDestCards(discardedCards);
         changed();
     }
 
@@ -123,6 +128,8 @@ public class ClientModelFacade extends Observable {
     public List<Track> getAllTracks() {
         return mCurrentGame.getAllTracks();
     }
+
+    public List<City> getAllCities() { return mCurrentGame.getAllCities(); }
 
     //update all visible player objects
     public void setLeaderboard(List<PlayerOverview> players) {
@@ -154,6 +161,16 @@ public class ClientModelFacade extends Observable {
     //END PRESENTER CODE
 
     /**
+     * Command Manager Code
+     */
+
+    public void addCommands(List<Command> newCommands) {
+        mCommandMgr.addCommands(newCommands);
+    }
+
+    //END COMMAND MANAGER CODE
+
+    /**
      *
      * initializing code
      */
@@ -174,9 +191,5 @@ public class ClientModelFacade extends Observable {
     }
 
     //END INITIALIZING CODE
-
-    private TrainCard getBankTrainCard(int pos) {
-        return mBank.getTrainCard(pos);
-    }
 
 }

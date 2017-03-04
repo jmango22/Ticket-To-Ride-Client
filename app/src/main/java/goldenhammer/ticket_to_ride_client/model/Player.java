@@ -50,9 +50,7 @@ public class Player {
         mHand.setDrawnDestCards(cards);
     }
 
-    public void moveDrawnDestCards(int[] positions) {
-        for(int i=0; i<positions.length; i++) {
-            mHand.moveDrawnDestCardToHand(positions[i]);
-        }
+    public void moveDrawnDestCards(List<DestCard> discardedCards) {
+        mHand.moveDrawnDestCardToHand(discardedCards);
     }
 }
