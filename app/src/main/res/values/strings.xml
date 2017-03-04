@@ -4,6 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Nav Drawer Open</string>
     <string name="drawer_closed">Nave Drawer Closed</string>
+    <string name="player_hand">Player\'s Hand: </string>
+    <string name="player_stats">Player\'s Stats</string>
 
     <string-array name="nav_drawer_items_array">
         <item>Item1</item>

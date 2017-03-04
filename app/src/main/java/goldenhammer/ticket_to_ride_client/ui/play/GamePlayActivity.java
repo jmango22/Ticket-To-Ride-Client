@@ -11,8 +11,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import goldenhammer.ticket_to_ride_client.R;
+import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.model.DestCard;
+
+//TODO Dialog for selecting cards
+//TODO Dialog for initializing Hand
+//TODO Functions to draw the map, tracks, etc.
+//TODO Buttons for each action
+//TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
     private String[] mNavDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
@@ -100,6 +108,9 @@ public class GamePlayActivity extends AppCompatActivity {
         getActionBar().setHomeButtonEnabled(true);
     }
 
+    public List<DestCard> initializeHand(){
+        return null;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
