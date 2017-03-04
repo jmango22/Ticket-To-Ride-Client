@@ -1,5 +1,6 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,9 +11,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.model.DestCard;
+import goldenhammer.ticket_to_ride_client.model.Hand;
+import goldenhammer.ticket_to_ride_client.model.Map;
+import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 
+//TODO Dialog for selecting cards
+//TODO Dialog for initializing Hand
+//TODO Functions to draw the map, tracks, etc.
+//TODO Buttons for each action
+//TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
     private String[] mNavDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
@@ -100,6 +113,29 @@ public class GamePlayActivity extends AppCompatActivity {
         getActionBar().setHomeButtonEnabled(true);
     }
 
+    public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
+        return null;
+    }
+
+    public void drawMap(Map map){
+
+    }
+
+    public void updatePlayers(List<PlayerOverview> players){
+
+    }
+    public void updateHand(Hand hand){
+
+    }
+
+    public void updateTurn(int player){
+
+    }
+
+
+    public void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
