@@ -41,10 +41,12 @@ public class ClientModelFacadeTest {
 
     @Before
     public void setUp() throws Exception {
+        //set user
         model = ClientModelFacade.SINGLETON;
         Player jonny = new Player(new Username("jonny"), new Password("hithere"));
         model.setUser(jonny);
 
+        //set bank cards
         TrainCard[] cards = new TrainCard[5];
         cards[0] = card1;
         cards[1] = card2;
@@ -53,6 +55,9 @@ public class ClientModelFacadeTest {
         cards[4] = card1;
 
         model.setBankCards(cards);
+
+        //set Tracks on the Map
+        City place1 = new City(null, "San Diego");
     }
 
     @After
@@ -191,7 +196,6 @@ public class ClientModelFacadeTest {
 
     @Test
     public void claimTrackTest() throws Exception {
-        Track track1 = new Track();
-
+        System.out.println("Track Claiming Tests are not created yet...");
     }
 }

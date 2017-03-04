@@ -36,4 +36,21 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        else if (!(obj instanceof City)) {
+            return false;
+        } else {
+            if(((City) obj).getLocation() == this.location) {
+                if(((City) obj).getName() == this.name) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

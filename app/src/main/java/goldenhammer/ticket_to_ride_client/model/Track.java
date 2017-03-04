@@ -53,6 +53,14 @@ public class Track {
         return location2;
     }
 
+    public City getCity1() {
+        return city1;
+    }
+
+    public City getCity2() {
+        return city2;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) {
@@ -65,7 +73,11 @@ public class Track {
             if(((Track) obj).getLocation1() == location1) {
                 if(((Track) obj).getLocation2() == location2) {
                     if(((Track) obj).getOwner() == owner) {
-                        return true;
+                        if(((Track) obj).getCity1() == city1) {
+                            if(((Track) obj).getCity2() == city2) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
