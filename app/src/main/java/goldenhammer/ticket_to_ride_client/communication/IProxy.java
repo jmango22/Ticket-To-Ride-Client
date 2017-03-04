@@ -1,8 +1,6 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import java.util.List;
-
-import goldenhammer.ticket_to_ride_client.model.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;

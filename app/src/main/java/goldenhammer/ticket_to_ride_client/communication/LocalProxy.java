@@ -1,7 +1,8 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import java.util.List;
+import com.google.gson.Gson;
 
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -49,5 +50,10 @@ class LocalProxy implements IProxy{
     @Override
     public void leaveGame(GameName gameName, Callback c) {
 
+    }
+
+    @Override
+    public void doCommand(GameName gameName, Command command, Callback c) {
+        c.run(new Results(new Gson().toJson(command, command.getClass()).toString(), 200));
     }
 }
