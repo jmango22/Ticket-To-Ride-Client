@@ -13,8 +13,10 @@ import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
+import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -25,12 +27,23 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private GamePlayActivity owner;
     private IProxy proxy;
     private ClientModelFacade model;
+    private Callback myCommandCallback;
+    private GameName name;
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
         model.addObserver(this);
+        name = model.getCurrentGame().getGameName();
+        myCommandCallback = new Callback() {
+            @Override
+            public void run(Results res) {
+                List<Command> commands = Serializer.deserializeCommands(res.getBody());
+                //TODO: tell the facade to take the new commands.
+            }
+        };
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -44,18 +57,14 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeDestCards() {
-
+        DrawDestCardsCommand command = new DrawDestCardsCommand(1);
+        proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override
     public void returnDestCards(List<DestCard> toReturn) {
-        proxy.doCommand(model.getCurrentGame().getGameName(), new ReturnDestCardsCommand(toReturn), new Callback() {
-            @Override
-            public void run(Results res) {
-                List<Command> commands = Serializer.deserializeCommands(res.getBody());
-                //TODO: tell the facade to take the new commands.
-            }
-        });
+        ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
+        proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override

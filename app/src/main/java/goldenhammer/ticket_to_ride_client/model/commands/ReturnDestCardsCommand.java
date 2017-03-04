@@ -10,7 +10,8 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 
 public class ReturnDestCardsCommand extends Command {
     List<DestCard> toReturn;
-    public ReturnDestCardsCommand(List<DestCard> toReturn) {
+    public ReturnDestCardsCommand(int commandNumber, List<DestCard> toReturn) {
+        super(commandNumber);
         this.toReturn = toReturn;
     }
     @Override
