@@ -27,6 +27,17 @@ public class ClientModelFacadeTest {
     //All of them
     List<TrainCard> trainCards3 = new ArrayList<>(Arrays.asList(card1, card2, card3));
 
+    final DestCard dest1 = new DestCard(new City(null, "place1"), new City(null, "place2"), 1);
+    final DestCard dest2 = new DestCard(new City(null, "place3"), new City(null, "place4"), 2);
+    final DestCard dest3 = new DestCard(new City(null, "place5"), new City(null, "place6"), 3);
+
+    //List of Three Dest Cards
+    List<DestCard> loanCards1 = new ArrayList<>(Arrays.asList(dest1, dest2, dest3));
+    //List of Two Dest Cards
+    List<DestCard> loanCards2 = new ArrayList<>(Arrays.asList(dest1, dest2));
+    //List of One Dest Cards
+    List<DestCard> loanCards3 = new ArrayList<>(Arrays.asList(dest3));
+
 
     @Before
     public void setUp() throws Exception {
@@ -57,7 +68,7 @@ public class ClientModelFacadeTest {
         List<TrainCard> trainCard1Real = model.getUserTrainCards();
 
         for(int i=0; i<trainCards1.size(); i++) {
-            System.out.println(trainCards1.get(i).toString() + " = " + trainCard1Real.get(i).toString());
+            //System.out.println(trainCards1.get(i).toString() + " = " + trainCard1Real.get(i).toString());
             assertEquals(trainCards1.get(i), trainCard1Real.get(i));
         }
 
@@ -67,9 +78,22 @@ public class ClientModelFacadeTest {
         List<TrainCard> trainCard2Real = model.getUserTrainCards();
 
         for(int i=0; i<trainCard2Real.size(); i++) {
-            System.out.println(trainCard2Expected.get(i).toString() + " = " + trainCard2Real.get(i).toString());
+            //System.out.println(trainCard2Expected.get(i).toString() + " = " + trainCard2Real.get(i).toString());
             assertEquals(trainCard2Expected.get(i), trainCard2Real.get(i));
         }
+
+        model.drawTrainCards(trainCards3);
+        assertEquals(model.getUserTrainCards().size(), 6);
+
+        model.drawTrainCards(trainCards3);
+        assertEquals(model.getUserTrainCards().size(), 9);
+
+        model.drawTrainCards(trainCards3);
+        assertEquals(model.getUserTrainCards().size(), 12);
+
+        model.drawTrainCards(trainCards3);
+        assertEquals(model.getUserTrainCards().size(), 15);
+
     }
 
     @Test
@@ -88,10 +112,17 @@ public class ClientModelFacadeTest {
         List<TrainCard> result2 = model.getUserTrainCards();
 
         for(int i=0; i<result2.size(); i++) {
-            System.out.println(result2.get(i).toString()+ " = "+trainCards1.get(i).toString());
+            //System.out.println(result2.get(i).toString()+ " = "+trainCards1.get(i).toString());
             assertEquals(result2.get(i), trainCards1.get(i));
         }
 
+        model.removeTrainCards(trainCards1);
+        assertEquals(model.getUserTrainCards().size(), 0);
+
+        model.removeTrainCards(trainCards1);
+        assertEquals(model.getUserTrainCards().size(), 0);
+        model.removeTrainCards(trainCards1);
+        assertEquals(model.getUserTrainCards().size(), 0);
         model.removeTrainCards(trainCards1);
         assertEquals(model.getUserTrainCards().size(), 0);
     }
@@ -115,12 +146,52 @@ public class ClientModelFacadeTest {
         for(int i=0; i<trainCards3.size(); i++) {
             assertEquals(result.get(i), trainCards3.get(i));
         }
+
+        model.takeBankCard(0);
+        assertEquals(model.getUserTrainCards().size(), 3);
+        model.takeBankCard(1);
+        assertEquals(model.getUserTrainCards().size(), 3);
+        model.takeBankCard(3);
+        assertEquals(model.getUserTrainCards().size(), 3);
+
+        model.takeBankCard(2);
+        assertEquals(model.getUserTrainCards().size(), 4);
+        model.takeBankCard(4);
+        assertEquals(model.getUserTrainCards().size(), 5);
     }
 
     @Test
-    public void drawDestCardsTest() throws Exception {
+    public void setDrawnDestCardsTest() throws Exception {
         System.out.println("Testing adding cards to the DrawnDestCard...");
 
+        assertEquals(model.getUserDestCards().size(), 0);
+
+        model.setDrawnDestCards(loanCards1);
+
+        model.moveDrawnDestCardsToHand(loanCards3);
+
+        assertEquals(model.getUserDestCards().size(), 2);
+
+        List<DestCard> result1 = model.getUserDestCards();
+
+        for(int i = 0; i<result1.size(); i++) {
+            assertEquals(result1.get(i), loanCards2.get(i));
+        }
+
+        model.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
+
+        assertEquals(model.getUserDestCards().size(), 2);
+
+        model.setDrawnDestCards(loanCards3);
+
+        model.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
+
+        assertEquals(model.getUserDestCards().size(), 3);
     }
 
+    @Test
+    public void claimTrackTest() throws Exception {
+        Track track1 = new Track();
+
+    }
 }

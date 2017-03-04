@@ -46,8 +46,12 @@ public class Hand {
         this.drawnDestCards = new DrawnDestCards(drawnDestCards);
     }
 
-    public void moveDrawnDestCardToHand(int pos) {
-        destinationCards.add(drawnDestCards.getDestCard(pos));
+    public void moveDrawnDestCardToHand(List<DestCard> discardedCards) {
+        drawnDestCards.discardDrawnDestCards(discardedCards);
+        List<DestCard> remainingCards = drawnDestCards.getRemainingDestCards();
+        for(int i=0; i<remainingCards.size(); i++) {
+            destinationCards.add(remainingCards.get(i));
+        }
     }
 
     public void addBankCard(TrainCard card) {
@@ -69,7 +73,4 @@ public class Hand {
             }
         }
     }
-
-
-
 }

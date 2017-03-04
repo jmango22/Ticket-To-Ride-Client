@@ -100,9 +100,11 @@ public class ClientModelFacade extends Observable {
 
     //add a bank card to the player's hand
     public void takeBankCard(int pos) {
-        TrainCard card = getBankTrainCard(pos);
-        mUser.addBankCard(card);
-        changed();
+        TrainCard temp;
+        if((temp = mBank.getTrainCard(pos)) != null) {
+            mUser.addBankCard(temp);
+            changed();
+        }
     }
 
     public void setDrawnDestCards(List<DestCard> cards) {
@@ -110,8 +112,8 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
-    public void moveDrawnDestCardsToHand(int[] positions) {
-        mUser.moveDrawnDestCards(positions);
+    public void moveDrawnDestCardsToHand(List<DestCard> discardedCards) {
+        mUser.moveDrawnDestCards(discardedCards);
         changed();
     }
 
@@ -123,6 +125,8 @@ public class ClientModelFacade extends Observable {
     public List<Track> getAllTracks() {
         return mCurrentGame.getAllTracks();
     }
+
+    public List<City> getAllCities() { return mCurrentGame.getAllCities(); }
 
     //update all visible player objects
     public void setLeaderboard(List<PlayerOverview> players) {
@@ -174,9 +178,5 @@ public class ClientModelFacade extends Observable {
     }
 
     //END INITIALIZING CODE
-
-    private TrainCard getBankTrainCard(int pos) {
-        return mBank.getTrainCard(pos);
-    }
 
 }

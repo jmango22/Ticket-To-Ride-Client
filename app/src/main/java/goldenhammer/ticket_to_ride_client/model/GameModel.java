@@ -32,6 +32,8 @@ public class GameModel {
         return map.getTracks();
     }
 
+    public List<City> getAllCities() { return map.getCities(); }
+
     public List<PlayerOverview> getLeaderBoard() {
         return players;
     }
