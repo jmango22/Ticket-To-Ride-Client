@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
+
 /**
  * Created by McKean on 2/3/2017.
  * JavaDoc created by Jonathon Meng 2/22/2017
@@ -18,6 +20,7 @@ public class ClientModelFacade extends Observable {
     private GameModel mCurrentGame;
     private Bank mBank;
     private Player mUser;
+    private CommandManager mCommandMgr = new CommandManager();
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -156,6 +159,16 @@ public class ClientModelFacade extends Observable {
 
 
     //END PRESENTER CODE
+
+    /**
+     * Command Manager Code
+     */
+
+    public void addCommands(List<Command> newCommands) {
+        mCommandMgr.addCommands(newCommands);
+    }
+
+    //END COMMAND MANAGER CODE
 
     /**
      *
