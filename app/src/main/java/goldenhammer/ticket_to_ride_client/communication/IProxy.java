@@ -1,7 +1,6 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import java.util.List;
-
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -23,4 +22,6 @@ public interface IProxy {
     void playGame(GameName gameName, Callback c);
 
     void leaveGame(GameName gameName, Callback c);
+
+    void doCommand(GameName gameName, Command command, Callback c);
 }
