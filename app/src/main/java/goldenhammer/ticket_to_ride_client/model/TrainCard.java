@@ -35,4 +35,30 @@ public class TrainCard {
              return (((TrainCard) obj).getColor() == color);
         }
     }
+
+    @Override
+    public String toString() {
+        switch (color) {
+            case WILD:
+                return "WILD";
+            case RED:
+                return "RED";
+            case ORANGE:
+                return "ORANGE";
+            case YELLOW:
+                return "YELLOW";
+            case GREEN:
+                return "GREEN";
+            case BLUE:
+                return "BLUE";
+            case PURPLE:
+                return "PURPLE";
+            case BLACK:
+                return "BLACK";
+            case WHITE:
+                return "WHITE";
+            default:
+                return "UKNOWN";
+        }
+    }
 }

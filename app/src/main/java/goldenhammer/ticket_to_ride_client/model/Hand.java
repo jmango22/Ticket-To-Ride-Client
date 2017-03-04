@@ -8,8 +8,8 @@ import java.util.ArrayList;
  */
 
 public class Hand {
-    private List<DestCard> destinationCards;
-    private List<TrainCard> trainCards;
+    private List<DestCard> destinationCards = new ArrayList<>();
+    private List<TrainCard> trainCards = new ArrayList<>();
     private DrawnDestCards drawnDestCards;
 
     public Hand() {
