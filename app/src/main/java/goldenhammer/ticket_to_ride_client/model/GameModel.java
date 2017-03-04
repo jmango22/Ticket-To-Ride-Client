@@ -12,12 +12,17 @@ public class GameModel {
     private List<DestCard> destinationDeck;
     private List<TrainCard> trainCardDeck;
     private Map map;
+    private GameName name;
 
     public GameModel() {
         players = new ArrayList<>();
         destinationDeck = new ArrayList<>();
         trainCardDeck = new ArrayList<>();
         map = new Map();
+    }
+
+    public GameName getGameName(){
+        return name;
     }
 
     public Boolean initGameData() {

@@ -1,7 +1,8 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import java.util.List;
+import com.google.gson.Gson;
 
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -12,42 +13,47 @@ class LocalProxy implements IProxy{
     private LocalProxy(){}
 
     @Override
-    public String login(Username username, Password password, String serverHost, String serverPor) {
-        return "Test";
+    public void login(Username username, Password password, String serverHost, String serverPort, Callback c) {
+
     }
 
     @Override
-    public String register(Username username, Password password, String serverHost, String serverPor) {
-        return "Test";
+    public void register(Username username, Password password, String serverHost, String serverPort, Callback c) {
+
     }
 
     @Override
-    public String getPlayerGames() {
-        return null;
-    }
+    public void getPlayerGames(Callback c) {
 
-
-
-    @Override
-    public String getAllGames() {
-        return "Test";
     }
 
     @Override
-    public String createGame(GameName gameName) {
-        return "Test";
+    public void getAllGames(Callback c) {
+
     }
 
     @Override
-    public String joinGame(GameName gameName) {
-        return "Test";
+    public void createGame(GameName gameName, Callback c) {
+
     }
 
     @Override
-    public String playGame(GameName gameName) { return "Test";   }
+    public void joinGame(GameName gameName, Callback c) {
+
+    }
 
     @Override
-    public String leaveGame(GameName gameName) {
-        return "Test";
+    public void playGame(GameName gameName, Callback c) {
+
+    }
+
+    @Override
+    public void leaveGame(GameName gameName, Callback c) {
+
+    }
+
+    @Override
+    public void doCommand(GameName gameName, Command command, Callback c) {
+        c.run(new Results(new Gson().toJson(command, command.getClass()).toString(), 200));
     }
 }

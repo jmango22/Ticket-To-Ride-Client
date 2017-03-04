@@ -1,26 +1,27 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import java.util.List;
-
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
 public interface IProxy {
 
-    String login(Username username, Password password, String serverHost, String serverPort);
+    void login(Username username, Password password, String serverHost, String serverPort, Callback c);
 
-    String register(Username username, Password password, String serverHost, String serverPort);
+    void register(Username username, Password password, String serverHost, String serverPort, Callback c);
 
-    String getPlayerGames();
+    void getPlayerGames(Callback c);
 
-    String getAllGames();
+    void getAllGames(Callback c);
 
-    String createGame(GameName gameName);
+    void createGame(GameName gameName, Callback c);
 
-    String joinGame(GameName gameName);
+    void joinGame(GameName gameName, Callback c);
 
-    String playGame(GameName gameName);
+    void playGame(GameName gameName, Callback c);
 
-    String leaveGame(GameName gameName);
+    void leaveGame(GameName gameName, Callback c);
+
+    void doCommand(GameName gameName, Command command, Callback c);
 }
