@@ -170,6 +170,10 @@ public class ClientModelFacade extends Observable {
         return commands.get(commands.size() - 1);
     }
 
+    public int getNextCommandNumber() {
+        return mCommandMgr.getCommandList().size();
+    }
+
     public boolean isMyTurn() {
         //TODO: return true if it is my turn Need to know My Player Number
         return true;

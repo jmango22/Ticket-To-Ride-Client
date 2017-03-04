@@ -17,9 +17,13 @@ public abstract class Command {
         this.playerNumber = playerNumber;
     }
 
-    //TODO: need to remove this constructor, it should always have the playerNumber
     public Command(int commandNumber){
         this.commandNumber = commandNumber;
+        this.name = this.getClass().toString();
+        this.playerNumber = ClientModelFacade.SINGLETON.getMyPlayerNumber();
+    }
+    public Command(){
+        this.commandNumber = ClientModelFacade.SINGLETON.getNextCommandNumber();
         this.name = this.getClass().toString();
         this.playerNumber = ClientModelFacade.SINGLETON.getMyPlayerNumber();
     }
@@ -43,5 +47,9 @@ public abstract class Command {
 
     public void setCommandNumber(int commandNumber) {
         this.commandNumber = commandNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 }
