@@ -41,8 +41,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         myCommandCallback = new Callback() {
             @Override
             public void run(Results res) {
-                List<Command> commands = Serializer.deserializeCommands(res.getBody());
-                model.addCommands(commands);
+                if(res.getResponseCode() < 400) {
+                    List<Command> commands = Serializer.deserializeCommands(res.getBody());
+                    model.addCommands(commands);
+                } else {
+                    showToast(res.getBody());
+                }
             }
         };
         state = StateSelector.MyTurn(this);
