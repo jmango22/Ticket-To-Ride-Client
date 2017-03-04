@@ -30,4 +30,7 @@ public class CommandManager {
         }
     }
 
+    List<Command> getCommandList() {
+        return commandList;
+    }
 }

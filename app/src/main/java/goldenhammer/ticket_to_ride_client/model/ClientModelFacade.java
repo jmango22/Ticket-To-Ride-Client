@@ -164,6 +164,16 @@ public class ClientModelFacade extends Observable {
      * Command Manager Code
      */
 
+    public Command getPreviousCommand() {
+        List<Command> commands = mCommandMgr.getCommandList();
+        return commands.get(commands.size() - 1);
+    }
+
+    public boolean isMyTurn() {
+        //TODO: return true if it is my turn
+        return true;
+    }
+
     public void addCommands(List<Command> newCommands) {
         mCommandMgr.addCommands(newCommands);
     }

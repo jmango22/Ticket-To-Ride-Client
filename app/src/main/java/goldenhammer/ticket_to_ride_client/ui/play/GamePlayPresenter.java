@@ -29,6 +29,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private ClientModelFacade model;
     private Callback myCommandCallback;
     private GameName name;
+    private DoAction actionState;
+    private DoUpdate updateState;
+
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
@@ -42,11 +45,22 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 //TODO: tell the facade to take the new commands.
             }
         };
+        actionState = ActionSelector.MyTurn(this);
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
+        boolean isMyTurn = model.isMyTurn();
+        if (isMyTurn) {
+            Command previousCommand = model.getPreviousCommand();
+            if (previousCommand.getClass() == null ){
+
+            }
+        } else {
+            actionState = ActionSelector.NotMyTurn(this);
+            updateState = UpdateSelector.NotMyTurn(this);
+        }
 
     }
 
@@ -57,18 +71,26 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeDestCards() {
+        actionState.takeDestCards();
+    }
+
+    void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(1);
         proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override
     public void returnDestCards(List<DestCard> toReturn) {
+        actionState.returnDestCards(toReturn);
+    }
+
+    void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
         proxy.doCommand(this.name, command, myCommandCallback);
     }
 
     @Override
-    public void takeTrack(Track track) {
+    public void layTrack(Track track) {
 
     }
 

@@ -13,7 +13,7 @@ public interface IGamePlayPresenter {
   void takeTrainCards();
   void takeDestCards();
   void returnDestCards(List<DestCard> toReturn);
-  void takeTrack(Track track);
+  void layTrack(Track track);
   void loadGame();
   void update();
 }
