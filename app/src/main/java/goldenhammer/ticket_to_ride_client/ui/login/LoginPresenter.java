@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
+import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Password;
@@ -50,14 +52,24 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     }
 
     @Override
-    public void sendLogin(String username, String password, String host, String port) {
+    public void sendLogin(final String username, String password, String host, String port) {
         Pair<Username,Password> credentials = check(username, password);
         if (credentials != null){
-            String results = proxy.login(credentials.first, credentials.second, host, port);
-                owner.toastMessage(results);
-            if (results.equals("Success!")) {
-                owner.onLogin(username);
-            }
+            proxy.login(credentials.first, credentials.second, host, port, new Callback() {
+                @Override
+                public void run(Results res) {
+                    String results = res.getBody();
+                    owner.toastMessage(results);
+                    if (results.equals("Success!")) {
+                        owner.onLogin(username);
+                    }
+                }
+            });
+//            String results = proxy.login(credentials.first, credentials.second, host, port);
+//                owner.toastMessage(results);
+//            if (results.equals("Success!")) {
+//                owner.onLogin(username);
+//            }
 
         }
     }
@@ -74,14 +86,18 @@ public class LoginPresenter implements Observer, ILoginPresenter {
         return null;
     }
     @Override
-    public void sendRegistration(String username, String password, String host, String port) {
+    public void sendRegistration(final String username, String password, String host, String port) {
         Pair<Username, Password> credentials = check(username,password);
         if (credentials != null){
-            String results = proxy.register(credentials.first, credentials.second, host, port);
-            owner.toastMessage(results);
-            if (results.equals("Success!")) {
-                owner.onLogin(username);
-            }
+            proxy.register(credentials.first, credentials.second, host, port, new Callback() {
+                @Override
+                public void run(Results res) {
+                    owner.toastMessage(res.getBody());
+                    if (res.getBody().equals("Success!")) {
+                        owner.onLogin(username);
+                    }
+                }
+            });
         }
     }
 

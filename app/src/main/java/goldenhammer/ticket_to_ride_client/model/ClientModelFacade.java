@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
  * Created by McKean on 2/3/2017.
@@ -169,9 +170,49 @@ public class ClientModelFacade extends Observable {
         return commands.get(commands.size() - 1);
     }
 
+    public int getNextCommandNumber() {
+        return mCommandMgr.getCommandList().size();
+    }
+
     public boolean isMyTurn() {
-        //TODO: return true if it is my turn
+        //TODO: return true if it is my turn Need to know My Player Number
         return true;
+    }
+
+    //TODO: get this to work
+
+    /**
+     *
+     * @return the playerNumber of the player whose turn it is
+     */
+    public int getCurrentTurnPlayer() {
+        return 1;
+    }
+
+    /**
+     *
+     * @return the playerNumber of the player using this device
+     */
+    public int getMyPlayerNumber() {
+        //TODO: this won't work. make it work
+        return 1;
+    }
+    public Hand getHand() {
+        return mUser.getHand();
+    }
+    public boolean shouldInitializeHand() {
+        List<Command> commands = mCommandMgr.getCommandList();
+        if(commands.size() > getCurrentGame().getLeaderBoard().size() * 2){
+            return false;
+        }
+        //TODO: this won't work. We need a way to know My Player number
+        int myNumber = getMyPlayerNumber();
+        for (Command command: commands){
+            if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addCommands(List<Command> newCommands) {

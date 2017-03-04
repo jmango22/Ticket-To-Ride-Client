@@ -54,4 +54,8 @@ public class GameModel {
     public void setTracks(List<Track> tracks) {
         map.setTracks(tracks);
     }
+
+    public Map getMap() {
+        return map;
+    }
 }

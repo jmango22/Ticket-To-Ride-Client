@@ -53,4 +53,7 @@ public class Player {
     public void moveDrawnDestCards(List<DestCard> discardedCards) {
         mHand.moveDrawnDestCardToHand(discardedCards);
     }
+    public Hand getHand(){
+        return mHand;
+    }
 }
