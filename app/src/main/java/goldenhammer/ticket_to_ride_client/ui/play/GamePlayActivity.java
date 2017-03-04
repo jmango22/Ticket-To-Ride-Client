@@ -31,6 +31,8 @@ public class GamePlayActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private List<PlayerOverview> players;
+    private Hand hand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,22 +116,26 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
+        updateHand(hand);
+        //make initHand dialog
         return null;
     }
 
     public void drawMap(Map map){
-
+    //TODO draw Map, Tracks, Cities
     }
 
     public void updatePlayers(List<PlayerOverview> players){
-
+        this.players = players;
+        //update leaderboard
     }
     public void updateHand(Hand hand){
-
+        this.hand = hand;
+        //update dest and traincards
     }
 
     public void updateTurn(int player){
-
+        getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
     }
 
 
