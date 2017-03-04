@@ -180,9 +180,19 @@ public class ClientModelFacade extends Observable {
     }
 
     //TODO: get this to work
+
+    /**
+     *
+     * @return the playerNumber of the player whose turn it is
+     */
     public int getCurrentTurnPlayer() {
         return 1;
     }
+
+    /**
+     *
+     * @return the playerNumber of the player using this device
+     */
     public int getMyPlayerNumber() {
         //TODO: this won't work. make it work
         return 1;
