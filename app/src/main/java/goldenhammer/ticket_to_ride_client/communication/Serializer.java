@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.model.GameList;
+import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 
 /**
@@ -65,5 +67,15 @@ public class Serializer {
             }
         }
         return list;
+    }
+
+    public static GameModel deserializeGameModel(String result){
+        Gson gson = new Gson();
+        return gson.fromJson(result, GameModel.class);
+    }
+
+    public static GameList deserializeGames(String result){
+        Gson gson = new Gson();
+        return gson.fromJson(result,GameList.class);
     }
 }

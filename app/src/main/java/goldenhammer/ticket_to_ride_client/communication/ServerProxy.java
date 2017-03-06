@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
@@ -12,6 +14,8 @@ import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
+
 /**
  * JavaDoc created by Rachel on 2/22/2017
  * ServerProxy is responsible for taking information from the Presenters, preparing it for the ClientCommunicator to send to the Server.
@@ -24,9 +28,9 @@ import goldenhammer.ticket_to_ride_client.model.Username;
 public class ServerProxy implements IProxy {
     public static final ServerProxy SINGLETON = new ServerProxy();
     private ClientCommunicator communicator;
-    private Poller poller;
+    private GamePoller gamePoller;
+    private CommandPoller commandPoller;
     private ServerProxy(){}
-    private String mUsername;
     /**
      * Creates the ClientCommunicator member communicator and handles the response
      * @pre The server host and server port are valid strings that connect to a valid running server
@@ -40,14 +44,6 @@ public class ServerProxy implements IProxy {
         communicator = new ClientCommunicator(serverHost, serverPort);
     }
 
-    /**
-     * returns the saved username and handles the response
-     * @post The saved username will be returned, or null if there is no username saved
-     * @return the string representing the saved username. Null may be returned if there is no Username
-     */
-    public String getUsername(){
-        return mUsername;
-    }
 
     /**
      * Sends a login request to the ClientCommunicator and handles the response
@@ -61,23 +57,32 @@ public class ServerProxy implements IProxy {
      * @return a string that indicates whether or not the login was successful or what the error was.
      */
     @Override
-    public String login(Username username, Password password, String serverHost, String serverPort) {
+    public void login(Username username, Password password, String serverHost, String serverPort, final Callback callback) {
         try {
-            mUsername = username.getString();
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
             body.put("username", username.getString());
             body.put("password", password.getString());
             String url = "/login";
-            String resultMessage = communicator.post(url,body, null);
-            if(resultMessage.equals("Success!")){
-                if(!communicator.setAuthorizationToken()){
-                    return "Token ERROR!";
+            communicator.setUsername(username.getString());
+            communicator.post(url, body, new Callback() {
+                @Override
+                public void run(Results res) {
+                    if (res.getResponseCode() == HttpURLConnection.HTTP_OK){
+                        try {
+                            JSONObject results = new JSONObject(res.getBody());
+                            communicator.setAuthorizationToken(results.getString("authorization"));
+                            callback.run(new Results("Success!", HttpURLConnection.HTTP_OK));
+                        }catch(JSONException e){
+
+                        }
+                    }
+                    else{
+                        callback.run(res);
+                    }
                 }
-            }
-            return resultMessage;
+            });
         }catch(JSONException e){
-            return "ERROR!";
         }
     }
 
@@ -93,23 +98,32 @@ public class ServerProxy implements IProxy {
      * @return a string that indicates whether or not the register was successful and what the error was.
      */
     @Override
-    public String register(Username username, Password password, String serverHost, String serverPort) {
+    public void register(Username username, Password password, String serverHost, String serverPort, final Callback callback) {
         try{
-            mUsername = username.getString();
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
             body.put("username", username.getString());
             body.put("password", password.getString());
             String url = "/register";
-            String resultMessage = communicator.post(url,body, null);
-            if(resultMessage.equals("Success!")){
-               if(!communicator.setAuthorizationToken()){
-                   return "Token ERROR";
-               }
-            }
-            return resultMessage;
+            communicator.setUsername(username.getString());
+            communicator.post(url, body, new Callback() {
+                @Override
+                public void run(Results res) {
+                    if (res.getResponseCode() == HttpURLConnection.HTTP_OK){
+                        try {
+                            JSONObject results = new JSONObject(res.getBody());
+                            communicator.setAuthorizationToken(results.getString("authorization"));
+                            callback.run(new Results("Success!", HttpURLConnection.HTTP_OK));
+                        }catch(JSONException e){
+
+                        }
+                    }
+                    else{
+                        callback.run(res);
+                    }
+                }
+            });
         }catch(JSONException e) {
-            return "ERROR";
         }
     }
 
@@ -123,17 +137,17 @@ public class ServerProxy implements IProxy {
      * @return a string message detailing the result of the request
      */
     @Override
-    public String createGame(GameName gameName) {
+    public void createGame(GameName gameName, Callback c){
         String url = "/creategame";
         String results="";
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name",gameName.getString());
-            results = communicator.post(url,jsonObject,gameName.getString());
+            communicator.setGameName(gameName.getString());
+            communicator.post(url,jsonObject, c);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return results;
     }
 
 
@@ -147,9 +161,10 @@ public class ServerProxy implements IProxy {
      * @return a string message detailing the result of the request
      */
     @Override
-    public String joinGame(GameName gameName) {
+    public void joinGame(GameName gameName, Callback c) {
         String url = "/joingame";
-        return communicator.post(url, null, gameName.getString());
+        communicator.setGameName(gameName.getString());
+        communicator.post(url, null, c);
     }
 
 
@@ -163,9 +178,10 @@ public class ServerProxy implements IProxy {
      * @return a string message detailing the result of the request
      */
     @Override
-    public String leaveGame(GameName gameName) {
+    public void leaveGame(GameName gameName, Callback c) {
         String url = "/leavegame";
-        return communicator.post(url, null, gameName.getString());
+        communicator.setGameName(gameName.getString());
+        communicator.post(url, null,c);
     }
 
     /**
@@ -177,13 +193,9 @@ public class ServerProxy implements IProxy {
      * @return a String message detailing the success or failure of the call
      */
     @Override
-    public String getPlayerGames() {
-        String url = "/listofgames?username=" + mUsername;
-        String returnMessage = communicator.get(url, null);
-        if(returnMessage.equals("Success!")){
-            ClientModelFacade.SINGLETON.setMyGames(deserializeGames());
-        }
-        return returnMessage;
+    public void getPlayerGames(Callback c) {
+        String url = "/listofgames?username=" + communicator.getUsername();
+        communicator.get(url, c);
     }
 
     /**
@@ -194,13 +206,9 @@ public class ServerProxy implements IProxy {
      * @return a String message detailing the success or failure of the call
      */
     @Override
-    public String getAllGames() {
+    public void getAllGames(Callback c) {
         String url = "/listofgames";
-        String returnMessage = communicator.get(url, null);
-        if(returnMessage.equals("Success!")){
-            ClientModelFacade.SINGLETON.setAvailableGames(deserializeGames());
-        }
-        return returnMessage;
+        communicator.get(url, c);
     }
     /**
      * Sends a play game request to the communicator and handles the response
@@ -212,43 +220,34 @@ public class ServerProxy implements IProxy {
      * @return a String message detailing the success or failure of the call
      */
     @Override
-    public String playGame(GameName gameName) {
+    public  void playGame(GameName gameName, Callback c){
         String url = "/playgame";
-        String returnMessage = communicator.get(url, gameName.getString());
-        if (returnMessage.equals("Success!")){
-            GameModel game = deserializeGameModel();
-            if(game != null) {
-                ClientModelFacade.SINGLETON.setCurrentGame(game);
-            }
+        communicator.setGameName(gameName.getString());
+        communicator.get(url, c);
+    }
+
+    @Override
+    public void doCommand(Command command, Callback c) {
+        String url = "/commands";
+        try {
+            communicator.post(url, new JSONObject(Serializer.serialize(command)), c);
+        }catch (JSONException e){
+
         }
-        return returnMessage;
     }
 
-    /**
-     * Takes the results from the communicator and converts the string to a class of type GameList
-     * @pre communicator's value results were set in a call and that value was a JSON Object of type GameList
-     * @return a GameList of the communicator's results
-     */
-    private GameList deserializeGames(){
-        Gson gson = new Gson();
-        return gson.fromJson(communicator.getResults(),GameList.class);
+    @Override
+    public void getCommands(int lastCommand, Callback c){
+        String url = "/commands?" + lastCommand + "?" + communicator.getUsername();
+        communicator.get(url, c);
     }
 
-    /**
-     * Takes the results from the communicator and converts the string to a class of type GameModel
-     * @pre communicator's value results were set in a call and that value was a JSON Object of type GameModel
-     * @return a GameModel of the communicator's results
-     */
-    private GameModel deserializeGameModel(){
-        Gson gson = new Gson();
-        return gson.fromJson(communicator.getResults(), GameModel.class);
-    }
     /**
      * Starts the poller periodically running
      * @post the poller starts running
      */
     public void startGameListPolling(){
-            poller = new Poller();
+            this.gamePoller = new GamePoller();
     }
 
     /**
@@ -256,6 +255,14 @@ public class ServerProxy implements IProxy {
      * @post the poller stops running
      */
     public void stopGameListPolling(){
-        poller = null;
+        this.gamePoller = null;
+    }
+
+    public void startCommandPolling(){
+        stopGameListPolling();
+        this.commandPoller = new CommandPoller();   }
+
+    public void stopCommandPolling(){
+        this.commandPoller = null;
     }
 }

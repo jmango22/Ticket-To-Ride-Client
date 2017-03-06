@@ -17,57 +17,41 @@ public class ClientCommunicator {
     private String serverHost;
     private String serverPort;
     private String authorizationToken;
-    private String results;
+    private String username;
+    private String gameName;
 
     public ClientCommunicator(String host, String port){
         serverHost = host;
         serverPort = port;
     }
 
-    public boolean setAuthorizationToken(){
-        try{
-            JSONObject resultObject = new JSONObject(results);
-            authorizationToken = resultObject.getString("authorization");
-            results = null;
-        }catch(JSONException e){
-            authorizationToken = null;
-        }
-        if(authorizationToken == null){
-            return false;
-        }
-        return true;
+    public void setAuthorizationToken(String authorizationToken){
+        this.authorizationToken = authorizationToken;
     }
 
-    public String getResults(){
-        return results;
+    public void setUsername(String username){
+        this.username = username;
     }
 
-    public String post(String suffix, JSONObject body, String gameName){
-        results = null;
+    public void setGameName(String gameName){
+        this.gameName = gameName;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void post(String suffix, JSONObject body, Callback callback){
         String urlText = "http://" + serverHost + ":" + serverPort + suffix;
-        try {
-            return new PostTask(body, urlText, this, authorizationToken, gameName).execute().get();
-        }catch (InterruptedException e){
-            return "ERROR: Please try again";
-
-        }catch (ExecutionException e){
-            return "ERROR: Please try again";
-        }
+        new PostTask(body, urlText, this, callback).execute();
     }
 
-    public  String get(String suffix, String gameName){
-        results = null;
+    public void get(String suffix, Callback callback){
         String url = "http://" + serverHost + ":" + serverPort + suffix;
-        try{
-            return new GetTask(url,gameName,this).execute().get();
-        }catch(InterruptedException e){
-            return "ERROR: Please try again";
-        }catch (ExecutionException e){
-            return "ERROR: Please try again";
-        }
+        new GetTask(url,this, callback).execute();
     }
 
-    public void setHeader(HttpURLConnection connection,  String username, String gameName){
+    public void setHeader(HttpURLConnection connection){
         if(authorizationToken != null){
             connection.setRequestProperty("Authorization", authorizationToken);
         }
@@ -90,21 +74,6 @@ public class ClientCommunicator {
 
             }
         }
-    }
-
-    public void setResults(InputStream input){
-        try {
-            StringBuilder string = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            String line = br.readLine();
-            while (line != null) {
-                string.append(line);
-                line = br.readLine();
-            }
-            results = string.toString();
-        }catch (IOException e){
-        }
-
     }
 
 }
