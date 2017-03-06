@@ -91,7 +91,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(1);
-        proxy.doCommand(this.name, command, myCommandCallback);
+        proxy.doCommand(command, myCommandCallback);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
-        proxy.doCommand(this.name, command, myCommandCallback);
+        proxy.doCommand(command, myCommandCallback);
     }
 
     @Override
