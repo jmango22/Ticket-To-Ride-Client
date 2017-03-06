@@ -41,6 +41,10 @@ public class ClientCommunicator {
         return username;
     }
 
+    public String getGameName(){
+        return gameName;
+    }
+
     public void post(String suffix, JSONObject body, Callback callback){
         String urlText = "http://" + serverHost + ":" + serverPort + suffix;
         new PostTask(body, urlText, this, callback).execute();
