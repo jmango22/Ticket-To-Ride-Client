@@ -34,6 +34,13 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
     public void update(Observable o, Object arg) {
         owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
 
+        owner.runOnThisThread(new Runnable() {
+            @Override
+            public void run() {
+                owner.update();
+            }
+        });
+
     }
 
     public void joinGame(String gameName){
