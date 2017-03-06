@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="card_red">#F41E10</color>
+    <color name="card_orange">#FF981E</color>
+    <color name="card_yellow">#FFFC1B</color>
+    <color name="card_green">#30C424</color>
+    <color name="card_pink">#F462D7</color>
+    <color name="card_blue">#2B33E0</color>
+    <color name="card_wild">#961F62</color>
+    <color name="card_white">#E2DCE3</color>
+    <color name="card_black">#292428</color>
+    <color name= "error">#A56500</color>
 </resources>
