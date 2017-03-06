@@ -2,7 +2,10 @@ package goldenhammer.ticket_to_ride_client.communication;
 
 import android.os.AsyncTask;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,40 +16,57 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
  * Created by rache on 2/15/2017.
  */
 
-public class GetTask extends AsyncTask<Void, Void, String> {
+public class GetTask extends AsyncTask<Void, Void, Results> {
     private ClientCommunicator caller;
     private String urlText;
-    private String gameName;
-    private String username;
+    private Callback callback;
 
-    public GetTask(String url, String gameName, ClientCommunicator clientCommunicator) {
+    public GetTask(String url, ClientCommunicator clientCommunicator, Callback c) {
         this.urlText = url;
         caller = clientCommunicator;
-        this.gameName = gameName;
-        username = ServerProxy.SINGLETON.getUsername();
+        callback = c;
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected Results doInBackground(Void... params) {
         try {
             URL url = new URL(urlText);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setDoOutput(false);
-            caller.setHeader(connection, username, gameName);
+            caller.setHeader(connection);
             connection.connect();
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                caller.setResults(connection.getInputStream());
-                return "Success!";
+                return new Results(setResults(connection.getInputStream()), connection.getResponseCode());
             }
             else{
-                return "Unsuccessful. Please try again.";
+                return new Results("Unsuccessful. Please try again.", connection.getResponseCode());
             }
         }catch(MalformedURLException e){
-            return "Wrong URL. Check Port and Host";
+            return new Results("Wrong URL. Check Port and Host", 500);
         }catch (IOException e){
-            return "Something went wrong";
+            return new Results(e.getMessage(), 600);
         }
+    }
+
+    @Override
+    protected void onPostExecute(Results results){
+        this.callback.run(results);
+    }
+
+   private String setResults(InputStream input){
+        try {
+            StringBuilder string = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+            String line = br.readLine();
+            while (line != null) {
+                string.append(line);
+                line = br.readLine();
+            }
+            return string.toString();
+        }catch (IOException e){
+        }
+        return null;
     }
 
 }
