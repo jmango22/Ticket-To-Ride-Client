@@ -98,7 +98,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/destinations">
-
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_dest"
+                    android:id="@+id/dest_button"/>
             </LinearLayout>
 
             <LinearLayout
@@ -128,6 +132,8 @@
                     android:id="@+id/card_slot_4"/>
             </LinearLayout>
         </LinearLayout>
+
+
     </LinearLayout>
 
     <ListView
@@ -137,6 +143,28 @@
         android:choiceMode="singleChoice"
         android:divider="@color/cardview_light_background"
         android:dividerHeight="1dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player0_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player0_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_trains_remaining"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -225,28 +253,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/player4_trains_remaining"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player5_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player5_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player5_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player5_trains_remaining"/>
-        </LinearLayout>
+
     </ListView>
 
 

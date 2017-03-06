@@ -9,6 +9,10 @@
     <string name="none">None</string>
     <string name="return_cards_title">Which card would you like to return?</string>
     <string name="return_card">Return Card</string>
+    <string name="points_left">Points: </string>
+    <string name="trains_left">Trains left: </string>
+    <string name="your_dest">Your Destinations</string>
+    <string name="close_button">Close</string>
 
 
     <string-array name="nav_drawer_items_array">

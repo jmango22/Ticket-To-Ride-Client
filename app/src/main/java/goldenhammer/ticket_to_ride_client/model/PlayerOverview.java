@@ -10,6 +10,7 @@ public class PlayerOverview {
     private int destCards;
     private int player;
     private String username;
+    private int points;
 
     public PlayerOverview() {
         color = null;
@@ -18,11 +19,20 @@ public class PlayerOverview {
         player = -1;
     }
 
-    public PlayerOverview(Color color, int pieces, int destCards, int player) {
+    public PlayerOverview(Color color, int pieces, int destCards, int player, int points) {
         this.color = color;
         this.pieces = pieces;
         this.destCards = destCards;
         this.player = player;
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public Color getColor() {
