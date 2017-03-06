@@ -170,8 +170,8 @@ public class ClientModelFacade extends Observable {
         return commands.get(commands.size() - 1);
     }
 
-    public int getNextCommandNumber() {
-        return mCommandMgr.getCommandList().size();
+    public int getLastCommandNumber() {
+        return mCommandMgr.getCommandList().size()-1;
     }
 
     public boolean isMyTurn() {
