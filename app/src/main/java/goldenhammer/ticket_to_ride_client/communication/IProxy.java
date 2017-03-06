@@ -23,5 +23,7 @@ public interface IProxy {
 
     void leaveGame(GameName gameName, Callback c);
 
-    void doCommand(GameName gameName, Command command, Callback c);
+    void doCommand(Command command, Callback c);
+
+    void getCommands(int lastCommandNumber, Callback c);
 }
