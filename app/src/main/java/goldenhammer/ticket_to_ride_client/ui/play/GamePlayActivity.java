@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
@@ -150,7 +151,7 @@ public class GamePlayActivity extends AppCompatActivity {
         if (selectedIndex != -1) {
             toReturn.add(drawnDestCards.get(selectedIndex));
         }
-        //presenter.returnDestCards(toReturn);
+        //TODO presenter.returnDestCards(toReturn);
     }
 
     public void initHandDialog(List<DestCard> drawnCards){
@@ -212,7 +213,38 @@ public class GamePlayActivity extends AppCompatActivity {
 
     public void updatePlayers(List<PlayerOverview> players){
         this.players = players;
-        //update leaderboard
+        String username = ClientModelFacade.SINGLETON.getUser().getUsername().getString();
+        if (username == players.get(0).getUsername()){
+
+        }
+        updateLeaderBoard();
+    }
+
+    public void updateLeaderBoard(){
+        View color1 = findViewById(R.id.player1_color);
+        TextView name1 = (TextView) findViewById(R.id.player1_name);
+        TextView points1 = (TextView) findViewById(R.id.player1_points);
+        TextView trains1 = (TextView) findViewById(R.id.player1_trains_remaining);
+
+        View color2 = findViewById(R.id.player2_color);
+        TextView name2= (TextView) findViewById(R.id.player2_name);
+        TextView points2 = (TextView) findViewById(R.id.player2_points);
+        TextView trains2= (TextView) findViewById(R.id.player2_trains_remaining);
+
+        View color3 = findViewById(R.id.player3_color);
+        TextView name3 = (TextView) findViewById(R.id.player3_name);
+        TextView points3 = (TextView) findViewById(R.id.player3_points);
+        TextView trains3 = (TextView) findViewById(R.id.player3_trains_remaining);
+
+        View color4 = findViewById(R.id.player4_color);
+        TextView name4 = (TextView) findViewById(R.id.player4_name);
+        TextView points4 = (TextView) findViewById(R.id.player4_points);
+        TextView trains4 = (TextView) findViewById(R.id.player4_trains_remaining);
+
+        View color5 = findViewById(R.id.player5_color);
+        TextView name5 = (TextView) findViewById(R.id.player5_name);
+        TextView points5 = (TextView) findViewById(R.id.player5_points);
+        TextView trains5 = (TextView) findViewById(R.id.player5_trains_remaining);
     }
     public void updateHand(Hand hand){
         this.hand = hand;
