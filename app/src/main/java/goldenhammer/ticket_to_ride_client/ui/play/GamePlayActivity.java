@@ -1,8 +1,10 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.provider.ContactsContract;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
@@ -39,16 +44,20 @@ public class GamePlayActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private List<PlayerOverview> players;
     private Hand hand;
+    private TextView selectedView;
+    private int selectedIndex;
+    private GamePlayPresenter presenter;
+    private List<DestCard> drawnDestCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
-
+        presenter = new GamePlayPresenter(this);
         initDrawer();
     }
 
-        private void selectItem(int position) {
+    private void selectItem(int position) {
 
             /*Fragment fragment = null;
 
@@ -123,31 +132,80 @@ public class GamePlayActivity extends AppCompatActivity {
 
     public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
         updateHand(hand);
-        //make initHand dialog
+        this.drawnDestCards = drawnDestCards;
+        initHandDialog(drawnDestCards);
         return null;
     }
-    /*
-    public DestCard initHandDialog(List<DestCard> drawnCards){
-        final Dialog dialog = new Dialog(GamePlayActivity.this);
-        dialog.setTitle();
-        dialog.setContentView();
-        ImageButton slot1 = ;
-        ImageButton slot2 =;
-        ImageButton slot3 =;
-        Button none =;
+    public void setSelected(TextView view, int index){
+        if (this.selectedView != null){
+            this.selectedView.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_black));
+        }
+        this.selectedView = view;
+        this.selectedIndex = index;
+        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_yellow));
+    }
 
-        none.setText();
-        slot1.setOnClickListener(new View.OnClickListener() {
+    public void returnDestCards(){
+        List<DestCard> toReturn = new ArrayList<>();
+        if (selectedIndex != -1) {
+            toReturn.add(drawnDestCards.get(selectedIndex));
+        }
+        //presenter.returnDestCards(toReturn);
+    }
+
+    public void initHandDialog(List<DestCard> drawnCards){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setTitle(R.string.return_cards_title);
+        dialog.setContentView(R.layout.dialog_init_hand);
+        ImageButton slot0 = (ImageButton) findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) findViewById(R.id.return_cards_button);
+
+        final TextView text0 = (TextView) findViewById(R.id.dest_text_0);
+        final TextView text1 = (TextView) findViewById(R.id.dest_text_1);
+        final TextView text2 = (TextView) findViewById(R.id.dest_text_2);
+        final TextView textNone = (TextView) findViewById(R.id.dest_text_none);
+        slot0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setSelected(text0, 0);
             }
         });
 
-        //TODO repeat for other buttons
+        slot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelected(text1, 1);
+            }
+        });
+
+        slot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelected(text2, 2);
+            }
+        });
+
+        none.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelected(textNone, -1);
+            }
+        });
+
+        returnCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+                returnDestCards();
+            }
+        });
+
         dialog.show();
     }
-*/
+
     public void drawMap(Map map){
     //TODO draw Map, Tracks, Cities
     }
