@@ -1,5 +1,6 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
+import android.app.Dialog;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -10,16 +11,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
+import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
 //TODO Dialog for selecting cards
 //TODO Dialog for initializing Hand
@@ -120,7 +126,28 @@ public class GamePlayActivity extends AppCompatActivity {
         //make initHand dialog
         return null;
     }
+    /*
+    public DestCard initHandDialog(List<DestCard> drawnCards){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setTitle();
+        dialog.setContentView();
+        ImageButton slot1 = ;
+        ImageButton slot2 =;
+        ImageButton slot3 =;
+        Button none =;
 
+        none.setText();
+        slot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        //TODO repeat for other buttons
+        dialog.show();
+    }
+*/
     public void drawMap(Map map){
     //TODO draw Map, Tracks, Cities
     }
@@ -131,9 +158,115 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     public void updateHand(Hand hand){
         this.hand = hand;
-        //update dest and traincards
+        updateTrainCards(hand.getTrainCards());
+        updateDestCards(hand.getDestinationCards());
     }
 
+    public void updateBank(TrainCard[] bankCards){
+        View slot0 =  findViewById(R.id.card_slot_0);
+        View slot1 =  findViewById(R.id.card_slot_1);
+        View slot2 =  findViewById(R.id.card_slot_2);
+        View slot3 =  findViewById(R.id.card_slot_3);
+        View slot4 =  findViewById(R.id.card_slot_4);
+
+        slot0.setBackgroundColor(getCardColor(bankCards[0]));
+        slot1.setBackgroundColor(getCardColor(bankCards[1]));
+        slot2.setBackgroundColor(getCardColor(bankCards[2]));
+        slot3.setBackgroundColor(getCardColor(bankCards[3]));
+        slot4.setBackgroundColor(getCardColor(bankCards[4]));
+    }
+
+    public int getCardColor(TrainCard t){
+        if (t.getColor() == Color.RED){
+            return R.color.card_red;
+        }
+        else if (t.getColor() == Color.ORANGE){
+            return R.color.card_orange;
+        }
+        else if (t.getColor() == Color.YELLOW){
+            return R.color.card_yellow;
+        }
+        else if (t.getColor() == Color.GREEN){
+            return R.color.card_green;
+        }
+        else if (t.getColor() == Color.BLUE){
+            return R.color.card_blue;
+        }
+        else if (t.getColor() == Color.PURPLE){
+            return R.color.card_pink;
+        }
+        else if (t.getColor() == Color.WILD){
+            return R.color.card_wild;
+        }
+        else if (t.getColor() == Color.BLACK){
+            return R.color.card_black;
+        }
+        else if (t.getColor() == Color.WHITE){
+           return R.color.card_white;
+        }
+        else{
+            return R.color.error;
+        }
+    }
+
+    public void updateTrainCards(List<TrainCard> trainCards){
+        int red = 0;
+        int orange= 0;
+        int yellow = 0;
+        int green = 0;
+        int blue = 0;
+        int white = 0;
+        int black = 0;
+        int pink = 0;
+        int wild = 0;
+
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.RED) {
+                red++;
+            } else if (t.getColor() == Color.ORANGE) {
+                orange++;
+            } else if (t.getColor() == Color.YELLOW) {
+                yellow++;
+            } else if (t.getColor() == Color.GREEN) {
+                green++;
+            } else if (t.getColor() == Color.BLUE) {
+                blue++;
+            } else if (t.getColor() == Color.PURPLE) {
+                pink++;
+            } else if (t.getColor() == Color.WILD) {
+                wild++;
+            } else if (t.getColor() == Color.BLACK) {
+                black++;
+            } else if (t.getColor() == Color.WHITE) {
+                white++;
+            }
+        }
+            TextView redText = (TextView) findViewById(R.id.red_card_num);
+            TextView orangeText = (TextView) findViewById(R.id.orange_card_num);
+            TextView yellowText = (TextView) findViewById(R.id.yellow_card_num);
+            TextView greenText = (TextView) findViewById(R.id.green_card_num);
+            TextView blueText = (TextView) findViewById(R.id.blue_card_num);
+            TextView pinkText = (TextView) findViewById(R.id.pink_card_num);
+            TextView wildText = (TextView) findViewById(R.id.wild_card_num);
+            TextView blackText = (TextView) findViewById(R.id.black_card_num);
+            TextView whiteText = (TextView) findViewById(R.id.white_card_num);
+
+            redText.setText(Integer.toString(red));
+            orangeText.setText(Integer.toString(orange));
+            yellowText.setText(Integer.toString(yellow));
+            greenText.setText(Integer.toString(green));
+            blueText.setText(Integer.toString(blue));
+            pinkText.setText(Integer.toString(pink));
+            wildText.setText(Integer.toString(wild));
+            blackText.setText(Integer.toString(black));
+            whiteText.setText(Integer.toString(white));
+
+
+    }
+
+    public void updateDestCards(List<DestCard> destCards){
+
+    }
     public void updateTurn(int player){
         getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
     }
