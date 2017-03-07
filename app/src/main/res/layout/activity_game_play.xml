@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/player_stats">
+                android:id="@+id/your_stats">
                 <view
                     android:layout_width="5dp"
                     android:layout_height="5dp"
@@ -50,39 +50,48 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/red_card_num"/>
+                    android:id="@+id/red_card_num"
+                    android:textColor="@color/card_red"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/orange_card_num"/>
+                    android:id="@+id/orange_card_num"
+                    android:textColor="@color/card_orange"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/yellow_card_num"/>
+                    android:id="@+id/yellow_card_num"
+                    android:textColor="@color/card_yellow"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/green_card_num"/>
+                    android:id="@+id/green_card_num"
+                    android:textColor="@color/card_green"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/blue_card_num"/>
+                    android:id="@+id/blue_card_num"
+                    android:textColor="@color/card_blue"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pink_card_num"/>
+                    android:id="@+id/pink_card_num"
+                    android:textColor="@color/card_pink"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/white_card_num"/>
+                    android:id="@+id/white_card_num"
+                    android:textColor="@color/card_white"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/black_card_num"/>
+                    android:id="@+id/black_card_num"
+                    android:textColor="@color/card_black"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/wild_card_num"/>
+                    android:id="@+id/wild_card_num"
+                    android:textColor="@color/card_wild"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -128,7 +137,118 @@
         android:choiceMode="singleChoice"
         android:divider="@color/cardview_light_background"
         android:dividerHeight="1dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player0_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player0_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player0_trains_remaining"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player1_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player1_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player1_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player1_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player1_trains_remaining"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player2_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player2_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player2_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player2_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player2_trains_remaining"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player3_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player3_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player3_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player3_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player3_trains_remaining"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/player4_stats">
+            <view
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:id="@+id/player4_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player4_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player4_points"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player4_trains_remaining"/>
+        </LinearLayout>
 
     </ListView>
+
 
 </android.support.v4.widget.DrawerLayout>
