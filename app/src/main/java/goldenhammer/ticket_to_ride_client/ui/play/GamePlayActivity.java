@@ -151,7 +151,7 @@ public class GamePlayActivity extends AppCompatActivity {
         if (selectedIndex != -1) {
             toReturn.add(drawnDestCards.get(selectedIndex));
         }
-        //TODO presenter.returnDestCards(toReturn);
+         presenter.returnDestCards(toReturn);
     }
 
     public void initHandDialog(List<DestCard> drawnCards){
