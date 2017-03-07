@@ -56,6 +56,7 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play);
         presenter = new GamePlayPresenter(this);
         initDrawer();
+        //comment
     }
 
     private void selectItem(int position) {
