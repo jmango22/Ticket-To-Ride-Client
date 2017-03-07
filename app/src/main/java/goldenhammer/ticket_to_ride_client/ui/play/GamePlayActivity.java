@@ -56,7 +56,6 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play);
         presenter = new GamePlayPresenter(this);
         initDrawer();
-        //comment
     }
 
     private void selectItem(int position) {
@@ -215,37 +214,77 @@ public class GamePlayActivity extends AppCompatActivity {
     public void updatePlayers(List<PlayerOverview> players){
         this.players = players;
         String username = ClientModelFacade.SINGLETON.getUser().getUsername().getString();
-        if (username == players.get(0).getUsername()){
 
+        View color = findViewById(R.id.player_color);
+        TextView name = (TextView) findViewById(R.id.player_name);
+        TextView points = (TextView) findViewById(R.id.player_points);
+        TextView trains = (TextView) findViewById(R.id.player_trains_remaining);
+        for (int i=0; i<players.size(); i++) {
+            if (players.get(i).getUsername().equals(username)) {
+                color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
+                name.setText(players.get(i).getUsername());
+                points.setText(players.get(i).getPoints());
+                trains.setText(players.get(i).getNumPieces());
+            }
         }
+
         updateLeaderBoard();
     }
 
     public void updateLeaderBoard(){
+
+        View color0 = findViewById(R.id.player0_color);
+        TextView name0 = (TextView) findViewById(R.id.player0_name);
+        TextView points0 = (TextView) findViewById(R.id.player0_points);
+        TextView trains0 = (TextView) findViewById(R.id.player0_trains_remaining);
+
+        color0.setBackgroundColor(getBoardColor(players.get(0).getColor()));
+        name0.setText(players.get(0).getUsername());
+        points0.setText(players.get(0).getPoints());
+        trains0.setText(players.get(0).getNumPieces());
+
         View color1 = findViewById(R.id.player1_color);
         TextView name1 = (TextView) findViewById(R.id.player1_name);
         TextView points1 = (TextView) findViewById(R.id.player1_points);
         TextView trains1 = (TextView) findViewById(R.id.player1_trains_remaining);
+
+        color1.setBackgroundColor(getBoardColor(players.get(1).getColor()));
+        name1.setText(players.get(1).getUsername());
+        points1.setText(players.get(1).getPoints());
+        trains1.setText(players.get(1).getNumPieces());
 
         View color2 = findViewById(R.id.player2_color);
         TextView name2= (TextView) findViewById(R.id.player2_name);
         TextView points2 = (TextView) findViewById(R.id.player2_points);
         TextView trains2= (TextView) findViewById(R.id.player2_trains_remaining);
 
-        View color3 = findViewById(R.id.player3_color);
-        TextView name3 = (TextView) findViewById(R.id.player3_name);
-        TextView points3 = (TextView) findViewById(R.id.player3_points);
-        TextView trains3 = (TextView) findViewById(R.id.player3_trains_remaining);
+        color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
+        name2.setText(players.get(2).getUsername());
+        points2.setText(players.get(2).getPoints());
+        trains2.setText(players.get(2).getNumPieces());
 
-        View color4 = findViewById(R.id.player4_color);
-        TextView name4 = (TextView) findViewById(R.id.player4_name);
-        TextView points4 = (TextView) findViewById(R.id.player4_points);
-        TextView trains4 = (TextView) findViewById(R.id.player4_trains_remaining);
+        if (players.size() > 3) {
+            View color3 = findViewById(R.id.player3_color);
+            TextView name3 = (TextView) findViewById(R.id.player3_name);
+            TextView points3 = (TextView) findViewById(R.id.player3_points);
+            TextView trains3 = (TextView) findViewById(R.id.player3_trains_remaining);
 
-        View color5 = findViewById(R.id.player5_color);
-        TextView name5 = (TextView) findViewById(R.id.player5_name);
-        TextView points5 = (TextView) findViewById(R.id.player5_points);
-        TextView trains5 = (TextView) findViewById(R.id.player5_trains_remaining);
+            color3.setBackgroundColor(getBoardColor(players.get(3).getColor()));
+            name3.setText(players.get(3).getUsername());
+            points3.setText(players.get(3).getPoints());
+            trains3.setText(players.get(3).getNumPieces());
+        }
+        if (players.size()> 4) {
+            View color4 = findViewById(R.id.player4_color);
+            TextView name4 = (TextView) findViewById(R.id.player4_name);
+            TextView points4 = (TextView) findViewById(R.id.player4_points);
+            TextView trains4 = (TextView) findViewById(R.id.player4_trains_remaining);
+
+            color4.setBackgroundColor(getBoardColor(players.get(4).getColor()));
+            name4.setText(players.get(4).getUsername());
+            points4.setText(players.get(4).getPoints());
+            trains4.setText(players.get(4).getNumPieces());
+        }
     }
     public void updateHand(Hand hand){
         this.hand = hand;
@@ -260,39 +299,39 @@ public class GamePlayActivity extends AppCompatActivity {
         View slot3 =  findViewById(R.id.card_slot_3);
         View slot4 =  findViewById(R.id.card_slot_4);
 
-        slot0.setBackgroundColor(getCardColor(bankCards[0]));
-        slot1.setBackgroundColor(getCardColor(bankCards[1]));
-        slot2.setBackgroundColor(getCardColor(bankCards[2]));
-        slot3.setBackgroundColor(getCardColor(bankCards[3]));
-        slot4.setBackgroundColor(getCardColor(bankCards[4]));
+        slot0.setBackgroundColor(getBoardColor(bankCards[0].getColor()));
+        slot1.setBackgroundColor(getBoardColor(bankCards[1].getColor()));
+        slot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
+        slot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
+        slot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
     }
 
-    public int getCardColor(TrainCard t){
-        if (t.getColor() == Color.RED){
+    public int getBoardColor(Color t){
+        if (t == Color.RED){
             return R.color.card_red;
         }
-        else if (t.getColor() == Color.ORANGE){
+        else if (t == Color.ORANGE){
             return R.color.card_orange;
         }
-        else if (t.getColor() == Color.YELLOW){
+        else if (t == Color.YELLOW){
             return R.color.card_yellow;
         }
-        else if (t.getColor() == Color.GREEN){
+        else if (t == Color.GREEN){
             return R.color.card_green;
         }
-        else if (t.getColor() == Color.BLUE){
+        else if (t == Color.BLUE){
             return R.color.card_blue;
         }
-        else if (t.getColor() == Color.PURPLE){
+        else if (t == Color.PURPLE){
             return R.color.card_pink;
         }
-        else if (t.getColor() == Color.WILD){
+        else if (t == Color.WILD){
             return R.color.card_wild;
         }
-        else if (t.getColor() == Color.BLACK){
+        else if (t == Color.BLACK){
             return R.color.card_black;
         }
-        else if (t.getColor() == Color.WHITE){
+        else if (t == Color.WHITE){
            return R.color.card_white;
         }
         else{
