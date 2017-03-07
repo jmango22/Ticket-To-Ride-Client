@@ -56,6 +56,35 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play);
         presenter = new GamePlayPresenter(this);
         initDrawer();
+
+        Button destCardsButton = (Button) findViewById(R.id.dest_button);
+        destCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destCardsDialog();
+            }
+        });
+    }
+
+    public void destCardsDialog(){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setTitle(R.string.your_dest);
+        dialog.setContentView(R.layout.dialog_dest_cards);
+        TextView destinations = (TextView) findViewById(R.id.dest_list);
+        StringBuilder sb = new StringBuilder();
+        for (DestCard d : hand.getDestinationCards()){
+            sb.append(d.getCity1().getName());
+            sb.append(" to " + d.getCity2().getName());
+            sb.append(": " + d.getPointsWorth() + "points\n");
+        }
+        destinations.setText(sb.toString());
+        Button closeButton = (Button) findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
     }
 
     private void selectItem(int position) {
@@ -397,6 +426,8 @@ public class GamePlayActivity extends AppCompatActivity {
     public void updateDestCards(List<DestCard> destCards){
 
     }
+
+    public void
     public void updateTurn(int player){
         getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
     }

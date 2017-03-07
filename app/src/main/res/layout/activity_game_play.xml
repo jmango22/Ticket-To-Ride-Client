@@ -98,7 +98,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/destinations">
-
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/dest_button"
+                    android:text="@string/your_dest"/>
             </LinearLayout>
 
             <LinearLayout
