@@ -1,6 +1,8 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.provider.ContactsContract;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -237,6 +240,11 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void drawMap(Map map){
+        ImageView mapView = (ImageView) findViewById(R.id.map_image);
+        //Drawable mapDrawable = new Drawable(R.drawable.map);
+        //mapView.setImageDrawable();
+        mapView.setImageResource(R.drawable.map);
+
     //TODO draw Map, Tracks, Cities
     }
 
@@ -427,7 +435,6 @@ public class GamePlayActivity extends AppCompatActivity {
 
     }
 
-    public void
     public void updateTurn(int player){
         getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
     }
