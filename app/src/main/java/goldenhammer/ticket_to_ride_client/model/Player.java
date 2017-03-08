@@ -11,7 +11,6 @@ public class Player {
     private Username mUsername;
     private Password mPassword;
     private Hand mHand;
-    private int mPlayerNumber;
 
     public Player(Username username, Password password){
         mUsername = username;
@@ -25,14 +24,6 @@ public class Player {
 
     public Password getPassword(){
         return mPassword;
-    }
-
-    public int getPlayerNumber() {
-        return mPlayerNumber;
-    }
-
-    public void setPlayerNumber(int playerNumber) {
-        this.mPlayerNumber = mPlayerNumber;
     }
 
     public List<DestCard> getDestinationCards() {

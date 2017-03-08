@@ -183,18 +183,15 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized boolean isMyTurn() {
-        //TODO: return true if it is my turn Need to know My Player Number
-        return true;
+        return mCurrentGame.isMyTurn(mCommandMgr);
     }
-
-    //TODO: get this to work
 
     /**
      *
      * @return the playerNumber of the player whose turn it is
      */
     public synchronized int getCurrentTurnPlayer() {
-        return 1;
+        return mCurrentGame.getCurrentTurnPlayer(mCommandMgr);
     }
 
     /**
@@ -202,7 +199,7 @@ public class ClientModelFacade extends Observable {
      * @return the playerNumber of the player using this device
      */
     public synchronized int getMyPlayerNumber() {
-        return mUser.getPlayerNumber();
+        return mCurrentGame.getMyPlayerNumber();
     }
 
     public synchronized Hand getHand() {
