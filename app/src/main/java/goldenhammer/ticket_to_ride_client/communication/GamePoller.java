@@ -21,6 +21,10 @@ public class GamePoller {
         timer.schedule(new pollerTask(), 0, 1000);
     }
 
+    public void stopPoller(){
+        timer.cancel();
+        timer.purge();
+    }
 
     public class pollerTask extends TimerTask{
         @Override
