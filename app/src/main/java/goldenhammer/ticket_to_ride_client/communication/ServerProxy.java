@@ -238,7 +238,8 @@ public class ServerProxy implements IProxy {
 
     @Override
     public void getCommands(int lastCommand, Callback c){
-        String url = "/getcommands?lastCommand=" + lastCommand + "?gamename=" + communicator.getGameName();
+        String url = "/getcommands";
+                //?lastCommand=" + lastCommand + "?gamename=" + communicator.getGameName();
         communicator.get(url, c);
     }
 
@@ -247,7 +248,9 @@ public class ServerProxy implements IProxy {
      * @post the poller starts running
      */
     public void startGameListPolling(){
+        if (this.gamePoller == null) {
             this.gamePoller = new GamePoller();
+        }
     }
 
     /**
@@ -255,14 +258,16 @@ public class ServerProxy implements IProxy {
      * @post the poller stops running
      */
     public void stopGameListPolling(){
-        this.gamePoller = null;
+        gamePoller.timer.cancel();
     }
 
     public void startCommandPolling(){
         stopGameListPolling();
-        this.commandPoller = new CommandPoller();   }
+        if (this.commandPoller == null) {
+            this.commandPoller = new CommandPoller();
+        }}
 
     public void stopCommandPolling(){
-        this.commandPoller = null;
+        gamePoller.timer.cancel();
     }
 }

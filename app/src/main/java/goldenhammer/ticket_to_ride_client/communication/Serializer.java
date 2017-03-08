@@ -78,4 +78,13 @@ public class Serializer {
         Gson gson = new Gson();
         return gson.fromJson(result,GameList.class);
     }
+
+    public static String deserializeMessage(String result){
+        try{
+            JSONObject message = new JSONObject(result);
+            return message.getString("message");
+        }catch (JSONException e){
+            return result;
+        }
+    }
 }

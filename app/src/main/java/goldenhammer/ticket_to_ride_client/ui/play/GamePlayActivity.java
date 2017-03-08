@@ -50,10 +50,10 @@ import goldenhammer.ticket_to_ride_client.model.TrainCard;
 //TODO Buttons for each action
 //TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
-    private String[] mNavDrawerItemTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+   // private String[] mNavDrawerItemTitles;
+   // private DrawerLayout mDrawerLayout;
+   // private ListView mDrawerList;
+   // private ActionBarDrawerToggle mDrawerToggle;
     private List<PlayerOverview> players;
     private Hand hand;
     private TextView selectedView;
@@ -64,8 +64,11 @@ public class GamePlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play);
+        setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
+
+        ServerProxy.SINGLETON.stopGameListPolling();
+        
         initDrawer();
 
         /*Button destCardsButton = (Button) findViewById(R.id.dest_button);
@@ -109,6 +112,7 @@ public class GamePlayActivity extends AppCompatActivity {
                 dialog.hide();
             }
         });
+
     }
 
     private void selectItem(int position) {
@@ -134,54 +138,54 @@ public class GamePlayActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 */
-                mDrawerList.setItemChecked(position, true);
+   /*             mDrawerList.setItemChecked(position, true);
                 mDrawerList.setSelection(position);
                 //getActionBar().setTitle(mNavDrawerItemTitles[position]);
                 mDrawerLayout.closeDrawer(mDrawerList);
-
+*/
             /*} else {
                 Log.e("MainActivity", "Error in creating fragment");
             }*/
         }
 
     public void initDrawer(){
-        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-        mDrawerList.setAdapter(adapter);
-        class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        }
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-                R.string.drawer_open,
-                R.string.drawer_closed
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-            }
-        };
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
+//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
+//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
+//        mDrawerList.setAdapter(adapter);
+//        class DrawerItemClickListener implements ListView.OnItemClickListener {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        }
+//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this,
+//                mDrawerLayout,
+//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
+//                R.string.drawer_open,
+//                R.string.drawer_closed
+//        ) {
+//
+//            /** Called when a drawer has settled in a completely closed state. */
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+//                //getActionBar().setTitle(mTitle);
+//            }
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                //getActionBar().setTitle(mDrawerTitle);
+//            }
+//        };
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
     }
 
     public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
@@ -309,19 +313,21 @@ public class GamePlayActivity extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.player_name);
         TextView points = (TextView) findViewById(R.id.player_points);
         TextView trains = (TextView) findViewById(R.id.player_trains_remaining);
-        for (int i=0; i<players.size(); i++) {
-            if (players.get(i).getUsername().equals(username)) {
-                color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
-                name.setText(players.get(i).getUsername());
-                points.setText(players.get(i).getPoints());
-                trains.setText(players.get(i).getNumPieces());
+        if(players != null) {
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getUsername().equals(username)) {
+                    color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
+                    name.setText(players.get(i).getUsername());
+                    points.setText(players.get(i).getPoints());
+                    trains.setText(players.get(i).getNumPieces());
+                }
             }
         }
-
-        updateLeaderBoard();
     }
 
-    public void updateLeaderBoard(){
+    public void dialogLeaderBoard(){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setContentView(R.layout.dialog_leaderboard);
 
         View color0 = findViewById(R.id.player0_color);
         TextView name0 = (TextView) findViewById(R.id.player0_name);
@@ -343,7 +349,9 @@ public class GamePlayActivity extends AppCompatActivity {
         points1.setText(players.get(1).getPoints());
         trains1.setText(players.get(1).getNumPieces());
 
-        if (players.size() >2) {
+
+        if (players.size() > 2) {
+
             View color2 = findViewById(R.id.player2_color);
             TextView name2 = (TextView) findViewById(R.id.player2_name);
             TextView points2 = (TextView) findViewById(R.id.player2_points);
@@ -376,6 +384,16 @@ public class GamePlayActivity extends AppCompatActivity {
             points4.setText(players.get(4).getPoints());
             trains4.setText(players.get(4).getNumPieces());
         }
+
+        Button closeButton = (Button) findViewById(R.id.close_button2);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
+
+        dialog.show();
     }
     public void updateHand(Hand hand){
         this.hand = hand;
@@ -501,9 +519,9 @@ public class GamePlayActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+       /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -511,7 +529,7 @@ public class GamePlayActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+//        mDrawerToggle.syncState();
     }
 
     }

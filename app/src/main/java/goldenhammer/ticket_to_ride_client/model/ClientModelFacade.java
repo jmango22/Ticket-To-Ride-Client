@@ -171,11 +171,22 @@ public class ClientModelFacade extends Observable {
 
     public synchronized Command getPreviousCommand() {
         List<Command> commands = mCommandMgr.getCommandList();
+        if(commands.size() == 0){
+            return null;
+        }
         return commands.get(commands.size() - 1);
     }
 
-    public synchronized int getLastCommandNumber() {
-        return mCommandMgr.getCommandList().size()-1;
+    public int getLastCommandNumber() {
+        if (!mCommandMgr.getCommandList().isEmpty()) {
+            int index = mCommandMgr.getCommandList().size() - 1;
+            int id = mCommandMgr.getCommandList().get(index).getCommandNumber();
+            return id;
+        }
+        else{
+            return 0;
+        }
+
     }
 
     public synchronized int getNextCommandNumber() {
