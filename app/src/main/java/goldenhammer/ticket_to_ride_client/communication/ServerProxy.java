@@ -238,7 +238,7 @@ public class ServerProxy implements IProxy {
 
     @Override
     public void getCommands(int lastCommand, Callback c){
-        String url = "/commands?" + lastCommand + "?" + communicator.getUsername();
+        String url = "/getcommands?lastCommand=" + lastCommand + "?gamename=" + communicator.getGameName();
         communicator.get(url, c);
     }
 

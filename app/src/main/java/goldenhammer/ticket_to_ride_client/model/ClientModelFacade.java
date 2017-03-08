@@ -45,8 +45,10 @@ public class ClientModelFacade extends Observable {
     }
 
     public void setAvailableGames(GameList games) {
-        mAvailableGames = games;
-        changed();
+        if(!mAvailableGames.equals(games)) {
+            mAvailableGames = games;
+            changed();
+        }
     }
 
     public GameList getMyGames() {
@@ -54,8 +56,10 @@ public class ClientModelFacade extends Observable {
     }
 
     public void setMyGames(GameList mMyGames) {
-        this.mMyGames = mMyGames;
-        changed();
+        if(!this.mMyGames.equals(mMyGames)) {
+            this.mMyGames = mMyGames;
+            changed();
+        }
     }
 
     public GameModel getCurrentGame() {
@@ -168,6 +172,10 @@ public class ClientModelFacade extends Observable {
     public Command getPreviousCommand() {
         List<Command> commands = mCommandMgr.getCommandList();
         return commands.get(commands.size() - 1);
+    }
+
+    public int getLastCommandNumber() {
+        return mCommandMgr.getCommandList().size()-1;
     }
 
     public int getNextCommandNumber() {

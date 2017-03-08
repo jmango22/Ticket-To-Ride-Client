@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_card_0"
+        android:layout_toLeftOf="@+id/dest_card_1"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_card_1"
+        android:layout_toLeftOf="@+id/center_line"/>
+    <view
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/center_line"
+        android:layout_centerInParent="true"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_card_2"
+        android:layout_toRightOf="@+id/center_line"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_card_none"
+        android:layout_toRightOf="@+id/dest_card_2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_text_0"
+        android:text="0"
+        android:layout_above="@+id/dest_card_0"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_text_1"
+        android:text="1"
+        android:layout_above="@+id/dest_card_1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_text_2"
+        android:text="2"
+        android:layout_above="@+id/dest_card_2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dest_text_none"
+        android:text="@string/none"
+        android:layout_above="@id/dest_card_none"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/return_card"
+        android:layout_below="@+id/center_line"
+        android:id="@+id/return_cards_button"/>
+</RelativeLayout>

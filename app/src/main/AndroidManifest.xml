@@ -19,7 +19,8 @@
         <activity
             android:name=".ui.login.GameSelectorActivity"
             android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.play.GamePlayActivity"></activity>
     </application>
 

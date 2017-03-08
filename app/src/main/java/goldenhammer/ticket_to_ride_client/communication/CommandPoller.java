@@ -22,7 +22,7 @@ public class CommandPoller {
     public class pollerTask extends TimerTask {
         @Override
         public void run() {
-            int number = ClientModelFacade.SINGLETON.getNextCommandNumber();
+            int number = ClientModelFacade.SINGLETON.getLastCommandNumber();
             ServerProxy.SINGLETON.getCommands(number, new Callback() {
                 @Override
                 public void run(Results res) {

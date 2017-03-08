@@ -71,7 +71,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
     @Override
     public void update(Observable o, Object arg) {
         owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());
-        owner.update();
+
+        owner.runOnThisThread(new Runnable() {
+            @Override
+            public void run() {
+                owner.update();
+            }
+        });
+
         if (ClientModelFacade.SINGLETON.getCurrentGame() != null){
             owner.onPlayGame();
         }

@@ -2,6 +2,8 @@ package goldenhammer.ticket_to_ride_client.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -70,12 +73,12 @@ public class GameSelectorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText gameName = (EditText) findViewById(R.id.gameNameEditText);
                 myGamesPresenter.createGame(gameName.getText().toString());
+                gameName.setText("");
+                update();
             }
         });
 
         ServerProxy.SINGLETON.startGameListPolling();
-        update();
-
     }
 
 
@@ -99,6 +102,19 @@ public class GameSelectorActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onStop() {
+        ServerProxy.SINGLETON.stopGameListPolling();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ServerProxy.SINGLETON.stopGameListPolling();
+        super.onDestroy();
     }
 
     /**
@@ -142,6 +158,11 @@ public class GameSelectorActivity extends AppCompatActivity {
             }
             return null;
         }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
     }
 
     public void toastMessage(String message) {
@@ -152,12 +173,10 @@ public class GameSelectorActivity extends AppCompatActivity {
 
     public void setMyGameList(List<GameListItem> myGameList) {
         this.myGameList = myGameList;
-       // mSectionsPagerAdapter.getItem(1);
     }
 
     public void setAvailableGameList(List<GameListItem> availableGameList) {
         this.availableGameList = availableGameList;
-        //mSectionsPagerAdapter.getItem(0);
     }
 
     public void onPlayGame() {
@@ -183,8 +202,18 @@ public class GameSelectorActivity extends AppCompatActivity {
         return availableGamesPresenter;
     }
 
-    public void update(){
-        myGameFragment = new MyGameFragment();
-        allGameFragment = new AllGameFragment();
+    public void runOnThisThread(Runnable runnable){
+        final Handler UIHandler = new Handler(Looper.getMainLooper());
+        UIHandler.post(runnable);
+    }
+
+    public void update() {
+        System.out.println("Updating...");
+        allGameFragment.update();
+        myGameFragment.update();
+
+        if(mSectionsPagerAdapter != null ) {
+            mSectionsPagerAdapter.notifyDataSetChanged();
+        }
     }
 }
