@@ -68,13 +68,13 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
         initDrawer();
 
-        Button destCardsButton = (Button) findViewById(R.id.dest_button);
+        /*Button destCardsButton = (Button) findViewById(R.id.dest_button);
         destCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 destCardsDialog();
             }
-        });
+        });*/
         ServerProxy.SINGLETON.startCommandPolling();
     }
 
@@ -261,11 +261,11 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void drawMap(Map map){
-        ImageView mapView = (ImageView) findViewById(R.id.map_image);
+        //ImageView mapView = (ImageView) findViewById(R.id.map_image);
         //Drawable mapDrawable = new Drawable(R.drawable.map);
         //mapView.setImageDrawable();
-        mapView.setImageResource(R.drawable.map);
-        drawTracks(mapView,map.getTracks());
+        //mapView.setImageResource(R.drawable.map);
+        //drawTracks(mapView,map.getTracks());
 
     //TODO draw Map, Tracks, Cities
     }
@@ -343,16 +343,17 @@ public class GamePlayActivity extends AppCompatActivity {
         points1.setText(players.get(1).getPoints());
         trains1.setText(players.get(1).getNumPieces());
 
-        View color2 = findViewById(R.id.player2_color);
-        TextView name2= (TextView) findViewById(R.id.player2_name);
-        TextView points2 = (TextView) findViewById(R.id.player2_points);
-        TextView trains2= (TextView) findViewById(R.id.player2_trains_remaining);
+        if (players.size() >2) {
+            View color2 = findViewById(R.id.player2_color);
+            TextView name2 = (TextView) findViewById(R.id.player2_name);
+            TextView points2 = (TextView) findViewById(R.id.player2_points);
+            TextView trains2 = (TextView) findViewById(R.id.player2_trains_remaining);
 
-        color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
-        name2.setText(players.get(2).getUsername());
-        points2.setText(players.get(2).getPoints());
-        trains2.setText(players.get(2).getNumPieces());
-
+            color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
+            name2.setText(players.get(2).getUsername());
+            points2.setText(players.get(2).getPoints());
+            trains2.setText(players.get(2).getNumPieces());
+        }
         if (players.size() > 3) {
             View color3 = findViewById(R.id.player3_color);
             TextView name3 = (TextView) findViewById(R.id.player3_name);
