@@ -29,26 +29,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
         proxy = LocalProxy.SINGLETON;
     }
 
-<<<<<<< HEAD
-=======
-    public void getAvailableGames(){
-        ServerProxy.SINGLETON.getAllGames(new Callback() {
-            @Override
-            public void run(Results res) {
 
-            }
-        });
-    }
->>>>>>> compiles!!!
-
-    public void getAvailableGames(){
-        ServerProxy.SINGLETON.getAllGames(new Callback() {
-            @Override
-            public void run(Results res) {
-
-            }
-        });
-    }
 
 
     @Override
