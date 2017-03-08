@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
@@ -49,14 +50,13 @@ public class GamePlayActivity extends AppCompatActivity {
     private int selectedIndex;
     private GamePlayPresenter presenter;
     private List<DestCard> drawnDestCards;
-    private List<PlayerOverview> leaderboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play);
+        setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
-        initDrawer();
+        ServerProxy.SINGLETON.startCommandPolling();
     }
 
     private void selectItem(int position) {

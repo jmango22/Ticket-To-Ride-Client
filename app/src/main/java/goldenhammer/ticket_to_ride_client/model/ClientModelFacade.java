@@ -178,7 +178,14 @@ public class ClientModelFacade extends Observable {
     }
 
     public int getLastCommandNumber() {
-        return mCommandMgr.getCommandList().size()-1;
+        if (!mCommandMgr.getCommandList().isEmpty()) {
+            int index = mCommandMgr.getCommandList().size() - 1;
+            int id = mCommandMgr.getCommandList().get(index).getCommandNumber();
+            return id;
+        }
+        else{
+            return 0;
+        }
     }
 
     public int getNextCommandNumber() {
