@@ -25,19 +25,10 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
     public AvailableGamesPresenter(GameSelectorActivity activity){
         ClientModelFacade.SINGLETON.addObserver(this);
         owner = activity;
-        //proxy = ServerProxy.SINGLETON;
-        proxy = LocalProxy.SINGLETON;
+        proxy = ServerProxy.SINGLETON;
+        //proxy = LocalProxy.SINGLETON;
     }
 
-
-    public void getAvailableGames(){
-        ServerProxy.SINGLETON.getAllGames(new Callback() {
-            @Override
-            public void run(Results res) {
-
-            }
-        });
-    }
 
 
     @Override

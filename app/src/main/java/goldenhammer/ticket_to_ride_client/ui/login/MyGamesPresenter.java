@@ -39,8 +39,8 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
      */
     public MyGamesPresenter(GameSelectorActivity activity){
         owner = activity;
-        //proxy = ServerProxy.SINGLETON;
-        proxy = LocalProxy.SINGLETON;
+        proxy = ServerProxy.SINGLETON;
+        //proxy = LocalProxy.SINGLETON;
         ClientModelFacade.SINGLETON.addObserver(this);
     }
 
