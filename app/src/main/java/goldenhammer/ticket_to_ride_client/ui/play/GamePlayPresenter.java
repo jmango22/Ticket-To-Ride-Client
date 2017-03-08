@@ -35,8 +35,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
-        //proxy = ServerProxy.SINGLETON;
-        proxy = LocalProxy.SINGLETON;
+        proxy = ServerProxy.SINGLETON;
+        //proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
         model.addObserver(this);
         name = model.getCurrentGame().getGameName();

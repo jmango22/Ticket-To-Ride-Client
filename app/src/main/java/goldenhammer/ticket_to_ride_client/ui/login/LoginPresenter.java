@@ -28,8 +28,8 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public LoginPresenter(LoginActivity loginActivity){
         owner = loginActivity;
         ClientModelFacade.SINGLETON.addObserver(this);
-        //proxy = ServerProxy.SINGLETON;
-        proxy = LocalProxy.SINGLETON;
+        proxy = ServerProxy.SINGLETON;
+        //proxy = LocalProxy.SINGLETON;
     }
     @Override
     public void update(Observable o, Object arg) {
