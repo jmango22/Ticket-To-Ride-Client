@@ -30,4 +30,32 @@ public class GameList {
         return gameList.get(index);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        else if(!(obj instanceof GameList)) {
+            return false;
+        }
+        else if(((GameList) obj).getAllGames().size() != gameList.size()) {
+            return false;
+        }
+        else {
+            for (int i = 0; i < gameList.size(); i++) {
+                if (!(gameList.get(i).getName().equals(((GameList) obj).getAllGames().get(i).getName()))) {
+                    return false;
+                }
+                if (gameList.get(i).getPlayers().size() != ((GameList) obj).getAllGames().get(i).getPlayers().size()) {
+                    return false;
+                }
+                for (int j = 0; j < gameList.get(i).getPlayers().size(); j++) {
+                    if (!(gameList.get(i).getPlayers().get(j).equals(((GameList) obj).getAllGames().get(i).getPlayers().get(j)))) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
