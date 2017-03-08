@@ -41,6 +41,16 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
     }
 >>>>>>> compiles!!!
 
+    public void getAvailableGames(){
+        ServerProxy.SINGLETON.getAllGames(new Callback() {
+            @Override
+            public void run(Results res) {
+
+            }
+        });
+    }
+
+
     @Override
     public void update(Observable o, Object arg) {
         owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
