@@ -50,10 +50,10 @@ import goldenhammer.ticket_to_ride_client.model.TrainCard;
 //TODO Buttons for each action
 //TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
-    private String[] mNavDrawerItemTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+   // private String[] mNavDrawerItemTitles;
+   // private DrawerLayout mDrawerLayout;
+   // private ListView mDrawerList;
+   // private ActionBarDrawerToggle mDrawerToggle;
     private List<PlayerOverview> players;
     private Hand hand;
     private TextView selectedView;
@@ -135,11 +135,11 @@ public class GamePlayActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 */
-                mDrawerList.setItemChecked(position, true);
+   /*             mDrawerList.setItemChecked(position, true);
                 mDrawerList.setSelection(position);
                 //getActionBar().setTitle(mNavDrawerItemTitles[position]);
                 mDrawerLayout.closeDrawer(mDrawerList);
-
+*/
             /*} else {
                 Log.e("MainActivity", "Error in creating fragment");
             }*/
@@ -515,9 +515,9 @@ public class GamePlayActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+       /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
