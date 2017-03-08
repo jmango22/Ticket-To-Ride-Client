@@ -15,11 +15,12 @@ public class CommandPoller {
 
     public CommandPoller(){
         timer = new Timer();
-        timer.schedule(new pollerTask(), 0, 10000);
+        timer.schedule(new commandpollerTask(), 0, 10000);
+
     }
 
 
-    public class pollerTask extends TimerTask {
+    public class commandpollerTask extends TimerTask {
         @Override
         public void run() {
             int number = ClientModelFacade.SINGLETON.getLastCommandNumber();
