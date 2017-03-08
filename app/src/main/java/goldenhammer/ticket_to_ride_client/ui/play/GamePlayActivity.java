@@ -60,6 +60,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private int selectedIndex;
     private GamePlayPresenter presenter;
     private List<DestCard> drawnDestCards;
+    private List<PlayerOverview> leaderboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,43 +146,43 @@ public class GamePlayActivity extends AppCompatActivity {
         }
 
     public void initDrawer(){
-        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-        mDrawerList.setAdapter(adapter);
-        class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        }
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-                R.string.drawer_open,
-                R.string.drawer_closed
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-            }
-        };
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
+//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
+//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
+//        mDrawerList.setAdapter(adapter);
+//        class DrawerItemClickListener implements ListView.OnItemClickListener {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        }
+//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this,
+//                mDrawerLayout,
+//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
+//                R.string.drawer_open,
+//                R.string.drawer_closed
+//        ) {
+//
+//            /** Called when a drawer has settled in a completely closed state. */
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+//                //getActionBar().setTitle(mTitle);
+//            }
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                //getActionBar().setTitle(mDrawerTitle);
+//            }
+//        };
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
     }
 
     public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
@@ -309,19 +310,22 @@ public class GamePlayActivity extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.player_name);
         TextView points = (TextView) findViewById(R.id.player_points);
         TextView trains = (TextView) findViewById(R.id.player_trains_remaining);
-        for (int i=0; i<players.size(); i++) {
-            if (players.get(i).getUsername().equals(username)) {
-                color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
-                name.setText(players.get(i).getUsername());
-                points.setText(players.get(i).getPoints());
-                trains.setText(players.get(i).getNumPieces());
+        if(players != null) {
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getUsername().equals(username)) {
+                    color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
+                    name.setText(players.get(i).getUsername());
+                    points.setText(players.get(i).getPoints());
+                    trains.setText(players.get(i).getNumPieces());
+                }
             }
         }
 
-        updateLeaderBoard();
     }
 
-    public void updateLeaderBoard(){
+    public void dialogLeaderBoard(){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setContentView(R.layout.dialog_leaderboard);
 
         View color0 = findViewById(R.id.player0_color);
         TextView name0 = (TextView) findViewById(R.id.player0_name);
@@ -376,6 +380,16 @@ public class GamePlayActivity extends AppCompatActivity {
             points4.setText(players.get(4).getPoints());
             trains4.setText(players.get(4).getNumPieces());
         }
+
+        Button closeButton = (Button) findViewById(R.id.close_button2);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
+
+        dialog.show();
     }
     public void updateHand(Hand hand){
         this.hand = hand;
@@ -511,7 +525,7 @@ public class GamePlayActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+//        mDrawerToggle.syncState();
     }
 
     }
