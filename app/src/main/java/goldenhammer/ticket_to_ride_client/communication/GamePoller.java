@@ -18,7 +18,7 @@ public class GamePoller {
 
     public GamePoller(){
         timer = new Timer();
-        timer.schedule(new pollerTask(), 0, 5);
+        timer.schedule(new pollerTask(), 0, 1000);
     }
 
 

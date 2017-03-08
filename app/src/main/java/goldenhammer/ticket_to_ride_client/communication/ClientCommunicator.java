@@ -1,6 +1,8 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
 
+import android.os.AsyncTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +45,7 @@ public class ClientCommunicator {
 
     public void post(String suffix, JSONObject body, Callback callback){
         String urlText = "http://" + serverHost + ":" + serverPort + suffix;
+        System.out.println("Post: " + urlText);
         new PostTask(body, urlText, this, callback).execute();
     }
 
