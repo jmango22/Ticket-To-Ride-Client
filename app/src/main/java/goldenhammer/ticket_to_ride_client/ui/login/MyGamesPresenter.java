@@ -140,6 +140,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
                 public void run(Results res) {
                     if(res.getResponseCode() == 200) {
                         ClientModelFacade.SINGLETON.setCurrentGame(Serializer.deserializeGameModel(res.getBody()));
+                        ServerProxy.SINGLETON.stopGameListPolling();
                     } else {
                         owner.toastMessage("error: "+ res.getBody());
                     }

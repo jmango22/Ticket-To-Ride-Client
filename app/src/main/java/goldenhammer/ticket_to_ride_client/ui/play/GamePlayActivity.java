@@ -56,6 +56,7 @@ public class GamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
+        ServerProxy.SINGLETON.stopGameListPolling();
         ServerProxy.SINGLETON.startCommandPolling();
     }
 
@@ -230,7 +231,6 @@ public class GamePlayActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     public void dialogLeaderBoard(){
@@ -257,16 +257,18 @@ public class GamePlayActivity extends AppCompatActivity {
         points1.setText(players.get(1).getPoints());
         trains1.setText(players.get(1).getNumPieces());
 
-        View color2 = findViewById(R.id.player2_color);
-        TextView name2= (TextView) findViewById(R.id.player2_name);
-        TextView points2 = (TextView) findViewById(R.id.player2_points);
-        TextView trains2= (TextView) findViewById(R.id.player2_trains_remaining);
+        if (players.size() > 2) {
 
-        color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
-        name2.setText(players.get(2).getUsername());
-        points2.setText(players.get(2).getPoints());
-        trains2.setText(players.get(2).getNumPieces());
+            View color2 = findViewById(R.id.player2_color);
+            TextView name2 = (TextView) findViewById(R.id.player2_name);
+            TextView points2 = (TextView) findViewById(R.id.player2_points);
+            TextView trains2 = (TextView) findViewById(R.id.player2_trains_remaining);
 
+            color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
+            name2.setText(players.get(2).getUsername());
+            points2.setText(players.get(2).getPoints());
+            trains2.setText(players.get(2).getNumPieces());
+        }
         if (players.size() > 3) {
             View color3 = findViewById(R.id.player3_color);
             TextView name3 = (TextView) findViewById(R.id.player3_name);
