@@ -47,7 +47,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     List<Command> commands = Serializer.deserializeCommands(res.getBody());
                     model.addCommands(commands);
                 } else {
-                    showToast(res.getBody());
+                    showToast(Serializer.deserializeMessage(res.getBody()));
                 }
             }
         };

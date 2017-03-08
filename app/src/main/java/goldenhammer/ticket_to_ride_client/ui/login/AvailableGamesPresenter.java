@@ -8,6 +8,7 @@ import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.Results;
+import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.GameName;
@@ -58,7 +59,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
             proxy.joinGame(new GameName(gameName), new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
         } catch (IOException e) {
@@ -70,7 +71,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
             proxy.leaveGame(new GameName(gameName), new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
         } catch (IOException e) {
@@ -83,7 +84,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
             proxy.playGame(new GameName(gameName), new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
         } catch (IOException e) {

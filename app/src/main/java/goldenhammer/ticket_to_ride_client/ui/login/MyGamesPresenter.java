@@ -55,7 +55,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
             proxy.createGame(g, new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
 //            String results = proxy.createGame(g);
@@ -97,7 +97,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
             proxy.joinGame(new GameName(gameName), new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
 //            String results = proxy.joinGame(new GameName(gameName));
@@ -118,7 +118,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
             proxy.leaveGame(new GameName(gameName), new Callback() {
                 @Override
                 public void run(Results res) {
-                    owner.toastMessage(res.getBody());
+                    owner.toastMessage(Serializer.deserializeMessage(res.getBody()));
                 }
             });
 //            String results = proxy.leaveGame(new GameName(gameName));
