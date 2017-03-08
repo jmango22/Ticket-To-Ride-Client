@@ -3,6 +3,8 @@ package goldenhammer.ticket_to_ride_client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import goldenhammer.ticket_to_ride_client.model.commands.Command;
+
 /**
  * Created by McKean on 2/3/2017.
  */
@@ -58,4 +60,35 @@ public class GameModel {
     public Map getMap() {
         return map;
     }
+
+    public int getMyPlayerNumber() {
+        for(PlayerOverview player: players) {
+            if(player.getUsername().equals(ClientModelFacade.SINGLETON.getUser().getUsername().getString())) {
+                return player.getPlayer();
+            }
+        }
+        return -1;
+    }
+
+    public boolean isMyTurn(CommandManager cmdMgr) {
+        if(getCurrentTurnPlayer(cmdMgr) == getMyPlayerNumber()) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getCurrentTurnPlayer(CommandManager cmdMgr) {
+        List<Command> allCommands = cmdMgr.getCommandList();
+        //Umm... are we using the number of EndTurn Commands to find out who's turn it is?
+        int numberOfEndTurns = 0;
+        for(Command command: allCommands) {
+            if(command.getName().equals("EndTurn")) {
+                numberOfEndTurns++;
+            }
+        }
+        //This is correct if we start with player zero. If we start with player number 1 add 1 to this.
+        return (numberOfEndTurns % players.size());
+    }
+
+
 }

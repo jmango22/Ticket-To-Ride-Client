@@ -27,7 +27,7 @@ public class ClientModelFacade extends Observable {
     private ClientModelFacade(){
     }
 
-    public void addNewObserver(Observer o){
+    public synchronized void addNewObserver(Observer o){
         addObserver(o);
     }
 
@@ -40,42 +40,42 @@ public class ClientModelFacade extends Observable {
         notifyObservers();
     }
 
-    public GameList getAvailableGames() {
+    public synchronized GameList getAvailableGames() {
         return mAvailableGames;
     }
 
-    public void setAvailableGames(GameList games) {
+    public synchronized void setAvailableGames(GameList games) {
         if(!mAvailableGames.equals(games)) {
             mAvailableGames = games;
             changed();
         }
     }
 
-    public GameList getMyGames() {
+    public synchronized GameList getMyGames() {
         return mMyGames;
     }
 
-    public void setMyGames(GameList mMyGames) {
+    public synchronized void setMyGames(GameList mMyGames) {
         if(!this.mMyGames.equals(mMyGames)) {
             this.mMyGames = mMyGames;
             changed();
         }
     }
 
-    public GameModel getCurrentGame() {
+    public synchronized GameModel getCurrentGame() {
         return mCurrentGame;
     }
 
-    public void setCurrentGame(GameModel mCurrentGame) {
+    public synchronized void setCurrentGame(GameModel mCurrentGame) {
         this.mCurrentGame = mCurrentGame;
         changed();
     }
 
-    public Player getUser() {
+    public synchronized Player getUser() {
         return mUser;
     }
 
-    public void setUser(Player mUser) {
+    public synchronized void setUser(Player mUser) {
         this.mUser = mUser;
         changed();
     }
@@ -85,29 +85,29 @@ public class ClientModelFacade extends Observable {
      * Presenter Code
      */
     //get user train cards
-    public List<TrainCard> getUserTrainCards() {
+    public synchronized List<TrainCard> getUserTrainCards() {
         return mUser.getTrainCards();
     }
 
     //get user destination cards
-    public List<DestCard> getUserDestCards() {
+    public synchronized List<DestCard> getUserDestCards() {
         return mUser.getDestinationCards();
     }
 
     //add train cards to the player's hand
-    public void drawTrainCards(List<TrainCard> drawnCards) {
+    public synchronized void drawTrainCards(List<TrainCard> drawnCards) {
         mUser.addTrainCards(drawnCards);
         changed();
     }
 
     //remove Train cards from the player's hand
-    public void removeTrainCards(List<TrainCard> cards) {
+    public synchronized void removeTrainCards(List<TrainCard> cards) {
         mUser.removeTrainCards(cards);
         changed();
     }
 
     //add a bank card to the player's hand
-    public void takeBankCard(int pos) {
+    public synchronized void takeBankCard(int pos) {
         TrainCard temp;
         if((temp = mBank.getTrainCard(pos)) != null) {
             mUser.addBankCard(temp);
@@ -115,45 +115,45 @@ public class ClientModelFacade extends Observable {
         }
     }
 
-    public void setDrawnDestCards(List<DestCard> cards) {
+    public synchronized void setDrawnDestCards(List<DestCard> cards) {
         mUser.setDrawDestCards(cards);
         changed();
     }
 
-    public void moveDrawnDestCardsToHand(List<DestCard> discardedCards) {
+    public synchronized void moveDrawnDestCardsToHand(List<DestCard> discardedCards) {
         mUser.moveDrawnDestCards(discardedCards);
         changed();
     }
 
-    public void claimTrack(Track track, int player) {
+    public synchronized void claimTrack(Track track, int player) {
         mCurrentGame.claimTrack(track, player);
         changed();
     }
 
-    public List<Track> getAllTracks() {
+    public synchronized List<Track> getAllTracks() {
         return mCurrentGame.getAllTracks();
     }
 
-    public List<City> getAllCities() { return mCurrentGame.getAllCities(); }
+    public synchronized List<City> getAllCities() { return mCurrentGame.getAllCities(); }
 
     //update all visible player objects
-    public void setLeaderboard(List<PlayerOverview> players) {
+    public synchronized void setLeaderboard(List<PlayerOverview> players) {
         mCurrentGame.setLeaderBoard(players);
         changed();
     }
 
     //get all visible player objects
-    public List<PlayerOverview> getLeaderboard() {
+    public synchronized List<PlayerOverview> getLeaderboard() {
         return mCurrentGame.getLeaderBoard();
     }
 
 
-    public void replaceBankTrainCard(TrainCard card, int pos) {
+    public synchronized void replaceBankTrainCard(TrainCard card, int pos) {
         mBank.replaceAvailableTrainCard(card, pos);
         changed();
     }
 
-    public List<TrainCard> getAllBankTrainCards() {
+    public synchronized List<TrainCard> getAllBankTrainCards() {
         TrainCard[] bankCards = mBank.getAvailableTrainCards();
         List<TrainCard> cards = new ArrayList<>();
         for(int i = 0; i<bankCards.length; i++) {
@@ -169,53 +169,51 @@ public class ClientModelFacade extends Observable {
      * Command Manager Code
      */
 
-    public Command getPreviousCommand() {
+    public synchronized Command getPreviousCommand() {
         List<Command> commands = mCommandMgr.getCommandList();
         return commands.get(commands.size() - 1);
     }
 
-    public int getLastCommandNumber() {
+    public synchronized int getLastCommandNumber() {
         return mCommandMgr.getCommandList().size()-1;
     }
 
-    public int getNextCommandNumber() {
+    public synchronized int getNextCommandNumber() {
         return mCommandMgr.getCommandList().size();
     }
 
-    public boolean isMyTurn() {
-        //TODO: return true if it is my turn Need to know My Player Number
-        return true;
+    public synchronized boolean isMyTurn() {
+        return mCurrentGame.isMyTurn(mCommandMgr);
     }
-
-    //TODO: get this to work
 
     /**
      *
      * @return the playerNumber of the player whose turn it is
      */
-    public int getCurrentTurnPlayer() {
-        return 1;
+    public synchronized int getCurrentTurnPlayer() {
+        return mCurrentGame.getCurrentTurnPlayer(mCommandMgr);
     }
 
     /**
      *
      * @return the playerNumber of the player using this device
      */
-    public int getMyPlayerNumber() {
-        //TODO: this won't work. make it work
-        return 1;
+    public synchronized int getMyPlayerNumber() {
+        return mCurrentGame.getMyPlayerNumber();
     }
-    public Hand getHand() {
+
+    public synchronized Hand getHand() {
         return mUser.getHand();
     }
-    public boolean shouldInitializeHand() {
+
+    public synchronized boolean shouldInitializeHand() {
         List<Command> commands = mCommandMgr.getCommandList();
         if(commands.size() > getCurrentGame().getLeaderBoard().size() * 2){
             return false;
         }
-        //TODO: this won't work. We need a way to know My Player number
         int myNumber = getMyPlayerNumber();
         for (Command command: commands){
+            //What if the user draws DestCards later in the game?
             if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
                 return true;
             }
@@ -223,7 +221,7 @@ public class ClientModelFacade extends Observable {
         return false;
     }
 
-    public void addCommands(List<Command> newCommands) {
+    public synchronized void addCommands(List<Command> newCommands) {
         mCommandMgr.addCommands(newCommands);
     }
 
@@ -234,17 +232,17 @@ public class ClientModelFacade extends Observable {
      * initializing code
      */
 
-    public void setCities(List<City> cities) {
+    public synchronized void setCities(List<City> cities) {
         mCurrentGame.setCities(cities);
         changed();
     }
 
-    public void setTracks(List<Track> tracks) {
+    public synchronized void setTracks(List<Track> tracks) {
         mCurrentGame.setTracks(tracks);
         changed();
     }
 
-    public void setBankCards(TrainCard[] trainCards) {
+    public synchronized void setBankCards(TrainCard[] trainCards) {
         mBank = new Bank(trainCards);
         changed();
     }
