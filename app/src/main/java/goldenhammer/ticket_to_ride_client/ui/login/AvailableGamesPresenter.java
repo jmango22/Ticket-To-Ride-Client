@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
+import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
@@ -23,7 +24,8 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
     public AvailableGamesPresenter(GameSelectorActivity activity){
         ClientModelFacade.SINGLETON.addObserver(this);
         owner = activity;
-        proxy = ServerProxy.SINGLETON;
+        //proxy = ServerProxy.SINGLETON;
+        proxy = LocalProxy.SINGLETON;
     }
 
 

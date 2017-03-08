@@ -20,7 +20,7 @@ public class Track {
         city2 = new City();
         length = 0;
         color = null;
-        owner = 0;
+        owner = -1;
         secondTrack = false;
         location1 = new PointF();
         location2 = new PointF();
@@ -34,6 +34,46 @@ public class Track {
         this.owner = owner;
         this.secondTrack = secondTrack;
         this.location1 = location1;
+        this.location2 = location2;
+    }
+
+    public void setCity1(City city1) {
+        this.city1 = city1;
+    }
+
+    public void setCity2(City city2) {
+        this.city2 = city2;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Boolean getSecondTrack() {
+        return secondTrack;
+    }
+
+    public void setSecondTrack(Boolean secondTrack) {
+        this.secondTrack = secondTrack;
+    }
+
+    public void setLocation1(PointF location1) {
+        this.location1 = location1;
+    }
+
+    public void setLocation2(PointF location2) {
         this.location2 = location2;
     }
 

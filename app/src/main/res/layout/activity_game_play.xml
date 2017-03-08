@@ -110,23 +110,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/card_bank">
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_0"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_1"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_2"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_3"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_4"/>

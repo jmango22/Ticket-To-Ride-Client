@@ -4,26 +4,28 @@ import android.graphics.PointF;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.City;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
+import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
-class LocalProxy implements IProxy {
+public class LocalProxy implements IProxy {
     public static final LocalProxy SINGLETON = new LocalProxy();
     ClientModelFacade cmf = ClientModelFacade.SINGLETON;
     private LocalProxy() {
-        setUpFakeModel();
     }
 
     public void setUpFakeModel(){
@@ -86,12 +88,20 @@ class LocalProxy implements IProxy {
     public void playGame(GameName gameName, Callback c) {
         GameModel gm = new GameModel();
         ArrayList<City> cities = new ArrayList<>();
-        cities.add(new City(new PointF(10,20),"testCity"));
+        City c1 = new City(new PointF(10,20),"testCity");
+        City c2 = new City(new PointF(20,30),"Babylon");
+        cities.add(c1);
+        cities.add(c1);
         gm.setCities(cities);
         ArrayList<PlayerOverview> leaderboard = new ArrayList<>();
-        //leaderboard.add(new PlayerOverview())
-        //gm.setLeaderBoard();
-        //cmf.setCurrentGame();
+        PlayerOverview p = new PlayerOverview(Color.BLACK,42,6,0,41);
+        leaderboard.add(p);
+        gm.setLeaderBoard(leaderboard);
+        ArrayList<Track> tracks = new ArrayList<>();
+        Track t = new Track(c1,c2, 3,Color.PURPLE,0,false,c1.getLocation(),c2.getLocation());
+        tracks.add(t);
+        gm.setTracks(tracks);
+        cmf.setCurrentGame(gm);
     }
 
     @Override
