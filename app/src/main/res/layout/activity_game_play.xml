@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     tools:context="goldenhammer.ticket_to_ride_client.ui.play.GamePlayActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:id="@+id/game_screen">
@@ -18,10 +18,10 @@
             android:id="@+id/buttons_column">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/your_stats">
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/player_color"/>
@@ -106,23 +106,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/card_bank">
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_0"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_1"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_2"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_3"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_4"/>
@@ -130,125 +130,125 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/drawer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:divider="@color/cardview_light_background"
-        android:dividerHeight="1dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player0_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player0_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player0_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player0_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player0_trains_remaining"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player1_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player1_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player1_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player1_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player1_trains_remaining"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player2_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player2_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player2_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player2_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player2_trains_remaining"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player3_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player3_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player3_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player3_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player3_trains_remaining"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/player4_stats">
-            <view
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:id="@+id/player4_color"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player4_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player4_points"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/player4_trains_remaining"/>
-        </LinearLayout>
+    <!--<ListView-->
+        <!--android:id="@+id/drawer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:choiceMode="singleChoice"-->
+        <!--android:divider="@color/cardview_light_background"-->
+        <!--android:dividerHeight="1dp">-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/player0_stats">-->
+            <!--<ImageView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:id="@+id/player0_color"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player0_name"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player0_points"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player0_trains_remaining"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/player1_stats">-->
+            <!--<ImageView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:id="@+id/player1_color"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player1_name"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player1_points"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player1_trains_remaining"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/player2_stats">-->
+            <!--<ImageView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:id="@+id/player2_color"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player2_name"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player2_points"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player2_trains_remaining"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/player3_stats">-->
+            <!--<ImageView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:id="@+id/player3_color"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player3_name"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player3_points"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player3_trains_remaining"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/player4_stats">-->
+            <!--<ImageView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:id="@+id/player4_color"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player4_name"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player4_points"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/player4_trains_remaining"/>-->
+        <!--</LinearLayout>-->
 
-    </ListView>
+    <!--</ListView>-->
 
 
-</android.support.v4.widget.DrawerLayout>
+</FrameLayout>

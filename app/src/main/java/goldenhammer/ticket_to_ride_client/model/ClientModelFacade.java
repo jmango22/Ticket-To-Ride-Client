@@ -171,6 +171,9 @@ public class ClientModelFacade extends Observable {
 
     public Command getPreviousCommand() {
         List<Command> commands = mCommandMgr.getCommandList();
+        if(commands.size() == 0){
+            return null;
+        }
         return commands.get(commands.size() - 1);
     }
 
