@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
+import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
@@ -34,7 +35,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
-        proxy = ServerProxy.SINGLETON;
+        //proxy = ServerProxy.SINGLETON;
+        proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
         model.addObserver(this);
         name = model.getCurrentGame().getGameName();

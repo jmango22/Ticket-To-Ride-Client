@@ -1,6 +1,12 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.provider.ContactsContract;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
@@ -10,11 +16,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +41,7 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
+import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
 //TODO Dialog for selecting cards
@@ -56,8 +66,53 @@ public class GamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
+
         ServerProxy.SINGLETON.stopGameListPolling();
+        
+        initDrawer();
+
+        /*Button destCardsButton = (Button) findViewById(R.id.dest_button);
+        destCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destCardsDialog();
+            }
+        });*/
         ServerProxy.SINGLETON.startCommandPolling();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ServerProxy.SINGLETON.stopCommandPolling();
+    }
+
+    public void destCardsDialog(){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setTitle(R.string.your_dest);
+        dialog.setContentView(R.layout.dialog_dest_cards);
+        TextView destinations = (TextView) findViewById(R.id.dest_list);
+        StringBuilder sb = new StringBuilder();
+        for (DestCard d : hand.getDestinationCards()){
+            sb.append(d.getCity1().getName());
+            sb.append(" to " + d.getCity2().getName());
+            sb.append(": " + d.getPointsWorth() + "points\n");
+        }
+        destinations.setText(sb.toString());
+        Button closeButton = (Button) findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
+
     }
 
     private void selectItem(int position) {
@@ -210,7 +265,44 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void drawMap(Map map){
+        //ImageView mapView = (ImageView) findViewById(R.id.map_image);
+        //Drawable mapDrawable = new Drawable(R.drawable.map);
+        //mapView.setImageDrawable();
+        //mapView.setImageResource(R.drawable.map);
+        //drawTracks(mapView,map.getTracks());
+
     //TODO draw Map, Tracks, Cities
+    }
+
+    public void drawTracks(ImageView mapView,List<Track> tracks){
+        Bitmap bmp = Bitmap.createBitmap(mapView.getWidth(), mapView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        mapView.draw(c);
+
+        Paint p = new Paint();
+        for (Track t : tracks){
+            if (t.getOwner() != -1){
+                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
+                p.setStrokeWidth(3);
+                c.drawLine(t.getLocation1().x,t.getLocation1().y,
+                        t.getLocation2().x, t.getLocation2().y, p);
+            }
+            p.setColor(getBoardColor(t.getColor()));
+            p.setStrokeWidth(1);
+            c.drawLine(t.getLocation1().x,t.getLocation1().y,
+                    t.getLocation2().x, t.getLocation2().y, p);
+
+            p.setColor(getBoardColor(Color.WHITE));
+            PointF midpoint = midPoint(t.getLocation1(),t.getLocation2());
+            c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
+        }
+        mapView.setImageBitmap(bmp);
+    }
+
+    public PointF midPoint(PointF p1, PointF p2){
+        float x = (p1.x + p2.x)/2.0f;
+        float y = (p1.y + p2.y)/2.0f;
+        return new PointF(x,y);
     }
 
     public void updatePlayers(List<PlayerOverview> players){
@@ -256,6 +348,7 @@ public class GamePlayActivity extends AppCompatActivity {
         name1.setText(players.get(1).getUsername());
         points1.setText(players.get(1).getPoints());
         trains1.setText(players.get(1).getNumPieces());
+
 
         if (players.size() > 2) {
 
@@ -413,6 +506,7 @@ public class GamePlayActivity extends AppCompatActivity {
     public void updateDestCards(List<DestCard> destCards){
 
     }
+
     public void updateTurn(int player){
         getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
     }
