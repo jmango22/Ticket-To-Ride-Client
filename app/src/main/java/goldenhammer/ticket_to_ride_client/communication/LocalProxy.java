@@ -111,6 +111,16 @@ public class LocalProxy implements IProxy {
 
     @Override
     public void doCommand(Command command, Callback c) {
+<<<<<<< HEAD
+
+    }
+
+    @Override
+    public void getCommands(int lastCommandNumber, Callback c) {
+
+    }
+
+=======
         c.run(new Results(new Gson().toJson(command, command.getClass()).toString(), 200));
     }
 
@@ -118,4 +128,5 @@ public class LocalProxy implements IProxy {
     public void getCommands(int lastCommandNumber, Callback c) {
 
     }
+>>>>>>> compiles!!!
 }
