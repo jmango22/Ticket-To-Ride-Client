@@ -98,7 +98,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/destinations">
-
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/dest_button"
+                    android:text="@string/your_dest"/>
             </LinearLayout>
 
             <LinearLayout
@@ -106,28 +110,34 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/card_bank">
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_0"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_1"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_2"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_3"/>
-                <view
+                <ImageView
                     android:layout_width="5dp"
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_4"/>
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_image"
+            />
     </LinearLayout>
 
     <ListView

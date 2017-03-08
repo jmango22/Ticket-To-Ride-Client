@@ -8,6 +8,7 @@ import java.util.Observer;
 
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
+import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
@@ -27,7 +28,8 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public LoginPresenter(LoginActivity loginActivity){
         owner = loginActivity;
         ClientModelFacade.SINGLETON.addObserver(this);
-        proxy = ServerProxy.SINGLETON;
+        //proxy = ServerProxy.SINGLETON;
+        proxy = LocalProxy.SINGLETON;
     }
     @Override
     public void update(Observable o, Object arg) {
