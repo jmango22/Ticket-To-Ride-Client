@@ -20,23 +20,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:id="@+id/your_stats">
+                android:id="@+id/your_stats"
+                android:paddingTop="15dp">
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:id="@+id/player_color"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/player_name"/>
+                    android:id="@+id/player_name"
+                    android:textSize="15sp"
+                    android:layout_marginStart="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/player_points"/>
+                    android:id="@+id/player_points"
+                    android:textSize="15sp"
+                    android:layout_marginStart="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/player_trains_remaining"/>
+                    android:id="@+id/player_trains_remaining"
+                    android:textSize="15sp"
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
             <View style="@style/Divider"/>
 
@@ -53,52 +60,71 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/red_card_num"
-                    android:textColor="@color/card_red"/>
+                    android:textColor="@color/card_red"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/orange_card_num"
-                    android:textColor="@color/card_orange"/>
+                    android:textColor="@color/card_orange"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/yellow_card_num"
-                    android:textColor="@color/card_yellow"/>
+                    android:textColor="@color/card_yellow"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/green_card_num"
-                    android:textColor="@color/card_green"/>
+                    android:textColor="@color/card_green"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/blue_card_num"
-                    android:textColor="@color/card_blue"/>
+                    android:textColor="@color/card_blue"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pink_card_num"
-                    android:textColor="@color/card_pink"/>
+                    android:textColor="@color/card_pink"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/white_card_num"
-                    android:textColor="@color/card_white"/>
+                    android:textColor="@color/card_white"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/black_card_num"
-                    android:textColor="@color/card_black"/>
+                    android:textColor="@color/card_black"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/wild_card_num"
-                    android:textColor="@color/card_wild"/>
+                    android:textColor="@color/card_wild"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
             </LinearLayout>
             <View style="@style/Divider"/>
             <TextView

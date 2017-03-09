@@ -22,6 +22,10 @@ public class Hand {
         this.trainCards = trainCards;
     }
 
+    public DrawnDestCards getDrawnDestCards() {
+        return drawnDestCards;
+    }
+
     public List<DestCard> getDestinationCards() {
         return destinationCards;
     }
