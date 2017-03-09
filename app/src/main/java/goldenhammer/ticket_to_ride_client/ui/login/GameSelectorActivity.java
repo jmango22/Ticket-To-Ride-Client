@@ -104,19 +104,6 @@ public class GameSelectorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onStop() {
-        ServerProxy.SINGLETON.stopGameListPolling();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ServerProxy.SINGLETON.stopGameListPolling();
-        super.onDestroy();
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
