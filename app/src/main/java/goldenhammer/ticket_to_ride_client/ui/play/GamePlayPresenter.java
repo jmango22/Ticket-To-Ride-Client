@@ -117,22 +117,17 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
 
-<<<<<<< HEAD
+
 
     protected void initializeHand() {
         owner.initializeHand(model.getHand());
     }
 
-=======
->>>>>>> d15146437535051dbd22e782207af52a18c36b77
     protected void updateBank(){
         if (model.getAllBankTrainCardsArray()!= null) {
             owner.updateBank(model.getAllBankTrainCardsArray());
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> d15146437535051dbd22e782207af52a18c36b77
     }
 
     protected void updateMap() {

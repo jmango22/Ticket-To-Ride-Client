@@ -22,7 +22,7 @@ public class Hand {
         this.trainCards = trainCards;
     }
 
-<<<<<<< HEAD
+
     public Hand(List<DestCard> destinationCards, List<TrainCard> trainCards, DrawnDestCards drawnDestinationCards) {
         this.destinationCards = destinationCards;
         this.trainCards = trainCards;
@@ -35,12 +35,7 @@ public class Hand {
     }
 
 
-=======
-    public DrawnDestCards getDrawnDestCards() {
-        return drawnDestCards;
-    }
 
->>>>>>> d15146437535051dbd22e782207af52a18c36b77
     public List<DestCard> getDestinationCards() {
         return destinationCards;
     }
