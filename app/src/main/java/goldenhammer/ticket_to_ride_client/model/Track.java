@@ -53,6 +53,10 @@ public class Track {
         this.length = length;
     }
 
+    public void updateLocation() {
+        city1.updateLocation();
+        city2.updateLocation();
+    }
     public Color getColor() {
         return color;
     }

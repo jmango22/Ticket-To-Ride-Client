@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Hand {
     private List<DestCard> destinationCards = new ArrayList<>();
     private List<TrainCard> trainCards = new ArrayList<>();
-    private DrawnDestCards drawnDestCards;
+    private DrawnDestCards drawnDestinationCards;
 
     public Hand() {
         destinationCards = new ArrayList<>();
@@ -21,7 +21,11 @@ public class Hand {
         this.destinationCards = destinationCards;
         this.trainCards = trainCards;
     }
-
+    public Hand(List<DestCard> destinationCards, List<TrainCard> trainCards, DrawnDestCards drawnDestinationCards) {
+        this.destinationCards = destinationCards;
+        this.trainCards = trainCards;
+        this.drawnDestinationCards = drawnDestinationCards;
+    }
     public List<DestCard> getDestinationCards() {
         return destinationCards;
     }
@@ -36,19 +40,27 @@ public class Hand {
         }
     }
 
+    public DrawnDestCards getDrawnDestinationCards() {
+        return drawnDestinationCards;
+    }
+
+    public void setDrawnDestinationCards(DrawnDestCards drawnDestinationCards) {
+        this.drawnDestinationCards = drawnDestinationCards;
+    }
+
     public void addDestCard(List<DestCard> drawnCards) {
         for(DestCard card: drawnCards) {
             destinationCards.add(card);
         }
     }
 
-    public void setDrawnDestCards(List<DestCard> drawnDestCards) {
-        this.drawnDestCards = new DrawnDestCards(drawnDestCards);
+    public void setDrawnDestinationCards(List<DestCard> drawnDestinationCards) {
+        this.drawnDestinationCards = new DrawnDestCards(drawnDestinationCards);
     }
 
     public void moveDrawnDestCardToHand(List<DestCard> discardedCards) {
-        drawnDestCards.discardDrawnDestCards(discardedCards);
-        List<DestCard> remainingCards = drawnDestCards.getRemainingDestCards();
+        drawnDestinationCards.discardDrawnDestCards(discardedCards);
+        List<DestCard> remainingCards = drawnDestinationCards.getRemainingDestCards();
         for(int i=0; i<remainingCards.size(); i++) {
             destinationCards.add(remainingCards.get(i));
         }

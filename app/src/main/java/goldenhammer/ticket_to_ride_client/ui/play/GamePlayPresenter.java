@@ -117,7 +117,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     protected void initializeHand() {
-        owner.initializeHand(null,model.getHand());
+        owner.initializeHand(model.getHand().getDrawnDestinationCards().getRemainingDestCards(),model.getHand());
     }
 
     protected void updateMap() {
