@@ -116,6 +116,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
 
+    protected void initializeHand() {
+        owner.initializeHand(null,model.getHand());
+    }
+
     protected void updateMap() {
         owner.drawMap(model.getCurrentGame().getMap());
     }
