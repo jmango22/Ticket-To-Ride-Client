@@ -98,7 +98,9 @@ public class LocalProxy implements IProxy {
         gm.setCities(cities);
         ArrayList<PlayerOverview> leaderboard = new ArrayList<>();
         PlayerOverview p = new PlayerOverview(Color.BLACK,42,6,0,41);
+        p.setUsername(cmf.getUser().getUsername().getString());
         PlayerOverview p1 = new PlayerOverview(Color.BLUE,43,7,0,47);
+        p1.setUsername("mannequin");
         leaderboard.add(p);
         leaderboard.add(p1);
         gm.setLeaderBoard(leaderboard);

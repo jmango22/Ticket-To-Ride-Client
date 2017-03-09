@@ -271,5 +271,6 @@ public class ServerProxy implements IProxy {
 
     public void stopCommandPolling(){
         commandPoller.timer.cancel();
+        commandPoller.timer.purge();
     }
 }
