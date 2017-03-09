@@ -11,12 +11,15 @@ import java.util.List;
 import goldenhammer.ticket_to_ride_client.model.City;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
+import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameListItem;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
+import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
+import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
@@ -95,13 +98,49 @@ public class LocalProxy implements IProxy {
         gm.setCities(cities);
         ArrayList<PlayerOverview> leaderboard = new ArrayList<>();
         PlayerOverview p = new PlayerOverview(Color.BLACK,42,6,0,41);
+        PlayerOverview p1 = new PlayerOverview(Color.BLUE,43,7,0,47);
         leaderboard.add(p);
+        leaderboard.add(p1);
         gm.setLeaderBoard(leaderboard);
         ArrayList<Track> tracks = new ArrayList<>();
         Track t = new Track(c1,c2, 3,Color.PURPLE,0,false,c1.getLocation(),c2.getLocation());
         tracks.add(t);
         gm.setTracks(tracks);
         cmf.setCurrentGame(gm);
+        //Add fake hand
+        List<DestCard> destCards = new ArrayList<>();
+        DestCard d1 = new DestCard(c1,c2,10);
+        destCards.add(d1);
+
+        List<TrainCard> handCards = new ArrayList<>();
+        TrainCard tr1 = new TrainCard(Color.PURPLE);
+        TrainCard tr2 = new TrainCard(Color.BLACK);
+        TrainCard tr3 = new TrainCard(Color.WILD);
+        TrainCard tr4 = new TrainCard(Color.BLUE);
+        TrainCard tr5 = new TrainCard(Color.YELLOW);
+        handCards.add(tr1);
+        handCards.add(tr2);
+        handCards.add(tr3);
+        handCards.add(tr4);
+        handCards.add(tr5);
+        Hand hand = new Hand(destCards,handCards);
+        cmf.drawTrainCards(handCards);
+        cmf.setDrawnDestCards(destCards);
+        cmf.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
+        //Add fake bank
+        List<TrainCard> trainCards = new ArrayList<>();
+        TrainCard t1 = new TrainCard(Color.PURPLE);
+        TrainCard t2 = new TrainCard(Color.BLACK);
+        TrainCard t3 = new TrainCard(Color.WILD);
+        TrainCard t4 = new TrainCard(Color.BLUE);
+        TrainCard t5 = new TrainCard(Color.YELLOW);
+        trainCards.add(t1);
+        trainCards.add(t2);
+        trainCards.add(t3);
+        trainCards.add(t4);
+        trainCards.add(t5);
+        TrainCard[] tCards = {t1,t2,t3,t4,t5};
+        cmf.setBankCards(tCards);
     }
 
     @Override
@@ -117,9 +156,6 @@ public class LocalProxy implements IProxy {
 
     @Override
     public void getCommands(int lastCommandNumber, Callback c) {
-
-
-
 
     }
 
