@@ -71,6 +71,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
         ServerProxy.SINGLETON.startCommandPolling();
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
         mapView.setImageResource(R.drawable.map);
         Button destButton = (Button) findViewById(R.id.dest_button);
@@ -106,19 +108,11 @@ public class GamePlayActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_game_play,menu);
-        //menu.findItem(R.id.menu_draw_train).setIcon();
-        //menu.findItem(R.id.menu_draw_dest).setIcon();
-        //menu.findItem(R.id.menu_lay_track).setIcon();
-        return true;
-        //return super.onCreateOptionsMenu(menu);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_game_play,menu);
         return true;
@@ -546,12 +540,22 @@ public class GamePlayActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.menu_draw_train:{
+                toastMessage("Draw a Train");
+                break;
+            }
+            case R.id.menu_draw_dest:{
+                toastMessage("Draw Destination Card");
+                break;
+            }
+            case R.id.menu_lay_track:{
+                toastMessage("Lay Track");
+                break;
+            }
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
