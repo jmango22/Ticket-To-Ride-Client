@@ -21,11 +21,21 @@ public class Hand {
         this.destinationCards = destinationCards;
         this.trainCards = trainCards;
     }
+
+
     public Hand(List<DestCard> destinationCards, List<TrainCard> trainCards, DrawnDestCards drawnDestinationCards) {
         this.destinationCards = destinationCards;
         this.trainCards = trainCards;
         this.drawnDestinationCards = drawnDestinationCards;
     }
+
+
+    public DrawnDestCards getDrawnDestCards() {
+        return drawnDestinationCards;
+    }
+
+
+
     public List<DestCard> getDestinationCards() {
         return destinationCards;
     }

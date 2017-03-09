@@ -47,5 +47,6 @@ public class State {
         presenter.updatePlayers();
         presenter.updateCurrentTurn();
         presenter.updateHand();
+        //presenter.updateBank();
     }
 }

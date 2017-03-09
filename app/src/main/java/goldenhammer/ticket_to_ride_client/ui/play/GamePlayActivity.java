@@ -42,6 +42,8 @@ import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
+import goldenhammer.ticket_to_ride_client.model.DrawnDestCards;
+import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
@@ -63,7 +65,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private TextView selectedView;
     private int selectedIndex;
     private GamePlayPresenter presenter;
-    private List<DestCard> drawnDestCards;
+    private DrawnDestCards drawnDestCards;
     private int screenHeight;
     private int screenWidth;
     private ImageView mapView;
@@ -110,19 +112,21 @@ public class GamePlayActivity extends AppCompatActivity {
                 placeHolders();
             }
         });
-
+        presenter.updateHand();
+        presenter.updateMap();
+        presenter.updatePlayers();
+        presenter.updateBank();
     }
 
-    @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        placeHolders();
-        super.onPostCreate(savedInstanceState, persistentState);
-    }
 
     public void placeHolders(){
         ServerProxy.SINGLETON.stopCommandPolling();
+        GameModel m = ClientModelFacade.SINGLETON.getCurrentGame();
         LocalProxy.SINGLETON.playGame(null,null);
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
+        presenter.updateBank();
+        //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
+
     }
 
 
@@ -208,9 +212,9 @@ public class GamePlayActivity extends AppCompatActivity {
 //        getActionBar().setHomeButtonEnabled(true);
     }
 
-    public List<DestCard> initializeHand(List<DestCard> drawnDestCards, Hand hand){
+    public List<DestCard> initializeHand(Hand hand){
         updateHand(hand);
-        this.drawnDestCards = drawnDestCards;
+        this.drawnDestCards = hand.getDrawnDestCards();
         initHandDialog(drawnDestCards);
         return null;
     }
@@ -226,7 +230,7 @@ public class GamePlayActivity extends AppCompatActivity {
     public void returnDestCards(){
         List<DestCard> toReturn = new ArrayList<>();
         if (selectedIndex != -1) {
-            toReturn.add(drawnDestCards.get(selectedIndex));
+            toReturn.add(drawnDestCards.getRemainingDestCards().get(selectedIndex));
         }
          presenter.returnDestCards(toReturn);
     }
@@ -256,7 +260,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
-        //mapView.setImageResource(R.drawable.map);
+        mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks());
 
         //TODO draw Map, Tracks, Cities
@@ -271,12 +275,12 @@ public class GamePlayActivity extends AppCompatActivity {
         for (Track t : tracks){
             if (t.getOwner() != -1){
                 p.setColor(getBoardColor(Color.values()[t.getOwner()]));
-                p.setStrokeWidth(3);
+                p.setStrokeWidth(7);
                 c.drawLine(t.getLocation1().x,t.getLocation1().y,
                         t.getLocation2().x, t.getLocation2().y, p);
             }
             p.setColor(getBoardColor(t.getColor()));
-            p.setStrokeWidth(1);
+            p.setStrokeWidth(2);
             c.drawLine(t.getLocation1().x,t.getLocation1().y,
                     t.getLocation2().x, t.getLocation2().y, p);
 
@@ -293,22 +297,22 @@ public class GamePlayActivity extends AppCompatActivity {
         return new PointF(x,y);
     }
 
-    public void initHandDialog(List<DestCard> drawnCards){
+    public void initHandDialog(DrawnDestCards drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setTitle(R.string.return_cards_title);
         dialog.setContentView(R.layout.dialog_init_hand);
-        ImageButton slot0 = (ImageButton) findViewById(R.id.dest_card_0) ;
-        ImageButton slot1 = (ImageButton) findViewById(R.id.dest_card_1);
-        ImageButton slot2 = (ImageButton) findViewById(R.id.dest_card_2);
-        ImageButton none = (ImageButton) findViewById(R.id.dest_card_none);
-        Button returnCards = (Button) findViewById(R.id.return_cards_button);
+        ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
 
-        final TextView text0 = (TextView) findViewById(R.id.dest_text_0);
-        final TextView text1 = (TextView) findViewById(R.id.dest_text_1);
-        final TextView text2 = (TextView) findViewById(R.id.dest_text_2);
-        final TextView textNone = (TextView) findViewById(R.id.dest_text_none);
+        final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
+        final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
+        final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
+        final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
 
-
+//TODO set up Dest Cards Text
         slot0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,8 +365,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 if (players.get(i).getUsername().equals(username)) {
                     color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
                     name.setText(players.get(i).getUsername());
-                    points.setText(Integer.toString(players.get(i).getPoints()));
-                    trains.setText(Integer.toString(players.get(i).getNumPieces()));
+                    points.setText("Points: " + Integer.toString(players.get(i).getPoints()));
+                    trains.setText("Pieces: " + Integer.toString(players.get(i).getNumPieces()));
                 }
             }
         }
@@ -372,6 +376,10 @@ public class GamePlayActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setContentView(R.layout.dialog_leaderboard);
 
+        if (players == null){
+            dialog.hide();
+            return;
+        }
         View color0 = findViewById(R.id.player0_color);
         TextView name0 = (TextView) findViewById(R.id.player0_name);
         TextView points0 = (TextView) findViewById(R.id.player0_points);
@@ -550,7 +558,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     public void updateTurn(int player){
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
+           // getSupportActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
         }
     }
 

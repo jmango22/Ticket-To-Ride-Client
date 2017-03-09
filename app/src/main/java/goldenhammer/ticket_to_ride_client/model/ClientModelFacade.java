@@ -163,6 +163,18 @@ public class ClientModelFacade extends Observable {
         return cards;
     }
 
+    public synchronized TrainCard[] getAllBankTrainCardsArray() {
+        if (mBank == null){
+            return null;
+        }
+        TrainCard[] bankCards = mBank.getAvailableTrainCards();
+        List<TrainCard> cards = new ArrayList<>();
+        for(int i = 0; i<bankCards.length; i++) {
+            cards.add(bankCards[i]);
+        }
+        return bankCards;
+    }
+
 
     //END PRESENTER CODE
 
@@ -179,11 +191,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized int getLastCommandNumber() {
-        int size = 0;
+        int size = -1;
         if(mCommandMgr.getCommandList().size() > 0){
-            size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber();
+            size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber() + 1;
         }
-        return size - 1;
+        return size;
     }
 
     public synchronized int getNextCommandNumber() {
