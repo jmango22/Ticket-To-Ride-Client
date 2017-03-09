@@ -13,6 +13,7 @@ import goldenhammer.ticket_to_ride_client.model.GameModel;
 
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
+import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.Username;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 
@@ -57,7 +58,7 @@ public class ServerProxy implements IProxy {
      * @return a string that indicates whether or not the login was successful or what the error was.
      */
     @Override
-    public void login(Username username, Password password, String serverHost, String serverPort, final Callback callback) {
+    public void login(final Username username, final Password password, String serverHost, String serverPort, final Callback callback) {
         try {
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
@@ -72,6 +73,7 @@ public class ServerProxy implements IProxy {
                         try {
                             JSONObject results = new JSONObject(res.getBody());
                             communicator.setAuthorizationToken(results.getString("authorization"));
+                            ClientModelFacade.SINGLETON.setUser(new Player(username,password));
                             callback.run(new Results("Success!", HttpURLConnection.HTTP_OK));
                         }catch(JSONException e){
 
@@ -98,7 +100,7 @@ public class ServerProxy implements IProxy {
      * @return a string that indicates whether or not the register was successful and what the error was.
      */
     @Override
-    public void register(Username username, Password password, String serverHost, String serverPort, final Callback callback) {
+    public void register(final Username username, final Password password, String serverHost, String serverPort, final Callback callback) {
         try{
             setURL(serverHost,serverPort);
             JSONObject body = new JSONObject();
@@ -113,6 +115,7 @@ public class ServerProxy implements IProxy {
                         try {
                             JSONObject results = new JSONObject(res.getBody());
                             communicator.setAuthorizationToken(results.getString("authorization"));
+                            ClientModelFacade.SINGLETON.setUser(new Player(username,password));
                             callback.run(new Results("Success!", HttpURLConnection.HTTP_OK));
                         }catch(JSONException e){
 
