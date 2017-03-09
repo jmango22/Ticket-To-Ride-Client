@@ -10,11 +10,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +61,44 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
         ServerProxy.SINGLETON.startCommandPolling();
+
+        ImageView mapView = (ImageView) findViewById(R.id.map_image);
+        mapView.setImageResource(R.drawable.map);
+        //drawMap
+        Button destButton = (Button) findViewById(R.id.dest_button);
+        Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
+        Button demoButton = (Button) findViewById(R.id.demo_button);
+
+        destButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        leaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogLeaderBoard();
+            }
+        });
+
+        demoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.demo();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_game_play,menu);
+        //menu.findItem(R.id.menu_draw_train).setIcon();
+        //menu.findItem(R.id.menu_draw_dest).setIcon();
+        //menu.findItem(R.id.menu_lay_track).setIcon();
+        return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     private void selectItem(int position) {
