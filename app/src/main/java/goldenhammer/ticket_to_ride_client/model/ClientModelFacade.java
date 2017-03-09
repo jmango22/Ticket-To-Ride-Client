@@ -178,7 +178,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized int getLastCommandNumber() {
-        return mCommandMgr.getCommandList().size()-1;
+        int size = 0;
+        if(mCommandMgr.getCommandList().size() > 0){
+            size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber();
+        }
+        return size;
     }
 
     public synchronized int getNextCommandNumber() {

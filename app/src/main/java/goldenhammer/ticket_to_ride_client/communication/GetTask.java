@@ -36,7 +36,13 @@ public class GetTask extends AsyncTask<Void, Void, Results> {
             connection.setDoOutput(false);
             caller.setHeader(connection);
             connection.connect();
-            return new Results(setResults(connection.getInputStream()), connection.getResponseCode());
+            String result;
+            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                result = setResults(connection.getInputStream());
+            }else{
+                result = setResults(connection.getErrorStream());
+            }
+            return new Results(result, connection.getResponseCode());
         }catch(MalformedURLException e){
             return new Results("Wrong URL. Check Port and Host", 500);
         }catch (IOException e){
