@@ -2,14 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/buttons_column"
             android:layout_alignParentStart="true">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/player_stats"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:id="@+id/your_stats">
                 <ImageView
@@ -32,14 +40,19 @@
             <View style="@style/Divider"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:orientation="horizontal"
                 android:id="@+id/player_hand">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/player_hand"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,19 +100,15 @@
                     android:textColor="@color/card_wild"/>
             </LinearLayout>
             <View style="@style/Divider"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bank_cards"/>
+
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/destinations">
-
-            </LinearLayout>
-            <View style="@style/Divider"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:id="@+id/card_bank">
                 <ImageView
@@ -123,6 +132,34 @@
                     android:layout_height="5dp"
                     android:id="@+id/card_slot_4"/>
             </LinearLayout>
-        </LinearLayout>
+            <View style="@style/Divider"/>
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dest_button"
+                    android:text="@string/your_dest"/>
+            <View style="@style/Divider"/>
+
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/leaderboard_button"
+                    android:text="@string/leaderboard"/>
+            <View style="@style/Divider"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/demo_button"
+                android:text="@string/demo"/>
+            <View style="@style/Divider"/>
+
+
+
+        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_image"
+            android:layout_toRightOf="@+id/buttons_column"/>
 </RelativeLayout>

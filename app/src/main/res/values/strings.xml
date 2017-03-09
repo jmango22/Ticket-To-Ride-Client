@@ -4,8 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Nav Drawer Open</string>
     <string name="drawer_closed">Nave Drawer Closed</string>
-    <string name="player_hand">Player\'s Hand: </string>
-    <string name="player_stats">Player\'s Stats</string>
+    <string name="player_hand">Your Train Cards: </string>
+    <string name="player_stats">Your Stats: </string>
     <string name="none">None</string>
     <string name="return_cards_title">Which card would you like to return?</string>
     <string name="return_card">Return Card</string>
@@ -13,6 +13,12 @@
     <string name="trains_left">Trains left: </string>
     <string name="your_dest">Your Destinations</string>
     <string name="close_button">Close</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="draw_train">Draw Train Cards</string>
+    <string name="draw_dests">Draw Destinations</string>
+    <string name="lay_track">Lay Track</string>
+    <string name="bank_cards">Cards in Bank: </string>
+    <string name="demo">Demo</string>
 
 
     <string-array name="nav_drawer_items_array">

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_draw_train"
+        android:title="@string/draw_train"
+        app:showAsAction="ifRoom|withText"
+        />
+    <item
+        android:id="@+id/menu_draw_dest"
+        android:title="@string/draw_dests"
+        app:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/menu_lay_track"
+        android:title="@string/lay_track"
+        app:showAsAction="ifRoom|withText"/>
+</menu>
