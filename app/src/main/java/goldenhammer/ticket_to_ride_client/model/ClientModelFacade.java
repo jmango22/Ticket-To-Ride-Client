@@ -222,14 +222,17 @@ public class ClientModelFacade extends Observable {
         for (Command command: commands){
             //What if the user draws DestCards later in the game?
             if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public synchronized void addCommands(List<Command> newCommands) {
-        mCommandMgr.addCommands(newCommands);
+        if (newCommands.size() > 0) {
+            mCommandMgr.addCommands(newCommands);
+            changed();
+        }
     }
 
     //END COMMAND MANAGER CODE
