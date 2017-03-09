@@ -162,6 +162,18 @@ public class ClientModelFacade extends Observable {
         return cards;
     }
 
+    public synchronized TrainCard[] getAllBankTrainCardsArray() {
+        if (mBank == null){
+            return null;
+        }
+        TrainCard[] bankCards = mBank.getAvailableTrainCards();
+        List<TrainCard> cards = new ArrayList<>();
+        for(int i = 0; i<bankCards.length; i++) {
+            cards.add(bankCards[i]);
+        }
+        return bankCards;
+    }
+
 
     //END PRESENTER CODE
 

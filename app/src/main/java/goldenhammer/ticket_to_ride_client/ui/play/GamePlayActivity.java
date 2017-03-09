@@ -43,6 +43,7 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.DrawnDestCards;
+import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
@@ -109,14 +110,21 @@ public class GamePlayActivity extends AppCompatActivity {
                 placeHolders();
             }
         });
-
+        presenter.updateHand();
+        presenter.updateMap();
+        presenter.updatePlayers();
+        presenter.updateBank();
     }
 
 
     public void placeHolders(){
         ServerProxy.SINGLETON.stopCommandPolling();
+        GameModel m = ClientModelFacade.SINGLETON.getCurrentGame();
         LocalProxy.SINGLETON.playGame(null,null);
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
+        presenter.updateBank();
+        //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
+
     }
 
     @Override
@@ -251,7 +259,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
-        //mapView.setImageResource(R.drawable.map);
+        mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks());
 
         //TODO draw Map, Tracks, Cities
@@ -266,12 +274,12 @@ public class GamePlayActivity extends AppCompatActivity {
         for (Track t : tracks){
             if (t.getOwner() != -1){
                 p.setColor(getBoardColor(Color.values()[t.getOwner()]));
-                p.setStrokeWidth(3);
+                p.setStrokeWidth(7);
                 c.drawLine(t.getLocation1().x,t.getLocation1().y,
                         t.getLocation2().x, t.getLocation2().y, p);
             }
             p.setColor(getBoardColor(t.getColor()));
-            p.setStrokeWidth(1);
+            p.setStrokeWidth(2);
             c.drawLine(t.getLocation1().x,t.getLocation1().y,
                     t.getLocation2().x, t.getLocation2().y, p);
 
@@ -367,6 +375,10 @@ public class GamePlayActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setContentView(R.layout.dialog_leaderboard);
 
+        if (players == null){
+            dialog.hide();
+            return;
+        }
         View color0 = findViewById(R.id.player0_color);
         TextView name0 = (TextView) findViewById(R.id.player0_name);
         TextView points0 = (TextView) findViewById(R.id.player0_points);
@@ -545,7 +557,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     public void updateTurn(int player){
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
+           // getSupportActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
         }
     }
 

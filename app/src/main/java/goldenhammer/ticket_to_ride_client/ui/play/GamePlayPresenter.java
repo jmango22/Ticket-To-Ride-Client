@@ -16,6 +16,7 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
+import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
@@ -114,6 +115,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     @Override
     public void loadGame() {
 
+    }
+
+    protected void updateBank(){
+        if (model.getAllBankTrainCardsArray()!= null) {
+            owner.updateBank(model.getAllBankTrainCardsArray());
+        }
     }
 
     protected void updateMap() {
