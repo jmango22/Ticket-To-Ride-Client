@@ -72,6 +72,7 @@ public class GamePlayActivity extends AppCompatActivity {
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                destCardsDialog();
             }
         });
 
@@ -195,6 +196,27 @@ public class GamePlayActivity extends AppCompatActivity {
             toReturn.add(drawnDestCards.get(selectedIndex));
         }
          presenter.returnDestCards(toReturn);
+    }
+
+    public void destCardsDialog(){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setTitle(R.string.your_dest);
+        dialog.setContentView(R.layout.dialog_dest_cards);
+        TextView destinations = (TextView) findViewById(R.id.dest_list);
+        StringBuilder sb = new StringBuilder();
+        for (DestCard d : hand.getDestinationCards()){
+            sb.append(d.getCity1().getName());
+            sb.append(" to " + d.getCity2().getName());
+            sb.append(": " + d.getPointsWorth() + "points\n");
+        }
+        destinations.setText(sb.toString());
+        Button closeButton = (Button) findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
     }
 
     public void initHandDialog(List<DestCard> drawnCards){
