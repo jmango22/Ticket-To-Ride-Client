@@ -48,6 +48,7 @@ public class StateSelector {
             @Override
             public void updateView() {
                 super.updateView();
+                presenter.initializeHand();
                 //TODO: show the dialog maybe not call super
             }
         };
