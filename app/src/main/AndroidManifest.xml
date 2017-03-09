@@ -22,7 +22,9 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.play.GamePlayActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>
