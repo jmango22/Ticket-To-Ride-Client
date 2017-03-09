@@ -270,6 +270,7 @@ public class ServerProxy implements IProxy {
         }}
 
     public void stopCommandPolling(){
-        gamePoller.timer.cancel();
+        commandPoller.timer.cancel();
+        commandPoller.timer.purge();
     }
 }

@@ -6,7 +6,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/buttons_column"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

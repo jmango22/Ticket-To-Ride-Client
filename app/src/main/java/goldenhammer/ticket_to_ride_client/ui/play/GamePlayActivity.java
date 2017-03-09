@@ -7,7 +7,9 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.os.PersistableBundle;
 import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,7 +64,9 @@ public class GamePlayActivity extends AppCompatActivity {
     private int selectedIndex;
     private GamePlayPresenter presenter;
     private List<DestCard> drawnDestCards;
-    ImageView mapView;
+    private int screenHeight;
+    private int screenWidth;
+    private ImageView mapView;
 
 
     @Override
@@ -76,6 +81,11 @@ public class GamePlayActivity extends AppCompatActivity {
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+         screenHeight = displayMetrics.heightPixels;
+         screenWidth = displayMetrics.widthPixels;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,16 +104,23 @@ public class GamePlayActivity extends AppCompatActivity {
         demoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.demo();
+                //presenter.demo();
+                placeHolders();
             }
         });
 
-        //placeHolders();
+    }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        placeHolders();
+        super.onPostCreate(savedInstanceState, persistentState);
     }
 
     public void placeHolders(){
+        ServerProxy.SINGLETON.stopCommandPolling();
         LocalProxy.SINGLETON.playGame(null,null);
-
+        int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
     }
 
     @Override
@@ -238,14 +255,14 @@ public class GamePlayActivity extends AppCompatActivity {
 
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
-        mapView.setImageResource(R.drawable.map);
+        //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks());
 
         //TODO draw Map, Tracks, Cities
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks){
-        Bitmap bmp = Bitmap.createBitmap(mapView.getWidth(), mapView.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(screenWidth- 250, screenHeight, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
         mapView.draw(c);
 
@@ -289,6 +306,8 @@ public class GamePlayActivity extends AppCompatActivity {
         final TextView text1 = (TextView) findViewById(R.id.dest_text_1);
         final TextView text2 = (TextView) findViewById(R.id.dest_text_2);
         final TextView textNone = (TextView) findViewById(R.id.dest_text_none);
+
+
         slot0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -341,8 +360,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 if (players.get(i).getUsername().equals(username)) {
                     color.setBackgroundColor(getBoardColor(players.get(i).getColor()));
                     name.setText(players.get(i).getUsername());
-                    points.setText(players.get(i).getPoints());
-                    trains.setText(players.get(i).getNumPieces());
+                    points.setText(Integer.toString(players.get(i).getPoints()));
+                    trains.setText(Integer.toString(players.get(i).getNumPieces()));
                 }
             }
         }
@@ -529,7 +548,9 @@ public class GamePlayActivity extends AppCompatActivity {
 
     }
     public void updateTurn(int player){
-        getActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(players.get(player).getUsername() + "\'s Turn");
+        }
     }
 
 
