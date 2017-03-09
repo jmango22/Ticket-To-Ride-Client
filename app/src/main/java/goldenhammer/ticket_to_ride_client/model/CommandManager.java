@@ -23,7 +23,7 @@ public class CommandManager {
 
     public void addCommands(List<Command> newCommands) {
         for (Command command : newCommands) {
-            if(commandList.size() == command.getCommandNumber() - 1) {
+            if(commandList.size() == command.getCommandNumber()) {
                 command.execute();
                 commandList.add(command);
             }

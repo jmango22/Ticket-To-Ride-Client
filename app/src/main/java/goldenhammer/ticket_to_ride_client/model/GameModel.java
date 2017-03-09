@@ -70,6 +70,15 @@ public class GameModel {
         return -1;
     }
 
+    public void updatePoints(){
+        for(City city: getAllCities()){
+            city.updateLocation();
+        }
+        for(Track track: getAllTracks()){
+            track.updateLocation();
+        }
+    }
+
     public boolean isMyTurn(CommandManager cmdMgr) {
         if(getCurrentTurnPlayer(cmdMgr) == getMyPlayerNumber()) {
             return true;

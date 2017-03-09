@@ -68,6 +68,7 @@ public class ClientModelFacade extends Observable {
 
     public synchronized void setCurrentGame(GameModel mCurrentGame) {
         this.mCurrentGame = mCurrentGame;
+        mCurrentGame.updatePoints();
         changed();
     }
 
@@ -182,7 +183,7 @@ public class ClientModelFacade extends Observable {
         if(mCommandMgr.getCommandList().size() > 0){
             size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber();
         }
-        return size;
+        return size - 1;
     }
 
     public synchronized int getNextCommandNumber() {
@@ -211,6 +212,10 @@ public class ClientModelFacade extends Observable {
 
     public synchronized Hand getHand() {
         return mUser.getHand();
+    }
+
+    public synchronized void setHand(Hand hand){
+        mUser.setHand(hand);
     }
 
     public synchronized boolean shouldInitializeHand() {
