@@ -260,11 +260,11 @@ public class ServerProxy implements IProxy {
      * @post the poller stops running
      */
     public void stopGameListPolling(){
-        gamePoller.timer.cancel();
+        gamePoller.stopPoller();
     }
 
     public void startCommandPolling(){
-        stopGameListPolling();
+        //stopGameListPolling();
         if (this.commandPoller == null) {
             this.commandPoller = new CommandPoller();
         }}
