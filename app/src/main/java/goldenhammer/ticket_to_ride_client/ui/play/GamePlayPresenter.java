@@ -118,9 +118,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
 
-
+    boolean mustInitialize = true;
     protected void initializeHand() {
-        owner.initializeHand(model.getHand());
+        if(mustInitialize) {
+            owner.initializeHand(model.getHand());
+            mustInitialize = false;
+        }
     }
 
     protected void updateBank(){

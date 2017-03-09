@@ -301,16 +301,16 @@ public class GamePlayActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setTitle(R.string.return_cards_title);
         dialog.setContentView(R.layout.dialog_init_hand);
-        ImageButton slot0 = (ImageButton) findViewById(R.id.dest_card_0) ;
-        ImageButton slot1 = (ImageButton) findViewById(R.id.dest_card_1);
-        ImageButton slot2 = (ImageButton) findViewById(R.id.dest_card_2);
-        ImageButton none = (ImageButton) findViewById(R.id.dest_card_none);
-        Button returnCards = (Button) findViewById(R.id.return_cards_button);
+        ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
 
-        final TextView text0 = (TextView) findViewById(R.id.dest_text_0);
-        final TextView text1 = (TextView) findViewById(R.id.dest_text_1);
-        final TextView text2 = (TextView) findViewById(R.id.dest_text_2);
-        final TextView textNone = (TextView) findViewById(R.id.dest_text_none);
+        final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
+        final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
+        final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
+        final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
 
 //TODO set up Dest Cards Text
         slot0.setOnClickListener(new View.OnClickListener() {
