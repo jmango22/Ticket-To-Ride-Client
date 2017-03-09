@@ -1,6 +1,12 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.provider.ContactsContract;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
@@ -28,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.R;
+import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
@@ -35,6 +42,7 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
 import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
+import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
 //TODO Dialog for selecting cards
@@ -53,6 +61,8 @@ public class GamePlayActivity extends AppCompatActivity {
     private int selectedIndex;
     private GamePlayPresenter presenter;
     private List<DestCard> drawnDestCards;
+    ImageView mapView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +71,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
         ServerProxy.SINGLETON.startCommandPolling();
-
-        ImageView mapView = (ImageView) findViewById(R.id.map_image);
+        mapView = (ImageView) findViewById(R.id.map_image);
         mapView.setImageResource(R.drawable.map);
-        //drawMap
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
@@ -89,6 +97,13 @@ public class GamePlayActivity extends AppCompatActivity {
                 presenter.demo();
             }
         });
+
+        //placeHolders();
+    }
+
+    public void placeHolders(){
+        LocalProxy.SINGLETON.playGame(null,null);
+
     }
 
     @Override
@@ -219,6 +234,47 @@ public class GamePlayActivity extends AppCompatActivity {
         });
     }
 
+    public void drawMap(Map map){
+
+        //Drawable mapDrawable = new (R.drawable.map);
+        //mapView.setImageDrawable();
+        mapView.setImageResource(R.drawable.map);
+        drawTracks(mapView,map.getTracks());
+
+        //TODO draw Map, Tracks, Cities
+    }
+
+    public void drawTracks(ImageView mapView,List<Track> tracks){
+        Bitmap bmp = Bitmap.createBitmap(mapView.getWidth(), mapView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        mapView.draw(c);
+
+        Paint p = new Paint();
+        for (Track t : tracks){
+            if (t.getOwner() != -1){
+                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
+                p.setStrokeWidth(3);
+                c.drawLine(t.getLocation1().x,t.getLocation1().y,
+                        t.getLocation2().x, t.getLocation2().y, p);
+            }
+            p.setColor(getBoardColor(t.getColor()));
+            p.setStrokeWidth(1);
+            c.drawLine(t.getLocation1().x,t.getLocation1().y,
+                    t.getLocation2().x, t.getLocation2().y, p);
+
+            p.setColor(getBoardColor(Color.WHITE));
+            PointF midpoint = midPoint(t.getLocation1(),t.getLocation2());
+            c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
+        }
+        mapView.setImageBitmap(bmp);
+    }
+
+    public PointF midPoint(PointF p1, PointF p2){
+        float x = (p1.x + p2.x)/2.0f;
+        float y = (p1.y + p2.y)/2.0f;
+        return new PointF(x,y);
+    }
+
     public void initHandDialog(List<DestCard> drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setTitle(R.string.return_cards_title);
@@ -270,10 +326,6 @@ public class GamePlayActivity extends AppCompatActivity {
         });
 
         dialog.show();
-    }
-
-    public void drawMap(Map map){
-    //TODO draw Map, Tracks, Cities
     }
 
     public void updatePlayers(List<PlayerOverview> players){

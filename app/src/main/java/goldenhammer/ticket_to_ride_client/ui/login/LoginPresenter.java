@@ -63,6 +63,7 @@ public class LoginPresenter implements Observer, ILoginPresenter {
                     String results = res.getBody();
                     owner.toastMessage(results);
                     if (results.equals("Success!")) {
+
                         owner.onLogin(username);
                     }
                 }
