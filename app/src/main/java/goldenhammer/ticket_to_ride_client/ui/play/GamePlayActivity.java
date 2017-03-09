@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,6 +60,13 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
         ServerProxy.SINGLETON.startCommandPolling();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_game_play,menu);
+        return true;
     }
 
     private void selectItem(int position) {
