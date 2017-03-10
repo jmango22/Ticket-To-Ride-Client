@@ -72,10 +72,12 @@ public class GamePlayActivity extends AppCompatActivity {
     private int screenHeight;
     private int screenWidth;
     private ImageView mapView;
-    private int mapX = 1697;
-    private int mapY = 1218;
+    private int mapX = 1707;
+    private int mapY = 1223;
     private float mapScaleX;
     private float mapScaleY;
+    private int mapWindowHeight= 500;//488;
+    private int mapWindowWidth = 774;
 
 
     @Override
@@ -88,6 +90,7 @@ public class GamePlayActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
+        mapView.getHeight();
         //mapView.setImageResource(R.drawable.map);
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
@@ -97,8 +100,8 @@ public class GamePlayActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
          screenHeight = displayMetrics.heightPixels;
          screenWidth = displayMetrics.widthPixels;
-        mapScaleX = (float)screenWidth-250/(float)mapX;
-        mapScaleY = (float)screenWidth/(float)mapY;
+        mapScaleX = (float)(mapWindowWidth)/(float)mapX;
+        mapScaleY = (float)(mapWindowHeight)/(float)mapY;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,58 +268,69 @@ public class GamePlayActivity extends AppCompatActivity {
         });
     }
 
+    public void getTrackColor(Color c){
+
+    }
+
     public void drawMap(Map map){
 
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
         //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks());
-        //mapView.setBackgroundResource(R.drawable.map);
+        mapView.setBackgroundResource(R.drawable.map);
 
         //TODO draw Map, Tracks, Cities
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks){
-        Bitmap bmp = Bitmap.createBitmap(screenWidth- 250, screenHeight, Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(mapWindowWidth, mapWindowHeight, Bitmap.Config.ARGB_8888);
         //Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.map);
         Canvas c = new Canvas(bmp);
 
 
         Paint p = new Paint();
+        Paint green = new Paint();
+        green.setColor(getBoardColor(Color.GREEN));
         for (Track t : tracks){
-            if (t.getOwner()-1 != -1){
-                p.setColor(getBoardColor(Color.values()[t.getOwner()-1]));
+            //Drawing underlying track (who owns it)
+            if (t.getOwner()-1 == -1) {
+                p.setColor(getBoardColor(Color.WHITE));
+            }
+            else{
+                p.setColor(getBoardColor(Color.values()[t.getOwner() - 1]));
+            }
                 p.setStrokeWidth(7);
                 PointF pt1 =t.getCity1().getLocation();
                 PointF pt2 =t.getCity2().getLocation();
-                c.drawLine(pt1.x,pt1.y,
-                        pt2.x, pt2.y, p);
-            }
+                c.drawLine(pt1.x*mapScaleX,pt1.y*mapScaleY,
+                        pt2.x*mapScaleX, pt2.y*mapScaleY, p);
+            //Drawing the color of train required for the track.
             if (t.getColor() == null){
                 p.setColor(android.graphics.Color.GRAY);
             }
             else {
                 p.setColor(getBoardColor(t.getColor()));
             }
-            p.setStrokeWidth(2);
-            PointF pt1 =t.getCity1().getLocation();
-            PointF pt2 =t.getCity2().getLocation();
-            c.drawLine(pt1.x,pt1.y,
-                    pt2.x, pt2.y, p);
+            p.setStrokeWidth(4);
+            PointF p1 =t.getCity1().getLocation();
+            PointF p2 =t.getCity2().getLocation();
+            c.drawLine(p1.x*mapScaleX,p1.y*mapScaleY,
+                    p2.x*mapScaleX, p2.y*mapScaleY, p);
 
 
             p.setColor(getBoardColor(Color.WHITE));
-            PointF midpoint = midPoint(t.getLocation1(),t.getLocation2());
+            PointF midpoint = midPoint(t.getCity1().getLocation(),t.getCity2().getLocation());
             c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
         }
         mapView.setImageBitmap(bmp);
-        mapView.draw(c);
+        //mapView.draw(c);
         //mapView.setImageBitmap(bmp);
     }
 
     public PointF midPoint(PointF p1, PointF p2){
-        float x = (p1.x + p2.x)/2.0f;
-        float y = (p1.y + p2.y)/2.0f;
+        float x = ((p1.x + p2.x)*mapScaleX)/2.0f;
+        float y = ((p1.y + p2.y)*mapScaleX)/2.0f;
         return new PointF(x,y);
     }
 
@@ -490,8 +504,9 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public int getBoardColor(Color t){
+        Resources res = getResources();
         if (t == Color.RED){
-            return R.color.card_red;
+            return getResources().getColor(R.color.card_red,this.getTheme());
         }
         else if (t == Color.ORANGE){
             return R.color.card_orange;
