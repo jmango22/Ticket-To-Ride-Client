@@ -279,14 +279,20 @@ public class GamePlayActivity extends AppCompatActivity {
 
     public void updateChat(String chatString){
         this.chatString = chatString;
-        chatText.setText(this.chatString);
+        if (chatText != null) {
+            chatText.setText(this.chatString);
+        }
+    }
+
+    public String getChat(){
+        return chatString;
     }
 
     public void chatDialog(){
         chats.setTitle("Chats");
         chats.setContentView(R.layout.dialog_chat);
 
-        presenter.onChatOpen();
+        //presenter.onChatOpen();
 
         TextView chatText = (TextView) chats.findViewById(R.id.chat_text);
         EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
@@ -314,7 +320,7 @@ public class GamePlayActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                presenter.postMessage(chatToSend);
             }
         });
 
@@ -322,7 +328,7 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chats.hide();
-                presenter.onChatClose();
+                //presenter.onChatClose();
             }
         });
         chats.show();
@@ -435,7 +441,10 @@ public class GamePlayActivity extends AppCompatActivity {
         ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
         ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
         Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
-
+        if (drawnCards == null){
+            dialog.hide();
+            return;
+        }
         List<DestCard> cards = drawnCards.getRemainingDestCards();
         if (cards.size()== 3) {
             slot0.setImageResource(getCityFileId(cards.get(0)));

@@ -23,7 +23,8 @@ public class ChatMessages {
 
     public String getString(){
         StringBuilder sb = new StringBuilder();
-        for(Message m: messages){
+        for(int i = 0; i < messages.size(); i++){
+            Message m = messages.get(i);
             sb.append(m.getUsername());
             sb.append(": ");
             sb.append(m.getMessage());
