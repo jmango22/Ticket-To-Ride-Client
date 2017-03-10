@@ -252,6 +252,8 @@ public class ServerProxy implements IProxy {
     public void startGameListPolling(){
         if (this.gamePoller == null) {
             this.gamePoller = new GamePoller();
+        } else {
+            this.gamePoller.restart();
         }
     }
 
@@ -267,10 +269,14 @@ public class ServerProxy implements IProxy {
         //stopGameListPolling();
         if (this.commandPoller == null) {
             this.commandPoller = new CommandPoller();
-        }}
+        } else {
+            commandPoller.restart();
+        }
+    }
 
     public void stopCommandPolling(){
         commandPoller.timer.cancel();
         commandPoller.timer.purge();
+        commandPoller = null;
     }
 }

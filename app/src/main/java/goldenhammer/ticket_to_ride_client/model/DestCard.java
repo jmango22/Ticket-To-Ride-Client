@@ -50,6 +50,12 @@ public class DestCard {
     }
 
     @Override
+    public String toString() {
+        return city1.getName() +
+                ", " + city2.getName();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj == null) {
             return false;
@@ -58,8 +64,8 @@ public class DestCard {
             return false;
         }
         else {
-            if(((DestCard) obj).getCity1() == city1) {
-                if(((DestCard) obj).getCity2() == city2) {
+            if(((DestCard) obj).getCity1().equals(city1)) {
+                if(((DestCard) obj).getCity2().equals(city2)) {
                    if(((DestCard) obj).getPointsWorth() == pointsWorth) {
                        return true;
                    }

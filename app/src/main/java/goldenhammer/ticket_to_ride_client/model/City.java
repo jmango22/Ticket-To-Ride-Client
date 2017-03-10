@@ -54,8 +54,8 @@ public class City {
         else if (!(obj instanceof City)) {
             return false;
         } else {
-            if(((City) obj).getLocation() == this.location) {
-                if(((City) obj).getName() == this.name) {
+            if(((City) obj).getLocation().equals(this.location)) {
+                if(((City) obj).getName().equals(this.name)) {
                     return true;
                 }
             }
