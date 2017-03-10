@@ -4,133 +4,158 @@
               android:layout_height="match_parent" android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/player0_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/player_stats0"
+        android:paddingTop="15dp">
         <ImageView
-            android:id="@+id/player0_color"
-            android:layout_width="5dp"
-            android:layout_height="5dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/player_color0"/>
         <TextView
-            android:id="@+id/player0_name"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_name0"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player0_points"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_points0"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player0_trains_remaining"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_trains_remaining0"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
+    <View style="@style/Divider"/>
+
     <LinearLayout
-        android:id="@+id/player1_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/player_stats1"
+        android:paddingTop="15dp">
         <ImageView
-            android:id="@+id/player1_color"
-            android:layout_margin="@dimen/leaderboard_padding"
-            android:layout_width="5dp"
-            android:layout_height="5dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/player_color1"/>
         <TextView
-            android:id="@+id/player1_name"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_name1"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player1_points"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_points1"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player1_trains_remaining"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_trains_remaining1"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
+    <View style="@style/Divider"/>
     <LinearLayout
-        android:id="@+id/player2_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/player_stats2"
+        android:paddingTop="15dp">
         <ImageView
-            android:id="@+id/player2_color"
-            android:layout_margin="@dimen/leaderboard_padding"
-            android:layout_width="5dp"
-            android:layout_height="5dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/player_color2"/>
         <TextView
-            android:id="@+id/player2_name"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_name2"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player2_points"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_points2"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player2_trains_remaining"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_trains_remaining2"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
+    <View style="@style/Divider"/>
     <LinearLayout
-        android:id="@+id/player3_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/player_stats3"
+        android:paddingTop="15dp">
         <ImageView
-            android:id="@+id/player3_color"
-            android:layout_width="5dp"
-            android:layout_margin="@dimen/leaderboard_padding"
-            android:layout_height="5dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/player_color3"/>
         <TextView
-            android:id="@+id/player3_name"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_name3"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player3_points"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_points3"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player3_trains_remaining"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_trains_remaining3"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
+    <View style="@style/Divider"/>
     <LinearLayout
-        android:id="@+id/player4_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/player_stats4"
+        android:paddingTop="15dp">
         <ImageView
-            android:id="@+id/player4_color"
-            android:layout_width="5dp"
-            android:layout_height="5dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/player_color4"/>
         <TextView
-            android:id="@+id/player4_name"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_name4"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player4_points"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_points4"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
         <TextView
-            android:id="@+id/player4_trains_remaining"
-            android:layout_margin="@dimen/leaderboard_padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/player_trains_remaining4"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
+    <View style="@style/Divider"/>
+
+
     <Button
         android:id="@+id/close_button2"
         android:layout_width="wrap_content"
