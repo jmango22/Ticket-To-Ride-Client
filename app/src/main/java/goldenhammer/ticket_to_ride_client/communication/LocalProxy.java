@@ -89,7 +89,7 @@ public class LocalProxy implements IProxy {
 
     @Override
     public void playGame(GameName gameName, Callback c) {
-        GameModel gm = new GameModel();
+        /*GameModel gm = new GameModel();
         ArrayList<City> cities = new ArrayList<>();
         City c1 = new City(new PointF(10,20),"testCity");
         City c2 = new City(new PointF(20,30),"Babylon");
@@ -108,11 +108,16 @@ public class LocalProxy implements IProxy {
         Track t = new Track(c1,c2, 3,Color.PURPLE,0,false,c1.getLocation(),c2.getLocation());
         tracks.add(t);
         gm.setTracks(tracks);
-        cmf.setCurrentGame(gm);
+        cmf.setCurrentGame(gm);*/
         //Add fake hand
         List<DestCard> destCards = new ArrayList<>();
-        DestCard d1 = new DestCard(c1,c2,10);
+        List<City> cities = cmf.getAllCities();
+        DestCard d1 = new DestCard(cities.get(0), cities.get(1), 11);
+        DestCard d2 = new DestCard(cities.get(1),cities.get(2), 22);
+        DestCard d3 = new DestCard(cities.get(0), cities.get(2), 33);
         destCards.add(d1);
+        destCards.add(d2);
+        destCards.add(d3);
 
         List<TrainCard> handCards = new ArrayList<>();
         TrainCard tr1 = new TrainCard(Color.PURPLE);
@@ -125,10 +130,11 @@ public class LocalProxy implements IProxy {
         handCards.add(tr3);
         handCards.add(tr4);
         handCards.add(tr5);
-        Hand hand = new Hand(destCards,handCards);
+        //Hand hand = new Hand(destCards,handCards);
         cmf.drawTrainCards(handCards);
         cmf.setDrawnDestCards(destCards);
         cmf.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
+        cmf.getUserDestCards();
         //Add fake bank
         List<TrainCard> trainCards = new ArrayList<>();
         TrainCard t1 = new TrainCard(Color.PURPLE);
