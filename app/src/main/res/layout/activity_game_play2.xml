@@ -145,25 +145,30 @@
                 android:orientation="horizontal"
                 android:id="@+id/card_bank">
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:id="@+id/card_slot_0"/>
+                    android:layout_width="25dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/card_slot_0"
+                    android:layout_marginStart="20dp" />
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:id="@+id/card_slot_1"/>
+                    android:layout_width="25dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/card_slot_1"
+                    android:layout_marginStart="20dp" />
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:id="@+id/card_slot_2"/>
+                    android:layout_width="25dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/card_slot_2"
+                    android:layout_marginStart="20dp" />
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:id="@+id/card_slot_3"/>
+                    android:layout_width="25dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/card_slot_3"
+                    android:layout_marginStart="20dp" />
                 <ImageView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:id="@+id/card_slot_4"/>
+                    android:layout_width="25dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/card_slot_4"
+                    android:layout_marginStart="20dp" />
             </LinearLayout>
             <View style="@style/Divider"/>
 
