@@ -1,13 +1,10 @@
 package goldenhammer.ticket_to_ride_client.model;
 
-import android.graphics.PointF;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 

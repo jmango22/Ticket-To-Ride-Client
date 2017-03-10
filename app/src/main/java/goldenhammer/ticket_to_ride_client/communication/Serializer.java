@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +14,8 @@ import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
-import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
+import goldenhammer.ticket_to_ride_client.model.ChatMessages;
+import goldenhammer.ticket_to_ride_client.model.Message;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 
 /**
@@ -90,7 +90,8 @@ public class Serializer {
     }
 
     public static ChatMessages deserializeChat(String result){
-        Gson gson = new Gson();
-        return gson.fromJson(result,ChatMessages.class);
+            Gson gson = new Gson();
+            List<Message> messages = gson.fromJson(result, List.class);
+            return new ChatMessages(messages);
     }
 }
