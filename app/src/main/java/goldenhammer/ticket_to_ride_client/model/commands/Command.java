@@ -10,11 +10,20 @@ public abstract class Command {
     String name;
     int playerNumber;
     int commandNumber;
+    String playerName;
 
     public Command(int commandNumber, int playerNumber){
         this.commandNumber = commandNumber;
         this.name = this.getClass().toString();
         this.playerNumber = playerNumber;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public Command(int commandNumber){

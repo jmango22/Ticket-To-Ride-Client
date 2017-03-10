@@ -15,6 +15,7 @@ import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
+import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 
 /**
@@ -30,7 +31,7 @@ public class Serializer {
         JsonParser parser = new JsonParser();
         return parser.parse(json).getAsJsonObject();
     }
-    static final String commandPackagePrefix = "edu.goldenhammer.ticket_to_ride_client.model.commands";
+    static final String commandPackagePrefix = "goldenhammer.ticket_to_ride_client.model.commands.";
     public static Command deserializeCommand(String json) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
@@ -60,7 +61,7 @@ public class Serializer {
         List<Command> list = new ArrayList<>();
         for(int i = 0; i < commands.size(); i++) {
             try {
-                Command c = deserializeCommand(commands.get(i).getAsString());
+                Command c = deserializeCommand(commands.get(i).toString());
                 list.add(c);
             } catch (JsonSyntaxException e){
                 e.printStackTrace();
@@ -86,5 +87,10 @@ public class Serializer {
         }catch (JSONException e){
             return result;
         }
+    }
+
+    public static ChatMessages deserializeChat(String result){
+        Gson gson = new Gson();
+        return gson.fromJson(result,ChatMessages.class);
     }
 }

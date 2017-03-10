@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
+import android.telecom.Call;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -245,6 +247,22 @@ public class ServerProxy implements IProxy {
         communicator.get(url, c);
     }
 
+    public void getMessages(Callback c){
+        String url = "/getmessages";
+        communicator.get(url,c);
+    }
+
+    public void postMessage(String message, Callback c){
+        String url = "postmessage";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("message", message);
+        }catch (JSONException e){
+
+        }
+        communicator.post(url,body, c);
+    }
+
     /**
      * Starts the poller periodically running
      * @post the poller starts running
@@ -252,6 +270,8 @@ public class ServerProxy implements IProxy {
     public void startGameListPolling(){
         if (this.gamePoller == null) {
             this.gamePoller = new GamePoller();
+        } else {
+            this.gamePoller.restart();
         }
     }
 
@@ -260,16 +280,21 @@ public class ServerProxy implements IProxy {
      * @post the poller stops running
      */
     public void stopGameListPolling(){
-        gamePoller.timer.cancel();
+        gamePoller.stopPoller();
     }
 
     public void startCommandPolling(){
-        stopGameListPolling();
+        //stopGameListPolling();
         if (this.commandPoller == null) {
             this.commandPoller = new CommandPoller();
-        }}
+        } else {
+            commandPoller.restart();
+        }
+    }
 
     public void stopCommandPolling(){
-        gamePoller.timer.cancel();
+        commandPoller.timer.cancel();
+        commandPoller.timer.purge();
+        commandPoller = null;
     }
 }

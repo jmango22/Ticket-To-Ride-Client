@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
@@ -22,6 +23,7 @@ public class ClientModelFacade extends Observable {
     private Bank mBank;
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
+    private ChatMessages messages;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -68,6 +70,7 @@ public class ClientModelFacade extends Observable {
 
     public synchronized void setCurrentGame(GameModel mCurrentGame) {
         this.mCurrentGame = mCurrentGame;
+        mCurrentGame.updatePoints();
         changed();
     }
 
@@ -162,6 +165,18 @@ public class ClientModelFacade extends Observable {
         return cards;
     }
 
+    public synchronized TrainCard[] getAllBankTrainCardsArray() {
+        if (mBank == null){
+            return null;
+        }
+        TrainCard[] bankCards = mBank.getAvailableTrainCards();
+        List<TrainCard> cards = new ArrayList<>();
+        for(int i = 0; i<bankCards.length; i++) {
+            cards.add(bankCards[i]);
+        }
+        return bankCards;
+    }
+
 
     //END PRESENTER CODE
 
@@ -178,9 +193,9 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized int getLastCommandNumber() {
-        int size = 0;
+        int size = -1;
         if(mCommandMgr.getCommandList().size() > 0){
-            size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber();
+            size = mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber() + 1;
         }
         return size;
     }
@@ -213,6 +228,10 @@ public class ClientModelFacade extends Observable {
         return mUser.getHand();
     }
 
+    public synchronized void setHand(Hand hand){
+        mUser.setHand(hand);
+    }
+
     public synchronized boolean shouldInitializeHand() {
         List<Command> commands = mCommandMgr.getCommandList();
         if(commands.size() > getCurrentGame().getLeaderBoard().size() * 2){
@@ -222,14 +241,26 @@ public class ClientModelFacade extends Observable {
         for (Command command: commands){
             //What if the user draws DestCards later in the game?
             if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public synchronized void addCommands(List<Command> newCommands) {
-        mCommandMgr.addCommands(newCommands);
+        if (newCommands.size() > 0) {
+            mCommandMgr.addCommands(newCommands);
+            changed();
+        }
+    }
+
+    public synchronized void setMessages(ChatMessages c){
+        this.messages = c;
+        changed();
+    }
+
+    public ChatMessages getMessages(){
+        return this.messages;
     }
 
     //END COMMAND MANAGER CODE

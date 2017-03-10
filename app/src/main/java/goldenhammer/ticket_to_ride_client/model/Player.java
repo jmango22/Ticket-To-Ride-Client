@@ -1,6 +1,5 @@
 package goldenhammer.ticket_to_ride_client.model;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,6 +17,9 @@ public class Player {
         mHand = new Hand();
     }
 
+    public void setHand(Hand hand){
+        mHand = hand;
+    }
     public Username getUsername(){
         return mUsername;
     }
@@ -47,7 +49,7 @@ public class Player {
     }
 
     public void setDrawDestCards(List<DestCard> cards) {
-        mHand.setDrawnDestCards(cards);
+        mHand.setDrawnDestinationCards(cards);
     }
 
     public void moveDrawnDestCards(List<DestCard> discardedCards) {

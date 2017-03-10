@@ -1,5 +1,6 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,6 +10,7 @@ import java.util.TimerTask;
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
+import goldenhammer.ticket_to_ride_client.communication.MessagePoller;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
@@ -16,6 +18,7 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
+import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
@@ -32,13 +35,14 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private GameName name;
     private State state;
     private boolean handInitialized;
+    private MessagePoller poller;
 
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
         //proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
-        model.addObserver(this);
+
         name = model.getCurrentGame().getGameName();
         myCommandCallback = new Callback() {
             @Override
@@ -56,6 +60,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
 
+    @Override
+    public void onPause() {
+        model.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        model.addObserver(this);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -102,8 +115,21 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     void sendReturnDestCardsCommand(List<DestCard> toReturn) {
-        ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
-        proxy.doCommand(command, myCommandCallback);
+        ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
+        proxy.doCommand(command, new Callback() {
+            @Override
+            public void run(Results res) {
+                if(res.getResponseCode() < 400) {
+                    Command command = Serializer.deserializeCommand(res.getBody());
+                    List<Command> commands = new ArrayList<Command>();
+                    commands.add(command);
+                    model.addCommands(commands);
+                } else {
+                    showToast(Serializer.deserializeMessage(res.getBody()));
+                    model.changed();
+                }
+            }
+        });
     }
 
     @Override
@@ -111,8 +137,22 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.layTrack(track);
     }
 
+
     @Override
     public void loadGame() {
+
+    }
+
+
+
+    protected void initializeHand() {
+        owner.initializeHand(model.getHand());
+    }
+
+    protected void updateBank(){
+        if (model.getAllBankTrainCardsArray()!= null) {
+            owner.updateBank(model.getAllBankTrainCardsArray());
+        }
 
     }
 
@@ -130,6 +170,27 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     protected void updateHand(){
         owner.updateHand(model.getHand());
+    }
+
+    public void onChatOpen(){
+        if(poller == null) {
+            poller = new MessagePoller();
+        }else{
+            poller.restart();
+        }
+    }
+
+    public void onChatClose(){
+        poller.stopPoller();
+    }
+
+    public void postMessage(String message){
+        proxy.postMessage(message, new Callback() {
+            @Override
+            public void run(Results res) {
+                showToast(Serializer.deserializeMessage(res.getBody()));
+            }
+        });
     }
 
     protected void showToast(String message) {

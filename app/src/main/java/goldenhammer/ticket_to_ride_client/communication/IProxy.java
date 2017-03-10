@@ -26,4 +26,9 @@ public interface IProxy {
     void doCommand(Command command, Callback c);
 
     void getCommands(int lastCommandNumber, Callback c);
+
+    void getMessages(Callback c);
+
+    void postMessage(String message, Callback c);
+
 }

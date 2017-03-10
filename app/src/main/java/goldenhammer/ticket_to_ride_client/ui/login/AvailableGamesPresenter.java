@@ -33,14 +33,18 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
 
     @Override
     public void update(Observable o, Object arg) {
-        owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
+        if(ClientModelFacade.SINGLETON.getCurrentGame() == null) {
+            owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
 
-        owner.runOnThisThread(new Runnable() {
-            @Override
-            public void run() {
-                owner.update();
-            }
-        });
+            owner.runOnThisThread(new Runnable() {
+                @Override
+                public void run() {
+                    owner.update();
+                }
+            });
+        } else {
+//            ClientModelFacade.SINGLETON.deleteObserver(this);
+        }
 
     }
 
@@ -80,5 +84,14 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
+    }
+    @Override
+    public void onPause() {
+        ClientModelFacade.SINGLETON.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        ClientModelFacade.SINGLETON.addObserver(this);
     }
 }

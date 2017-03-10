@@ -8,19 +8,28 @@ import android.graphics.PointF;
 
 public class City {
     private PointF location;
-
+    private int x_location;
+    private int y_location;
     private String name;
 
     public City() {
         location = new PointF();
         name = "";
     }
-
+    public City(int x_location, int y_location, String name) {
+        this.x_location = x_location;
+        this.y_location = y_location;
+        location = new PointF(x_location * 1f, y_location * 1f);
+        this.name = name;
+    }
     public City(PointF location, String name) {
         this.location = location;
         this.name = name;
     }
 
+    public void updateLocation() {
+        location = new PointF(x_location * 1f, y_location * 1f);
+    }
     public PointF getLocation() {
         return location;
     }
@@ -45,8 +54,8 @@ public class City {
         else if (!(obj instanceof City)) {
             return false;
         } else {
-            if(((City) obj).getLocation() == this.location) {
-                if(((City) obj).getName() == this.name) {
+            if(((City) obj).getLocation().equals(this.location)) {
+                if(((City) obj).getName().equals(this.name)) {
                     return true;
                 }
             }

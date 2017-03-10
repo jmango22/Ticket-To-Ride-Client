@@ -192,6 +192,9 @@ public class ClientModelFacadeTest {
         model.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
 
         assertEquals(model.getUserDestCards().size(), 3);
+
+        model.moveDrawnDestCardsToHand(new ArrayList<DestCard>());
+        assertEquals(model.getUserDestCards().size(), 3);
     }
 
     @Test
