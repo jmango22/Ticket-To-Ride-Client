@@ -421,7 +421,7 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.hide();
-                //returnDestCards();
+                returnDestCards();
             }
         });
         dialog.getWindow().setLayout(1400, 1000);
