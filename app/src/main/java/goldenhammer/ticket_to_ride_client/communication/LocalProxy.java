@@ -172,5 +172,15 @@ public class LocalProxy implements IProxy {
 
     }
 
+    @Override
+    public void getMessages(Callback c) {
+        
+    }
+
+    @Override
+    public void postMessage(String message, Callback c) {
+
+    }
+
 
 }
