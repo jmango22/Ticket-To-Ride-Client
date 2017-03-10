@@ -23,7 +23,7 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="10.24.217.212"
+        android:text="192.168.252.184"
         android:hint="Host" />
 
     <EditText

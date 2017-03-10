@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.Message;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -254,6 +255,10 @@ public class ClientModelFacade extends Observable {
     public synchronized void setMessages(ChatMessages c){
         this.messages = c;
         changed();
+    }
+
+    public void addMessage(String s){
+        messages.getMessages().add(new Message("randomPlayer",s));
     }
 
     public ChatMessages getMessages(){

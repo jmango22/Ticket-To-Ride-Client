@@ -21,10 +21,12 @@ import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
+import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
+import goldenhammer.ticket_to_ride_client.model.commands.Message;
 
 public class LocalProxy implements IProxy {
     public static final LocalProxy SINGLETON = new LocalProxy();
@@ -165,6 +167,11 @@ public class LocalProxy implements IProxy {
 
         po.setPoints(po.getPoints() + 3);
         po1.setPoints(po.getPoints()+2);
+        String s = "Hey, here's a cool random number: " + Integer.toString(i);
+        if (cmf.getMessages() == null){
+            cmf.setMessages(new ChatMessages(new ArrayList<Message>()));
+        }
+        cmf.addMessage(s);
 
     }
 

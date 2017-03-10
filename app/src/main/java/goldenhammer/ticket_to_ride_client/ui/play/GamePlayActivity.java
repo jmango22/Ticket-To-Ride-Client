@@ -22,6 +22,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -81,6 +84,10 @@ public class GamePlayActivity extends AppCompatActivity {
     private float mapScaleY;
     private int mapWindowHeight= 500;//488;
     private int mapWindowWidth = 774;
+    private  Dialog chats;
+    private String chatString;
+    private TextView chatText;
+    private String chatToSend;
 
 
     @Override
@@ -103,7 +110,9 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
 //        ServerProxy.SINGLETON.stopGameListPolling();
-
+        chats = new Dialog(GamePlayActivity.this);
+        chatString = "";
+        chatText = (TextView) findViewById(R.id.chat_text);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
@@ -148,6 +157,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updatePlayers();
         presenter.updateBank();
     }
+
+
 
 
     public void placeHolders(){
@@ -264,6 +275,57 @@ public class GamePlayActivity extends AppCompatActivity {
             toReturn.add(drawnDestCards.getRemainingDestCards().get(selectedIndex));
         }
          presenter.returnDestCards(toReturn);
+    }
+
+    public void updateChat(String chatString){
+        this.chatString = chatString;
+        chatText.setText(this.chatString);
+    }
+
+    public void chatDialog(){
+        chats.setTitle("Chats");
+        chats.setContentView(R.layout.dialog_chat);
+
+        presenter.onChatOpen();
+
+        TextView chatText = (TextView) chats.findViewById(R.id.chat_text);
+        EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
+        Button sendButton = (Button) chats.findViewById(R.id.send_chat_button);
+        Button closeButton = (Button) chats.findViewById(R.id.chat_close_button);
+        chatText.setText(chatString);
+
+        chatEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                chatToSend = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chats.hide();
+                presenter.onChatClose();
+            }
+        });
+        chats.show();
     }
 
     public void destCardsDialog(){
@@ -662,7 +724,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 break;
             }
             case R.id.menu_chat:{
-                //THIS IS THE CHAT SECTION
+                chatDialog();
+                break;
             }
         }
 
