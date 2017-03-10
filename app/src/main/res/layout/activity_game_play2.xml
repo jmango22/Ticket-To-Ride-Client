@@ -196,6 +196,6 @@
             android:id="@+id/map_image"
             android:layout_toRightOf="@+id/buttons_column"
             android:layout_below="@id/my_toolbar"
-            android:src="@drawable/map"/>
+            />
 
 </RelativeLayout>
