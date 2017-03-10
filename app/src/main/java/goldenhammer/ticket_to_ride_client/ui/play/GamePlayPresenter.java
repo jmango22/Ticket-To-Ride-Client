@@ -40,7 +40,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         proxy = ServerProxy.SINGLETON;
         //proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
-        model.addObserver(this);
+
         name = model.getCurrentGame().getGameName();
         myCommandCallback = new Callback() {
             @Override
@@ -58,6 +58,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
 
+    @Override
+    public void onPause() {
+        model.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        model.addObserver(this);
+    }
 
     @Override
     public void update(Observable o, Object arg) {

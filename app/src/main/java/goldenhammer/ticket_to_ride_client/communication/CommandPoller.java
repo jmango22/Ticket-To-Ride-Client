@@ -18,7 +18,16 @@ public class CommandPoller {
         timer.schedule(new commandpollerTask(), 0, 1000);
 
     }
+    public void restart() {
+        stopPoller();
+        timer = new Timer();
+        timer.schedule(new commandpollerTask(), 0, 1000);
+    }
 
+    public void stopPoller(){
+        timer.cancel();
+        timer.purge();
+    }
 
     public class commandpollerTask extends TimerTask {
         @Override

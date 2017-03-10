@@ -43,7 +43,7 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
                 }
             });
         } else {
-            ClientModelFacade.SINGLETON.deleteObserver(this);
+//            ClientModelFacade.SINGLETON.deleteObserver(this);
         }
 
     }
@@ -84,5 +84,14 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
+    }
+    @Override
+    public void onPause() {
+        ClientModelFacade.SINGLETON.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        ClientModelFacade.SINGLETON.addObserver(this);
     }
 }

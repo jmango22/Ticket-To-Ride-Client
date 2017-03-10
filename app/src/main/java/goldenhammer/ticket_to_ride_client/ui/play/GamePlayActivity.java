@@ -75,12 +75,26 @@ public class GamePlayActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+        ServerProxy.SINGLETON.stopCommandPolling();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+        ServerProxy.SINGLETON.startCommandPolling();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
-        ServerProxy.SINGLETON.stopGameListPolling();
-        ServerProxy.SINGLETON.startCommandPolling();
+//        ServerProxy.SINGLETON.stopGameListPolling();
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
@@ -100,6 +114,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 destCardsDialog();
             }
         });
+
+
 
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override

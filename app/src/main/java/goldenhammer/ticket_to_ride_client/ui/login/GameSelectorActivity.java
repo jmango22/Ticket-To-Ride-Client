@@ -167,7 +167,7 @@ public class GameSelectorActivity extends AppCompatActivity {
     }
 
     public void onPlayGame() {
-        ServerProxy.SINGLETON.stopGameListPolling();
+
         Intent intent = new Intent(getBaseContext(), GamePlayActivity.class);
         startActivity(intent);
     }
@@ -202,5 +202,20 @@ public class GameSelectorActivity extends AppCompatActivity {
         if(mSectionsPagerAdapter != null ) {
             mSectionsPagerAdapter.notifyDataSetChanged();
         }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ServerProxy.SINGLETON.stopGameListPolling();
+        availableGamesPresenter.onPause();
+        myGamesPresenter.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ServerProxy.SINGLETON.startGameListPolling();
+        availableGamesPresenter.onResume();
+        myGamesPresenter.onResume();
     }
 }
