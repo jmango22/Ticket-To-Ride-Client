@@ -180,6 +180,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         }
     }
 
+    public void onChatClose(){
+        poller.stopPoller();
+    }
+
     public void postMessage(String message){
         proxy.postMessage(message, new Callback() {
             @Override
