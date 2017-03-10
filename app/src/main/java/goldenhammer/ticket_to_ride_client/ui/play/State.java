@@ -42,11 +42,13 @@ public class State {
     public void layTrack(Track track){
         presenter.showToast("Can't do that");
     }
+
     public void updateView(){
         presenter.updateMap();
         presenter.updatePlayers();
         presenter.updateCurrentTurn();
         presenter.updateHand();
+        presenter.updateChat();
         //presenter.updateBank();
     }
 }

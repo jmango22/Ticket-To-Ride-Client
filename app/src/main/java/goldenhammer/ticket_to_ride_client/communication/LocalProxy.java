@@ -21,12 +21,12 @@ import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
-import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
+import goldenhammer.ticket_to_ride_client.model.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
-import goldenhammer.ticket_to_ride_client.model.commands.Message;
+import goldenhammer.ticket_to_ride_client.model.Message;
 
 public class LocalProxy implements IProxy {
     public static final LocalProxy SINGLETON = new LocalProxy();

@@ -70,6 +70,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         model.addObserver(this);
     }
 
+    public void updateChat(){
+        if (model.getMessages()!= null){// && !owner.getChat().equals(model.getMessages().getString())){
+            owner.updateChat(ClientModelFacade.SINGLETON.getMessages().getString());
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
