@@ -32,7 +32,7 @@ public class DrawnDestCards {
 
     public List<DestCard> getRemainingDestCards() {
         List<DestCard> remainingCards = this.cards;
-        this.cards = new ArrayList<>();
+//        this.cards = new ArrayList<>();
         return remainingCards;
     }
 }

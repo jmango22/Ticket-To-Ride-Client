@@ -1,5 +1,6 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -103,8 +104,21 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     void sendReturnDestCardsCommand(List<DestCard> toReturn) {
-        ReturnDestCardsCommand command = new ReturnDestCardsCommand(1, toReturn);
-        proxy.doCommand(command, myCommandCallback);
+        ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
+        proxy.doCommand(command, new Callback() {
+            @Override
+            public void run(Results res) {
+                if(res.getResponseCode() < 400) {
+                    Command command = Serializer.deserializeCommand(res.getBody());
+                    List<Command> commands = new ArrayList<Command>();
+                    commands.add(command);
+                    model.addCommands(commands);
+                } else {
+                    showToast(Serializer.deserializeMessage(res.getBody()));
+                    model.changed();
+                }
+            }
+        });
     }
 
     @Override
@@ -118,12 +132,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
 
-    boolean mustInitialize = true;
+
     protected void initializeHand() {
-        if(mustInitialize) {
-            owner.initializeHand(model.getHand());
-            mustInitialize = false;
-        }
+        owner.initializeHand(model.getHand());
     }
 
     protected void updateBank(){
