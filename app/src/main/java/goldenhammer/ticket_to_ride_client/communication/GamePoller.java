@@ -21,6 +21,11 @@ public class GamePoller {
         timer.schedule(new pollerTask(), 0, 1000);
     }
 
+    public void restart() {
+        stopPoller();
+        timer = new Timer();
+        timer.schedule(new pollerTask(), 0, 1000);
+    }
     public void stopPoller(){
         timer.cancel();
         timer.purge();

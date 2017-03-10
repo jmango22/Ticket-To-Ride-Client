@@ -15,5 +15,6 @@ public interface IGamePlayPresenter {
   void returnDestCards(List<DestCard> toReturn);
   void layTrack(Track track);
   void loadGame();
-
+  void onPause();
+  void onResume();
 }

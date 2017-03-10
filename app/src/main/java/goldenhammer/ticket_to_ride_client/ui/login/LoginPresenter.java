@@ -28,17 +28,28 @@ public class LoginPresenter implements Observer, ILoginPresenter {
 
     public LoginPresenter(LoginActivity loginActivity){
         owner = loginActivity;
-        ClientModelFacade.SINGLETON.addObserver(this);
+
         proxy = ServerProxy.SINGLETON;
         //proxy = LocalProxy.SINGLETON;
     }
     @Override
     public void update(Observable o, Object arg) {
-        if (ClientModelFacade.SINGLETON.getUser() != null){
+//        if (ClientModelFacade.SINGLETON.getUser() != null){
             owner.onLogin(ClientModelFacade.SINGLETON.getUser().getUsername().getString());
-            ClientModelFacade.SINGLETON.deleteObserver(this);
-        }
+
+//        }
     }
+
+    @Override
+    public void onPause() {
+        ClientModelFacade.SINGLETON.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        ClientModelFacade.SINGLETON.addObserver(this);
+    }
+
     public String getPortNum() {
         return portNum;
     }
