@@ -112,7 +112,7 @@ public class GamePlayActivity extends AppCompatActivity {
 //        ServerProxy.SINGLETON.stopGameListPolling();
         chats = new Dialog(GamePlayActivity.this);
         chatString = "";
-        chatText = (TextView) findViewById(R.id.chat_text);
+        chatText = (TextView) chats.findViewById(R.id.chat_text);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
@@ -292,10 +292,12 @@ public class GamePlayActivity extends AppCompatActivity {
         chats.setTitle("Chats");
         chats.setContentView(R.layout.dialog_chat);
 
-        //presenter.onChatOpen();
+        presenter.onChatOpen();
 
-        TextView chatText = (TextView) chats.findViewById(R.id.chat_text);
-        EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
+        if (chatText == null){
+            chatText = (TextView) chats.findViewById(R.id.chat_text);
+        }
+        final EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
         Button sendButton = (Button) chats.findViewById(R.id.send_chat_button);
         Button closeButton = (Button) chats.findViewById(R.id.chat_close_button);
         chatText.setText(chatString);
@@ -321,6 +323,7 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 presenter.postMessage(chatToSend);
+                chatEditText.setText("");
             }
         });
 
@@ -328,7 +331,7 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chats.hide();
-                //presenter.onChatClose();
+                presenter.onChatClose();
             }
         });
         chats.show();

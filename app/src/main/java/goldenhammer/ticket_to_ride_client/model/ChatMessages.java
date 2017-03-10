@@ -28,7 +28,8 @@ public class ChatMessages {
             sb.append(m.getUsername());
             sb.append(": ");
             sb.append(m.getMessage());
-            sb.append(System.getProperty("line.seperator"));
+            sb.append('\n');
+            //sb.append(System.getProperty("line.seperator"));
         }
         return sb.toString();
     }
