@@ -1,6 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -300,6 +301,17 @@ public class GamePlayActivity extends AppCompatActivity {
         return new PointF(x,y);
     }
 
+    private int getResourceID(String resource) {
+        Context context = getApplicationContext();
+        return context.getResources().getIdentifier(resource, "drawable", context.getPackageName());
+    }
+    private String getFileName(DestCard card) {
+        String rawName = card.getCity1().getName() + "," + card.getCity2().getName();
+        return rawName.toLowerCase().replace(' ','_').replace(',','_').replaceAll("[()']","");
+    }
+    private int getCityFileId(DestCard card) {
+        return getResourceID(getFileName(card));
+    }
     public void initHandDialog(DrawnDestCards drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
 
@@ -309,9 +321,11 @@ public class GamePlayActivity extends AppCompatActivity {
         ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
         ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
         Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
-        slot0.setImageResource(R.drawable.image001);
-        slot1.setImageResource(R.drawable.image002);
-        slot2.setImageResource(R.drawable.image003);
+
+        List<DestCard> cards = drawnCards.getRemainingDestCards();
+        slot0.setImageResource(getCityFileId(cards.get(0)));
+        slot1.setImageResource(getCityFileId(cards.get(1)));
+        slot2.setImageResource(getCityFileId(cards.get(2)));
         final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
         final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
         final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
