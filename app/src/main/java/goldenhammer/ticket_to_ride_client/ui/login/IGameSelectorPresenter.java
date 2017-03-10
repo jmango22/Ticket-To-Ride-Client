@@ -11,4 +11,6 @@ public interface IGameSelectorPresenter {
     public void playGame(String gameName);
 
     public void leaveGame(String gameName);
+    void onResume();
+    void onPause();
 }

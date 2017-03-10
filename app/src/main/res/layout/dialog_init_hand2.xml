@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:orientation="vertical">
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/dest_card_0"
+
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_width="0dip"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/dest_card_1"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+
+            android:layout_width="0dip"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/dest_card_2"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_width="0dip"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/dest_card_none"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:layout_height="150px"
+            android:scaleType="centerInside"
+            android:background="@drawable/icon"
+            android:layout_width="0dip"
+            android:layout_weight="1"/>
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/dest_text_0"
+            android:text="0"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/dest_text_1"
+            android:text="1"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/dest_text_2"
+            android:text="2"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/dest_text_none"
+            android:text="@string/none"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/return_card"
+            android:id="@+id/return_cards_button"/>
+    </TableRow>
+</TableLayout>

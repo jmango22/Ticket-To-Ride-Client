@@ -77,7 +77,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
 
         if (ClientModelFacade.SINGLETON.getCurrentGame() != null){
             owner.onPlayGame();
-            ClientModelFacade.SINGLETON.deleteObserver(this);
+//            ClientModelFacade.SINGLETON.deleteObserver(this);
         }
         else {
             owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());
@@ -156,5 +156,14 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
         } catch (IOException e) {
             owner.toastMessage(e.getMessage());
         }
+    }
+    @Override
+    public void onPause() {
+        ClientModelFacade.SINGLETON.deleteObserver(this);
+    }
+
+    @Override
+    public void onResume() {
+        ClientModelFacade.SINGLETON.addObserver(this);
     }
 }

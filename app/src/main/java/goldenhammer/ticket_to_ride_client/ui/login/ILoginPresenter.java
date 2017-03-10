@@ -14,6 +14,8 @@ public interface ILoginPresenter {
 
     public void sendRegistration(String username, String password, String host, String port);
 
+    public void onPause();
+    public void onResume();
 
 
 }

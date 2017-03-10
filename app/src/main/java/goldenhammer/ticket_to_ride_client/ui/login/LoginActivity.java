@@ -37,6 +37,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        loginPreseter.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginPreseter.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
