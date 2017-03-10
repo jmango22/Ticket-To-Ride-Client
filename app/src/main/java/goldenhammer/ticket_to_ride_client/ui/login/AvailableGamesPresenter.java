@@ -33,14 +33,18 @@ public class AvailableGamesPresenter implements Observer, IGameSelectorPresenter
 
     @Override
     public void update(Observable o, Object arg) {
-        owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
+        if(ClientModelFacade.SINGLETON.getCurrentGame() == null) {
+            owner.setAvailableGameList(ClientModelFacade.SINGLETON.getAvailableGames().getAllGames());
 
-        owner.runOnThisThread(new Runnable() {
-            @Override
-            public void run() {
-                owner.update();
-            }
-        });
+            owner.runOnThisThread(new Runnable() {
+                @Override
+                public void run() {
+                    owner.update();
+                }
+            });
+        } else {
+            ClientModelFacade.SINGLETON.deleteObserver(this);
+        }
 
     }
 
