@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
+import goldenhammer.ticket_to_ride_client.communication.MessagePoller;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
@@ -34,6 +35,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private GameName name;
     private State state;
     private boolean handInitialized;
+    private MessagePoller poller;
 
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
@@ -135,6 +137,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.layTrack(track);
     }
 
+
     @Override
     public void loadGame() {
 
@@ -167,6 +170,23 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     protected void updateHand(){
         owner.updateHand(model.getHand());
+    }
+
+    public void onChatOpen(){
+        if(poller == null) {
+            poller = new MessagePoller();
+        }else{
+            poller.restart();
+        }
+    }
+
+    public void postMessage(String message){
+        proxy.postMessage(message, new Callback() {
+            @Override
+            public void run(Results res) {
+                showToast(Serializer.deserializeMessage(res.getBody()));
+            }
+        });
     }
 
     protected void showToast(String message) {

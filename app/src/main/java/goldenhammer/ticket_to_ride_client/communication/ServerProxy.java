@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
+import android.telecom.Call;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -243,6 +245,22 @@ public class ServerProxy implements IProxy {
     public void getCommands(int lastCommand, Callback c){
         String url = "/getcommands?lastCommand=" + lastCommand + "&gamename=" + communicator.getGameName();
         communicator.get(url, c);
+    }
+
+    public void getMessages(Callback c){
+        String url = "/getmessages";
+        communicator.get(url,c);
+    }
+
+    public void postMessage(String message, Callback c){
+        String url = "postmessage";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("message", message);
+        }catch (JSONException e){
+
+        }
+        communicator.post(url,body, c);
     }
 
     /**
