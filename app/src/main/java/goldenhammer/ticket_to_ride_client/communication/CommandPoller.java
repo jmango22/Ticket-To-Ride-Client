@@ -15,7 +15,7 @@ public class CommandPoller {
 
     public CommandPoller(){
         timer = new Timer();
-        timer.schedule(new commandpollerTask(), 0, 10000);
+        timer.schedule(new commandpollerTask(), 0, 1000);
 
     }
 
