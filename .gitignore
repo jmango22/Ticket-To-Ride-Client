@@ -8,4 +8,7 @@
 /captures
 .externalNativeBuild
 .idea
-
+BuildConfig.java
+Manifest.java
+.gitignore
+R.java
