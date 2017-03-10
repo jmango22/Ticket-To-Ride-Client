@@ -97,8 +97,11 @@ public class Serializer {
             try {
                 JSONArray array = new JSONArray(result);
                 for (int i = 0; i < array.length(); i++) {
-                    Object e = array.get(i);
-                    Message m = (Message)e;
+                    JSONObject e = array.getJSONObject(i);
+                    String username = e.getString("username");
+                    String message = e.getString("message");
+                    Message m = new Message(username,message);
+                    //Message m = gson.fromJson(e.toString(),Message.class);
                     messages.add(m);
                 }
             }catch (JSONException e){
