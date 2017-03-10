@@ -1,11 +1,14 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.os.PersistableBundle;
@@ -72,6 +75,12 @@ public class GamePlayActivity extends AppCompatActivity {
     private int screenHeight;
     private int screenWidth;
     private ImageView mapView;
+    private int mapX = 1707;
+    private int mapY = 1223;
+    private float mapScaleX;
+    private float mapScaleY;
+    private int mapWindowHeight= 500;//488;
+    private int mapWindowWidth = 774;
 
 
     @Override
@@ -98,7 +107,8 @@ public class GamePlayActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
-        mapView.setImageResource(R.drawable.map);
+        mapView.getHeight();
+        //mapView.setImageResource(R.drawable.map);
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
@@ -107,6 +117,8 @@ public class GamePlayActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
          screenHeight = displayMetrics.heightPixels;
          screenWidth = displayMetrics.widthPixels;
+        mapScaleX = (float)(mapWindowWidth)/(float)mapX;
+        mapScaleY = (float)(mapWindowHeight)/(float)mapY;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +151,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
 
     public void placeHolders(){
-        ServerProxy.SINGLETON.stopCommandPolling();
+       // ServerProxy.SINGLETON.stopCommandPolling();
         GameModel m = ClientModelFacade.SINGLETON.getCurrentGame();
         LocalProxy.SINGLETON.playGame(null,null);
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
@@ -276,44 +288,68 @@ public class GamePlayActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void getTrackColor(Color c){
+
+    }
+
     public void drawMap(Map map){
 
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
-        mapView.setImageResource(R.drawable.map);
+        //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks());
+        mapView.setBackgroundResource(R.drawable.map);
 
         //TODO draw Map, Tracks, Cities
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks){
-        Bitmap bmp = Bitmap.createBitmap(screenWidth- 250, screenHeight, Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(mapWindowWidth, mapWindowHeight, Bitmap.Config.ARGB_8888);
+        //Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.map);
         Canvas c = new Canvas(bmp);
-        mapView.draw(c);
 
-        Paint p = new Paint();
+
+        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         for (Track t : tracks){
-            if (t.getOwner() != -1){
-                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
-                p.setStrokeWidth(7);
-                c.drawLine(t.getLocation1().x,t.getLocation1().y,
-                        t.getLocation2().x, t.getLocation2().y, p);
+            //Drawing underlying track (who owns it)
+            if (t.getOwner() == -1) {
+                p.setColor(getBoardColor(Color.WHITE));
             }
-            p.setColor(getBoardColor(t.getColor()));
-            p.setStrokeWidth(2);
-            c.drawLine(t.getLocation1().x,t.getLocation1().y,
-                    t.getLocation2().x, t.getLocation2().y, p);
+            else{
+                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
+            }
+                p.setStrokeWidth(8);
+                PointF pt1 =t.getCity1().getLocation();
+                PointF pt2 =t.getCity2().getLocation();
+                c.drawLine(pt1.x*mapScaleX,pt1.y*mapScaleY,
+                        pt2.x*mapScaleX, pt2.y*mapScaleY, p);
+            //Drawing the color of train required for the track.
+            if (t.getColor() == null){
+                p.setColor(android.graphics.Color.GRAY);
+            }
+            else {
+                p.setColor(getBoardColor(t.getColor()));
+            }
+            p.setStrokeWidth(3);
+            PointF p1 =t.getCity1().getLocation();
+            PointF p2 =t.getCity2().getLocation();
+            c.drawLine(p1.x*mapScaleX,p1.y*mapScaleY,
+                    p2.x*mapScaleX, p2.y*mapScaleY, p);
+
 
             p.setColor(getBoardColor(Color.WHITE));
-            PointF midpoint = midPoint(t.getLocation1(),t.getLocation2());
+            p.setTextSize(20);
+            PointF midpoint = midPoint(t.getCity1().getLocation(),t.getCity2().getLocation());
             c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
         }
         mapView.setImageBitmap(bmp);
+        //mapView.draw(c);
+        //mapView.setImageBitmap(bmp);
     }
 
     public PointF midPoint(PointF p1, PointF p2){
-        float x = (p1.x + p2.x)/2.0f;
-        float y = (p1.y + p2.y)/2.0f;
+        float x = ((p1.x + p2.x)/2.0f)*mapScaleX;
+        float y = ((p1.y + p2.y)/2.0f)*mapScaleY;
         return new PointF(x,y);
     }
 
@@ -506,32 +542,33 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public int getBoardColor(Color t){
+        Resources res = getResources();
         if (t == Color.RED){
-            return R.color.card_red;
+            return android.graphics.Color.RED;
         }
         else if (t == Color.ORANGE){
-            return R.color.card_orange;
+            return android.graphics.Color.CYAN;
         }
         else if (t == Color.YELLOW){
-            return R.color.card_yellow;
+            return android.graphics.Color.YELLOW;
         }
         else if (t == Color.GREEN){
-            return R.color.card_green;
+            return android.graphics.Color.GREEN;
         }
         else if (t == Color.BLUE){
-            return R.color.card_blue;
+            return android.graphics.Color.BLUE;
         }
         else if (t == Color.PURPLE){
-            return R.color.card_pink;
+            return android.graphics.Color.MAGENTA;
         }
         else if (t == Color.WILD){
-            return R.color.card_wild;
+            return android.graphics.Color.LTGRAY;
         }
         else if (t == Color.BLACK){
-            return R.color.card_black;
+            return android.graphics.Color.BLACK;
         }
         else if (t == Color.WHITE){
-           return R.color.card_white;
+           return android.graphics.Color.WHITE;
         }
         else{
             return R.color.error;
