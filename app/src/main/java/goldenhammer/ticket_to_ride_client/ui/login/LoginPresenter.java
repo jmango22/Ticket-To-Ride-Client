@@ -13,6 +13,7 @@ import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Password;
+import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.Username;
 
 /**
@@ -35,6 +36,7 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public void update(Observable o, Object arg) {
         if (ClientModelFacade.SINGLETON.getUser() != null){
             owner.onLogin(ClientModelFacade.SINGLETON.getUser().getUsername().getString());
+//            ClientModelFacade.SINGLETON.deleteObserver(this);
         }
     }
     public String getPortNum() {

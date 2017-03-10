@@ -350,6 +350,7 @@ public class GamePlayActivity extends AppCompatActivity {
         });
 
         dialog.show();
+        System.out.println("showing Dialog");
     }
 
     public void updatePlayers(List<PlayerOverview> players){
