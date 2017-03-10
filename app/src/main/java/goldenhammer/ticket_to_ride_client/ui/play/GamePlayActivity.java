@@ -50,6 +50,8 @@ import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
+import static android.support.design.R.attr.height;
+
 //TODO Dialog for selecting cards
 //TODO Dialog for initializing Hand
 //TODO Functions to draw the map, tracks, etc.
@@ -299,19 +301,24 @@ public class GamePlayActivity extends AppCompatActivity {
 
     public void initHandDialog(DrawnDestCards drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
-        dialog.setTitle(R.string.return_cards_title);
-        dialog.setContentView(R.layout.dialog_init_hand);
+
+        dialog.setContentView(R.layout.dialog_init_hand2);
         ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
         ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
         ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
         ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
         Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
-
+        slot0.setImageResource(R.drawable.image001);
+        slot1.setImageResource(R.drawable.image002);
+        slot2.setImageResource(R.drawable.image003);
         final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
         final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
         final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
         final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
-
+        text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
+        text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
+        text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
+        textNone.setText("Keep all cards");
 //TODO set up Dest Cards Text
         slot0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,7 +355,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 returnDestCards();
             }
         });
-
+        dialog.getWindow().setLayout(1400, 1000);
+        dialog.setTitle(R.string.return_cards_title);
         dialog.show();
         System.out.println("showing Dialog");
     }

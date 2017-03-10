@@ -64,6 +64,10 @@ public class Hand {
         }
     }
 
+    public void addSingleDestCard(DestCard card){
+        destinationCards.add(card);
+    }
+
     public void setDrawnDestinationCards(List<DestCard> drawnDestinationCards) {
         this.drawnDestinationCards = new DrawnDestCards(drawnDestinationCards);
     }
