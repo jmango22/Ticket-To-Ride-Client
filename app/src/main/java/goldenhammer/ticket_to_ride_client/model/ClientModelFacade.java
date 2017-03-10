@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
@@ -22,6 +23,7 @@ public class ClientModelFacade extends Observable {
     private Bank mBank;
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
+    private ChatMessages messages;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -250,6 +252,14 @@ public class ClientModelFacade extends Observable {
             mCommandMgr.addCommands(newCommands);
             changed();
         }
+    }
+
+    public synchronized void setMessages(ChatMessages c){
+        this.messages = c;
+    }
+
+    public ChatMessages getMessages(){
+        return this.messages;
     }
 
     //END COMMAND MANAGER CODE

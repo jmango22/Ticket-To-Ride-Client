@@ -659,6 +659,9 @@ public class GamePlayActivity extends AppCompatActivity {
                 toastMessage("Lay Track");
                 break;
             }
+            case R.id.menu_chat:{
+                //THIS IS THE CHAT SECTION
+            }
         }
 
         return true;

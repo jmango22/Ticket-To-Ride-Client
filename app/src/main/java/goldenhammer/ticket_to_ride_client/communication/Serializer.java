@@ -15,6 +15,7 @@ import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
+import goldenhammer.ticket_to_ride_client.model.commands.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 
 /**
@@ -86,5 +87,10 @@ public class Serializer {
         }catch (JSONException e){
             return result;
         }
+    }
+
+    public static ChatMessages deserializeChat(String result){
+        Gson gson = new Gson();
+        return gson.fromJson(result,ChatMessages.class);
     }
 }
