@@ -36,7 +36,7 @@ public class LoginPresenter implements Observer, ILoginPresenter {
     public void update(Observable o, Object arg) {
         if (ClientModelFacade.SINGLETON.getUser() != null){
             owner.onLogin(ClientModelFacade.SINGLETON.getUser().getUsername().getString());
-//            ClientModelFacade.SINGLETON.deleteObserver(this);
+            ClientModelFacade.SINGLETON.deleteObserver(this);
         }
     }
     public String getPortNum() {
