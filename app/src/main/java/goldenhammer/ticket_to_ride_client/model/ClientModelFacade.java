@@ -256,6 +256,7 @@ public class ClientModelFacade extends Observable {
 
     public synchronized void setMessages(ChatMessages c){
         this.messages = c;
+        changed();
     }
 
     public ChatMessages getMessages(){
