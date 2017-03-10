@@ -72,6 +72,10 @@ public class GamePlayActivity extends AppCompatActivity {
     private int screenHeight;
     private int screenWidth;
     private ImageView mapView;
+    private int mapX = 1697;
+    private int mapY = 1218;
+    private float mapScaleX;
+    private float mapScaleY;
 
 
     @Override
@@ -93,6 +97,8 @@ public class GamePlayActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
          screenHeight = displayMetrics.heightPixels;
          screenWidth = displayMetrics.widthPixels;
+        mapScaleX = (float)screenWidth-250/(float)mapX;
+        mapScaleY = (float)screenWidth/(float)mapY;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,11 +284,13 @@ public class GamePlayActivity extends AppCompatActivity {
 
         Paint p = new Paint();
         for (Track t : tracks){
-            if (t.getOwner() != -1){
-                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
+            if (t.getOwner()-1 != -1){
+                p.setColor(getBoardColor(Color.values()[t.getOwner()-1]));
                 p.setStrokeWidth(7);
-                c.drawLine(t.getLocation1().x,t.getLocation1().y,
-                        t.getLocation2().x, t.getLocation2().y, p);
+                PointF pt1 =t.getCity1().getLocation();
+                PointF pt2 =t.getCity2().getLocation();
+                c.drawLine(pt1.x,pt1.y,
+                        pt2.x, pt2.y, p);
             }
             if (t.getColor() == null){
                 p.setColor(android.graphics.Color.GRAY);
@@ -291,14 +299,17 @@ public class GamePlayActivity extends AppCompatActivity {
                 p.setColor(getBoardColor(t.getColor()));
             }
             p.setStrokeWidth(2);
-            c.drawLine(t.getLocation1().x,t.getLocation1().y,
-                    t.getLocation2().x, t.getLocation2().y, p);
+            PointF pt1 =t.getCity1().getLocation();
+            PointF pt2 =t.getCity2().getLocation();
+            c.drawLine(pt1.x,pt1.y,
+                    pt2.x, pt2.y, p);
+
 
             p.setColor(getBoardColor(Color.WHITE));
             PointF midpoint = midPoint(t.getLocation1(),t.getLocation2());
             c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
         }
-        //mapView.setImageBitmap(bmp);
+        mapView.setImageBitmap(bmp);
         mapView.draw(c);
         //mapView.setImageBitmap(bmp);
     }
