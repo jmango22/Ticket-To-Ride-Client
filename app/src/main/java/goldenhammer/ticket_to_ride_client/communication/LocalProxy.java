@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import goldenhammer.ticket_to_ride_client.model.City;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
@@ -149,6 +150,10 @@ public class LocalProxy implements IProxy {
         trainCards.add(t5);
         TrainCard[] tCards = {t1,t2,t3,t4,t5};
         cmf.setBankCards(tCards);
+
+        Random r = new Random();
+        cmf.claimTrack(cmf.getAllTracks().get(r.nextInt(cmf.getAllTracks().size())),1);
+        cmf.claimTrack(cmf.getAllTracks().get(2),0);
     }
 
     @Override

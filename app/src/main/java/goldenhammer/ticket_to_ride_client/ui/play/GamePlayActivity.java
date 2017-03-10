@@ -289,18 +289,16 @@ public class GamePlayActivity extends AppCompatActivity {
         Canvas c = new Canvas(bmp);
 
 
-        Paint p = new Paint();
-        Paint green = new Paint();
-        green.setColor(getBoardColor(Color.GREEN));
+        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         for (Track t : tracks){
             //Drawing underlying track (who owns it)
-            if (t.getOwner()-1 == -1) {
+            if (t.getOwner() == -1) {
                 p.setColor(getBoardColor(Color.WHITE));
             }
             else{
-                p.setColor(getBoardColor(Color.values()[t.getOwner() - 1]));
+                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
             }
-                p.setStrokeWidth(7);
+                p.setStrokeWidth(8);
                 PointF pt1 =t.getCity1().getLocation();
                 PointF pt2 =t.getCity2().getLocation();
                 c.drawLine(pt1.x*mapScaleX,pt1.y*mapScaleY,
@@ -312,7 +310,7 @@ public class GamePlayActivity extends AppCompatActivity {
             else {
                 p.setColor(getBoardColor(t.getColor()));
             }
-            p.setStrokeWidth(4);
+            p.setStrokeWidth(3);
             PointF p1 =t.getCity1().getLocation();
             PointF p2 =t.getCity2().getLocation();
             c.drawLine(p1.x*mapScaleX,p1.y*mapScaleY,
@@ -320,6 +318,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
 
             p.setColor(getBoardColor(Color.WHITE));
+            p.setTextSize(20);
             PointF midpoint = midPoint(t.getCity1().getLocation(),t.getCity2().getLocation());
             c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
         }
@@ -329,8 +328,8 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public PointF midPoint(PointF p1, PointF p2){
-        float x = ((p1.x + p2.x)*mapScaleX)/2.0f;
-        float y = ((p1.y + p2.y)*mapScaleX)/2.0f;
+        float x = ((p1.x + p2.x)/2.0f)*mapScaleX;
+        float y = ((p1.y + p2.y)/2.0f)*mapScaleY;
         return new PointF(x,y);
     }
 
@@ -506,31 +505,31 @@ public class GamePlayActivity extends AppCompatActivity {
     public int getBoardColor(Color t){
         Resources res = getResources();
         if (t == Color.RED){
-            return getResources().getColor(R.color.card_red,this.getTheme());
+            return android.graphics.Color.RED;
         }
         else if (t == Color.ORANGE){
-            return R.color.card_orange;
+            return android.graphics.Color.CYAN;
         }
         else if (t == Color.YELLOW){
-            return R.color.card_yellow;
+            return android.graphics.Color.YELLOW;
         }
         else if (t == Color.GREEN){
-            return R.color.card_green;
+            return android.graphics.Color.GREEN;
         }
         else if (t == Color.BLUE){
-            return R.color.card_blue;
+            return android.graphics.Color.BLUE;
         }
         else if (t == Color.PURPLE){
-            return R.color.card_pink;
+            return android.graphics.Color.MAGENTA;
         }
         else if (t == Color.WILD){
-            return R.color.card_wild;
+            return android.graphics.Color.LTGRAY;
         }
         else if (t == Color.BLACK){
-            return R.color.card_black;
+            return android.graphics.Color.BLACK;
         }
         else if (t == Color.WHITE){
-           return R.color.card_white;
+           return android.graphics.Color.WHITE;
         }
         else{
             return R.color.error;
