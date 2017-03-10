@@ -269,7 +269,7 @@ public class GamePlayActivity extends AppCompatActivity {
     public void drawTracks(ImageView mapView,List<Track> tracks){
         Bitmap bmp = Bitmap.createBitmap(screenWidth- 250, screenHeight, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
-        mapView.draw(c);
+        //mapView.draw(c);
 
         Paint p = new Paint();
         for (Track t : tracks){
