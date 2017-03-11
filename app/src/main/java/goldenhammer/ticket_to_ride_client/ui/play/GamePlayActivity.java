@@ -88,6 +88,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private String chatString;
     private TextView chatText;
     private String chatToSend;
+    private boolean initialized;
 
 
     @Override
@@ -128,6 +129,8 @@ public class GamePlayActivity extends AppCompatActivity {
          screenWidth = displayMetrics.widthPixels;
         mapScaleX = (float)(mapWindowWidth)/(float)mapX;
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
+
+        initialized = false;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,7 +260,10 @@ public class GamePlayActivity extends AppCompatActivity {
     public List<DestCard> initializeHand(Hand hand){
         updateHand(hand);
         this.drawnDestCards = hand.getDrawnDestCards();
-        initHandDialog(drawnDestCards);
+        if (!initialized) {
+            initialized = true;
+            initHandDialog(drawnDestCards);
+        }
         return null;
     }
     public void setSelected(TextView view, int index){
@@ -278,9 +284,11 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void updateChat(String chatString){
-        this.chatString = chatString;
-        if (chatText != null) {
-            chatText.setText(this.chatString);
+        if (!this.chatString.equals(chatString)) {
+            this.chatString = chatString;
+            if (chatText != null) {
+                chatText.setText(this.chatString);
+            }
         }
     }
 
@@ -296,11 +304,12 @@ public class GamePlayActivity extends AppCompatActivity {
 
         if (chatText == null){
             chatText = (TextView) chats.findViewById(R.id.chat_text);
+            chatText.setText(chatString);
         }
         final EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
         Button sendButton = (Button) chats.findViewById(R.id.send_chat_button);
         Button closeButton = (Button) chats.findViewById(R.id.chat_close_button);
-        chatText.setText(chatString);
+        //chatText.setText(chatString);
 
         chatEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -527,6 +536,7 @@ public class GamePlayActivity extends AppCompatActivity {
     public void dialogLeaderBoard(){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setContentView(R.layout.dialog_leaderboard);
+        dialog.setTitle("Leaderboard");
 
         if (players == null){
             dialog.hide();

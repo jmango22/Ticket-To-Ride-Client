@@ -167,11 +167,11 @@ public class LocalProxy implements IProxy {
 
         po.setPoints(po.getPoints() + 3);
         po1.setPoints(po.getPoints()+2);
-        String s = "Hey, here's a cool random number: " + Integer.toString(i);
+        /*String s = "Hey, here's a cool random number: " + Integer.toString(i);
         if (cmf.getMessages() == null){
             cmf.setMessages(new ChatMessages(new ArrayList<Message>()));
         }
-        cmf.addMessage(s);
+        cmf.addMessage(s);*/
 
     }
 
