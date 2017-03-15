@@ -78,6 +78,7 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
         if (ClientModelFacade.SINGLETON.getCurrentGame() != null){
             owner.onPlayGame();
 //            ClientModelFacade.SINGLETON.deleteObserver(this);
+            //TODO this method of moving to playing the game might cause problems if they hit the back button
         }
         else {
             owner.setMyGameList(ClientModelFacade.SINGLETON.getMyGames().getAllGames());

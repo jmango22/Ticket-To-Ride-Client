@@ -1,6 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -759,6 +760,12 @@ public class GamePlayActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 //        mDrawerToggle.syncState();
     }
+
+    public void onEndGame(){
+        //Intent intent = new Intent(getBaseContext(), EndGameActivity.class);
+        //startActivity(intent);
+    }
+
 
     }
 

@@ -21,6 +21,8 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
+import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -48,10 +50,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    List<Command> commands = Serializer.deserializeCommands(res.getBody());
+                    Command command = Serializer.deserializeCommand(res.getBody());
+                    List<Command> commands = new ArrayList<Command>();
+                    commands.add(command);
                     model.addCommands(commands);
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
+                    model.changed();
                 }
             }
         };
@@ -101,8 +106,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     @Override
-    public void takeTrainCards() {
+    public void takeTrainCards(int index) {
         state.takeDestCards();
+    }
+
+    public void sendTakeTrainCardsCommand(int index){
+       // DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        //proxy.doCommand(command,myCommandCallback);
     }
 
     @Override
@@ -110,7 +120,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.takeDestCards();
     }
 
-    void sendTakeDestCardsCommand() {
+    public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(1);
         proxy.doCommand(command, myCommandCallback);
     }
@@ -120,22 +130,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.returnDestCards(toReturn);
     }
 
-    void sendReturnDestCardsCommand(List<DestCard> toReturn) {
+    public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
-        proxy.doCommand(command, new Callback() {
-            @Override
-            public void run(Results res) {
-                if(res.getResponseCode() < 400) {
-                    Command command = Serializer.deserializeCommand(res.getBody());
-                    List<Command> commands = new ArrayList<Command>();
-                    commands.add(command);
-                    model.addCommands(commands);
-                } else {
-                    showToast(Serializer.deserializeMessage(res.getBody()));
-                    model.changed();
-                }
-            }
-        });
+        proxy.doCommand(command, myCommandCallback);
     }
 
     @Override
@@ -143,10 +140,18 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.layTrack(track);
     }
 
+    public void sendLayTrackCommand(Track track){
+        //LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber(), track);
+        //proxy.doCommand(command, myCommandCallback);
+    }
 
     @Override
     public void loadGame() {
 
+    }
+
+    public void endGame(){
+        owner.onEndGame();
     }
 
 
@@ -203,6 +208,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     protected void showToast(String message) {
         owner.toastMessage(message);
     }
+
     public void demo() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

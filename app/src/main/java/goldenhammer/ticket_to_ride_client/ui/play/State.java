@@ -18,7 +18,7 @@ public class State {
     /**
      * defaults to not your turn
      */
-    public void takeTrainCards(){
+    public void takeTrainCards(int index){
         presenter.showToast("Can't do that");
     }
 
