@@ -183,6 +183,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             poller = new MessagePoller();
         }else{
             poller.restart();
+
         }
     }
 
