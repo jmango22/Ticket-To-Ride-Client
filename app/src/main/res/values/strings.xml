@@ -19,6 +19,8 @@
     <string name="lay_track">Lay Track</string>
     <string name="bank_cards">Cards in Bank: </string>
     <string name="demo">Demo</string>
+    <string name="draw_train_card">Train Card Selection</string>
+    <string name="wild_rule">If you select a wild, you will only receive one card.</string>
 
 
     <string-array name="nav_drawer_items_array">

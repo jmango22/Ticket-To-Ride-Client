@@ -62,7 +62,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         };
         state = StateSelector.MyTurn(this);
         handInitialized = false;
+    }
 
+    public State getState(){
+        return state;
     }
 
     @Override

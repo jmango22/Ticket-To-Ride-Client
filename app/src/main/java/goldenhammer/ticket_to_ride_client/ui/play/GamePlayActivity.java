@@ -74,6 +74,10 @@ public class GamePlayActivity extends AppCompatActivity {
     private Hand hand;
     private TextView selectedView;
     private int selectedIndex;
+
+    private TextView selectedTrainCard;
+    private int selectedTrainIndex;
+
     private GamePlayPresenter presenter;
     private DrawnDestCards drawnDestCards;
     private int screenHeight;
@@ -85,11 +89,20 @@ public class GamePlayActivity extends AppCompatActivity {
     private float mapScaleY;
     private int mapWindowHeight= 500;//488;
     private int mapWindowWidth = 774;
+
     private  Dialog chats;
     private String chatString;
     private TextView chatText;
     private String chatToSend;
     private boolean initialized;
+
+    private Dialog dTrainCards;
+    private TextView tSlot0;
+    private TextView tSlot1;
+    private TextView tSlot2;
+    private TextView tSlot3;
+    private TextView tSlot4;
+
 
 
     @Override
@@ -132,6 +145,13 @@ public class GamePlayActivity extends AppCompatActivity {
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
 
         initialized = false;
+        dTrainCards = new Dialog(GamePlayActivity.this);
+
+        tSlot0 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_0);
+        tSlot1 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_1);
+        tSlot2 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_2);
+        tSlot3 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_3);
+        tSlot4 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_4);
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +159,6 @@ public class GamePlayActivity extends AppCompatActivity {
                 destCardsDialog();
             }
         });
-
-
 
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,10 +386,79 @@ public class GamePlayActivity extends AppCompatActivity {
         });
         dialog.show();
     }
+    public void setSelectedTrainCard(TextView view, int index){
+        if (this.selectedTrainCard != null){
+            this.selectedTrainCard.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_black));
+        }
+        this.selectedTrainCard = view;
+        this.selectedTrainIndex = index;
+        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_orange));
+    }
 
-    public void getTrackColor(Color c){
+    public void drawTrainCardsDialog(){
+        dTrainCards.setTitle(R.string.draw_train_card);
+        dTrainCards.setContentView(R.layout.dialog_train_cards);
+
+        Button takeCardButton = (Button) dTrainCards.findViewById(R.id.take_card_button);
+        Button closeButton = (Button) dTrainCards.findViewById(R.id.close_button_3);
+        TextView rulesText = (TextView) dTrainCards.findViewById(R.id.wild_rules_text);
+
+        rulesText.setText(R.string.wild_rule);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO figure out how to deal with this option when just one of the cards is taken.
+                dTrainCards.hide();
+            }
+        });
+
+        tSlot0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setSelectedTrainCard(tSlot0,0);
+            }
+        });
+
+        tSlot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot1,1);
+            }
+        });
+
+        tSlot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot2,2);
+            }
+        });
+
+        tSlot3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot3,3);
+            }
+        });
+
+        tSlot4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot4,4);
+            }
+        });
+
+        takeCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.takeTrainCards(selectedTrainIndex);
+            }
+        });
+
+
 
     }
+
 
     public void drawMap(Map map){
 
@@ -626,6 +713,12 @@ public class GamePlayActivity extends AppCompatActivity {
         slot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
         slot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
         slot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
+
+        tSlot0.setBackgroundColor(getBoardColor(bankCards[0].getColor()));
+        tSlot1.setBackgroundColor(getBoardColor(bankCards[1].getColor()));
+        tSlot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
+        tSlot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
+        tSlot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
     }
 
     public int getBoardColor(Color t){
