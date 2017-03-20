@@ -157,6 +157,8 @@ public class MyGamesPresenter implements Observer, IGameSelectorPresenter {
             owner.toastMessage(e.getMessage());
         }
     }
+
+
     @Override
     public void onPause() {
         ClientModelFacade.SINGLETON.deleteObserver(this);

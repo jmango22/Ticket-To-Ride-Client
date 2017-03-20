@@ -20,19 +20,21 @@ public class ReturnDestCardsCommand extends Command {
     }
     @Override
     public void execute() {
-        ClientModelFacade model = ClientModelFacade.SINGLETON;
-        Hand hand = model.getHand();
-        for(DestCard card : hand.getDrawnDestinationCards().getRemainingDestCards()) {
-            boolean keep = true;
-            for(DestCard card2: toReturn){
-                if(card.equals(card2)){
-                    keep = false;
+        if (getPlayerNumber() == ClientModelFacade.SINGLETON.getMyPlayerNumber()) {
+            ClientModelFacade model = ClientModelFacade.SINGLETON;
+            Hand hand = model.getHand();
+            for (DestCard card : hand.getDrawnDestinationCards().getRemainingDestCards()) {
+                boolean keep = true;
+                for (DestCard card2 : toReturn) {
+                    if (card.equals(card2)) {
+                        keep = false;
+                    }
+                }
+                if (keep) {
+                    hand.addSingleDestCard(card);
                 }
             }
-            if(keep) {
-                hand.addSingleDestCard(card);
-            }
+            hand.setDrawnDestinationCards(new ArrayList<DestCard>());
         }
-        hand.setDrawnDestinationCards(new ArrayList<DestCard>());
     }
 }

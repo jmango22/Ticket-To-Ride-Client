@@ -21,10 +21,12 @@ import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
+import goldenhammer.ticket_to_ride_client.model.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
+import goldenhammer.ticket_to_ride_client.model.Message;
 
 public class LocalProxy implements IProxy {
     public static final LocalProxy SINGLETON = new LocalProxy();
@@ -152,8 +154,25 @@ public class LocalProxy implements IProxy {
         cmf.setBankCards(tCards);
 
         Random r = new Random();
-        cmf.claimTrack(cmf.getAllTracks().get(r.nextInt(cmf.getAllTracks().size())),1);
-        cmf.claimTrack(cmf.getAllTracks().get(2),0);
+        int i = r.nextInt(cmf.getAllTracks().size());
+        int i2 = r.nextInt(cmf.getAllTracks().size());
+        cmf.claimTrack(cmf.getAllTracks().get(i),1);
+        cmf.claimTrack(cmf.getAllTracks().get(i2),0);
+
+        PlayerOverview po = cmf.getLeaderboard().get(0);
+        PlayerOverview po1 = cmf.getLeaderboard().get(1);
+
+        po.setPieces(po.getNumPieces()-3);
+        po1.setPieces(po1.getNumPieces()-2);
+
+        po.setPoints(po.getPoints() + 3);
+        po1.setPoints(po.getPoints()+2);
+        /*String s = "Hey, here's a cool random number: " + Integer.toString(i);
+        if (cmf.getMessages() == null){
+            cmf.setMessages(new ChatMessages(new ArrayList<Message>()));
+        }
+        cmf.addMessage(s);*/
+
     }
 
     @Override

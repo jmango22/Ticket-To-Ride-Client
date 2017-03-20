@@ -1,4 +1,4 @@
-package goldenhammer.ticket_to_ride_client.model.commands;
+package goldenhammer.ticket_to_ride_client.model;
 
 /**
  * Created by rachel on 3/10/2017.

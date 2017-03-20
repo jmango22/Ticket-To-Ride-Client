@@ -253,7 +253,7 @@ public class ServerProxy implements IProxy {
     }
 
     public void postMessage(String message, Callback c){
-        String url = "postmessage";
+        String url = "/postmessage";
         JSONObject body = new JSONObject();
         try {
             body.put("message", message);

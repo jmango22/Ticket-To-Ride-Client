@@ -22,6 +22,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -81,6 +84,11 @@ public class GamePlayActivity extends AppCompatActivity {
     private float mapScaleY;
     private int mapWindowHeight= 500;//488;
     private int mapWindowWidth = 774;
+    private  Dialog chats;
+    private String chatString;
+    private TextView chatText;
+    private String chatToSend;
+    private boolean initialized;
 
 
     @Override
@@ -103,7 +111,9 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
 //        ServerProxy.SINGLETON.stopGameListPolling();
-
+        chats = new Dialog(GamePlayActivity.this);
+        chatString = "";
+        chatText = (TextView) chats.findViewById(R.id.chat_text);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
@@ -119,6 +129,8 @@ public class GamePlayActivity extends AppCompatActivity {
          screenWidth = displayMetrics.widthPixels;
         mapScaleX = (float)(mapWindowWidth)/(float)mapX;
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
+
+        initialized = false;
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +160,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updatePlayers();
         presenter.updateBank();
     }
+
+
 
 
     public void placeHolders(){
@@ -246,7 +260,10 @@ public class GamePlayActivity extends AppCompatActivity {
     public List<DestCard> initializeHand(Hand hand){
         updateHand(hand);
         this.drawnDestCards = hand.getDrawnDestCards();
-        initHandDialog(drawnDestCards);
+        if (!initialized) {
+            initialized = true;
+            initHandDialog(drawnDestCards);
+        }
         return null;
     }
     public void setSelected(TextView view, int index){
@@ -264,6 +281,69 @@ public class GamePlayActivity extends AppCompatActivity {
             toReturn.add(drawnDestCards.getRemainingDestCards().get(selectedIndex));
         }
          presenter.returnDestCards(toReturn);
+    }
+
+    public void updateChat(String chatString){
+        if (!this.chatString.equals(chatString)) {
+            this.chatString = chatString;
+            if (chatText != null) {
+                chatText.setText(this.chatString);
+            }
+        }
+    }
+
+    public String getChat(){
+        return chatString;
+    }
+
+    public void chatDialog(){
+        chats.setTitle("Chats");
+        chats.setContentView(R.layout.dialog_chat);
+
+        presenter.onChatOpen();
+
+        if (chatText == null){
+            chatText = (TextView) chats.findViewById(R.id.chat_text);
+            chatText.setText(chatString);
+        }
+        final EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
+        Button sendButton = (Button) chats.findViewById(R.id.send_chat_button);
+        Button closeButton = (Button) chats.findViewById(R.id.chat_close_button);
+        //chatText.setText(chatString);
+
+        chatEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                chatToSend = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.postMessage(chatToSend);
+                chatEditText.setText("");
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chats.hide();
+                presenter.onChatClose();
+            }
+        });
+        chats.show();
     }
 
     public void destCardsDialog(){
@@ -373,48 +453,53 @@ public class GamePlayActivity extends AppCompatActivity {
         ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
         ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
         Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
-
+        if (drawnCards == null){
+            dialog.hide();
+            return;
+        }
         List<DestCard> cards = drawnCards.getRemainingDestCards();
-        slot0.setImageResource(getCityFileId(cards.get(0)));
-        slot1.setImageResource(getCityFileId(cards.get(1)));
-        slot2.setImageResource(getCityFileId(cards.get(2)));
-        final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
-        final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
-        final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
-        final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
-        text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
-        text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
-        text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
-        textNone.setText("Keep all cards");
+        if (cards.size()== 3) {
+            slot0.setImageResource(getCityFileId(cards.get(0)));
+            slot1.setImageResource(getCityFileId(cards.get(1)));
+            slot2.setImageResource(getCityFileId(cards.get(2)));
+            final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
+            final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
+            final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
+            final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
+            text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
+            text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
+            text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
+            textNone.setText("Keep all cards");
+
 //TODO set up Dest Cards Text
-        slot0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelected(text0, 0);
-            }
-        });
+            slot0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelected(text0, 0);
+                }
+            });
 
-        slot1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelected(text1, 1);
-            }
-        });
+            slot1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelected(text1, 1);
+                }
+            });
 
-        slot2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelected(text2, 2);
-            }
-        });
+            slot2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelected(text2, 2);
+                }
+            });
 
-        none.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelected(textNone, -1);
-            }
-        });
-
+            none.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelected(textNone, -1);
+                }
+            });
+        }
         returnCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -451,64 +536,65 @@ public class GamePlayActivity extends AppCompatActivity {
     public void dialogLeaderBoard(){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
         dialog.setContentView(R.layout.dialog_leaderboard);
+        dialog.setTitle("Leaderboard");
 
         if (players == null){
             dialog.hide();
             return;
         }
-        View color0 = dialog.findViewById(R.id.player0_color);
-        TextView name0 = (TextView) dialog.findViewById(R.id.player0_name);
-        TextView points0 = (TextView) dialog.findViewById(R.id.player0_points);
-        TextView trains0 = (TextView) dialog.findViewById(R.id.player0_trains_remaining);
+        View color0 = dialog.findViewById(R.id.player_color0);
+        TextView name0 = (TextView) dialog.findViewById(R.id.player_name0);
+        TextView points0 = (TextView) dialog.findViewById(R.id.player_points0);
+        TextView trains0 = (TextView) dialog.findViewById(R.id.player_trains_remaining0);
 
         color0.setBackgroundColor(getBoardColor(players.get(0).getColor()));
         name0.setText(players.get(0).getUsername());
-        points0.setText(Integer.toString(players.get(0).getPoints()));
-        trains0.setText(Integer.toString(players.get(0).getNumPieces()));
+        points0.setText("Points: " + Integer.toString(players.get(0).getPoints()));
+        trains0.setText("Pieces: " + Integer.toString(players.get(0).getNumPieces()));
 
-        View color1 = dialog.findViewById(R.id.player1_color);
-        TextView name1 = (TextView) dialog.findViewById(R.id.player1_name);
-        TextView points1 = (TextView) dialog.findViewById(R.id.player1_points);
-        TextView trains1 = (TextView) dialog.findViewById(R.id.player1_trains_remaining);
+        View color1 = dialog.findViewById(R.id.player_color1);
+        TextView name1 = (TextView) dialog.findViewById(R.id.player_name1);
+        TextView points1 = (TextView) dialog.findViewById(R.id.player_points1);
+        TextView trains1 = (TextView) dialog.findViewById(R.id.player_trains_remaining1);
 
         color1.setBackgroundColor(getBoardColor(players.get(1).getColor()));
         name1.setText(players.get(1).getUsername());
-        points1.setText(Integer.toString(players.get(1).getPoints()));
-        trains1.setText(Integer.toString(players.get(1).getNumPieces()));
+        points1.setText("Points: " + Integer.toString(players.get(1).getPoints()));
+        trains1.setText("Pieces: " + Integer.toString(players.get(1).getNumPieces()));
 
         if (players.size() > 2) {
 
-            View color2 = dialog.findViewById(R.id.player2_color);
-            TextView name2 = (TextView) dialog.findViewById(R.id.player2_name);
-            TextView points2 = (TextView) dialog.findViewById(R.id.player2_points);
-            TextView trains2 = (TextView) dialog.findViewById(R.id.player2_trains_remaining);
+            View color2 = dialog.findViewById(R.id.player_color2);
+            TextView name2 = (TextView) dialog.findViewById(R.id.player_name2);
+            TextView points2 = (TextView) dialog.findViewById(R.id.player_points2);
+            TextView trains2 = (TextView) dialog.findViewById(R.id.player_trains_remaining2);
 
             color2.setBackgroundColor(getBoardColor(players.get(2).getColor()));
             name2.setText(players.get(2).getUsername());
-            points2.setText(Integer.toString(players.get(2).getPoints()));
-            trains2.setText(Integer.toString(players.get(2).getNumPieces()));
+            points2.setText("Points: " + Integer.toString(players.get(2).getPoints()));
+            trains2.setText("Pieces: " + Integer.toString(players.get(2).getNumPieces()));
         }
         if (players.size() > 3) {
-            View color3 = dialog.findViewById(R.id.player3_color);
-            TextView name3 = (TextView) dialog.findViewById(R.id.player3_name);
-            TextView points3 = (TextView) dialog.findViewById(R.id.player3_points);
-            TextView trains3 = (TextView) dialog.findViewById(R.id.player3_trains_remaining);
+            View color3 = dialog.findViewById(R.id.player_color3);
+            TextView name3 = (TextView) dialog.findViewById(R.id.player_name3);
+            TextView points3 = (TextView) dialog.findViewById(R.id.player_points3);
+            TextView trains3 = (TextView) dialog.findViewById(R.id.player_trains_remaining3);
 
             color3.setBackgroundColor(getBoardColor(players.get(3).getColor()));
             name3.setText(players.get(3).getUsername());
-            points3.setText(Integer.toString(players.get(3).getPoints()));
-            trains3.setText(Integer.toString(players.get(3).getNumPieces()));
+            points3.setText("Points: " + Integer.toString(players.get(3).getPoints()));
+            trains3.setText("Pieces: " + Integer.toString(players.get(3).getNumPieces()));
         }
         if (players.size()> 4) {
-            View color4 = findViewById(R.id.player4_color);
-            TextView name4 = (TextView) dialog.findViewById(R.id.player4_name);
-            TextView points4 = (TextView) dialog.findViewById(R.id.player4_points);
-            TextView trains4 = (TextView) dialog.findViewById(R.id.player4_trains_remaining);
+            View color4 = findViewById(R.id.player_color4);
+            TextView name4 = (TextView) dialog.findViewById(R.id.player_name4);
+            TextView points4 = (TextView) dialog.findViewById(R.id.player_points4);
+            TextView trains4 = (TextView) dialog.findViewById(R.id.player_trains_remaining4);
 
             color4.setBackgroundColor(getBoardColor(players.get(4).getColor()));
             name4.setText(players.get(4).getUsername());
-            points4.setText(Integer.toString(players.get(4).getPoints()));
-            trains4.setText(Integer.toString(players.get(4).getNumPieces()));
+            points4.setText("Points: " + Integer.toString(players.get(4).getPoints()));
+            trains4.setText("Pieces: " + Integer.toString(players.get(4).getNumPieces()));
         }
 
         Button closeButton = (Button) dialog.findViewById(R.id.close_button2);
@@ -660,7 +746,8 @@ public class GamePlayActivity extends AppCompatActivity {
                 break;
             }
             case R.id.menu_chat:{
-                //THIS IS THE CHAT SECTION
+                chatDialog();
+                break;
             }
         }
 
