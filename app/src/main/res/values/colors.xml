@@ -13,4 +13,9 @@
     <color name="card_white">#E2DCE3</color>
     <color name="card_black">#292428</color>
     <color name= "error">#A56500</color>
+    <color name="cyan">#1EE2FF</color>
+    <color name="background4">#73633F</color>
+    <color name="background2">#8C794D</color>
+    <color name="background3">#A97B0D</color>
+    <color name="background">#35A6DC</color>
 </resources>

@@ -28,6 +28,21 @@ public class StateSelector {
                 presenter.sendLayTrackCommand(track);
                 //consider how the cards are going to be taken from player's hand when they build.
             }
+
+            @Override
+            public void clickTrainCards() {
+                presenter.startTrainCardsDialog();
+            }
+
+            @Override
+            public void clickTracks() {
+                presenter.startTracksDialog();
+            }
+
+            @Override
+            public void clickDestCards() {
+                presenter.startDestCardsDialog();
+            }
         };
 
     }
@@ -73,7 +88,24 @@ public class StateSelector {
             public void takeTrainCards(int index) {
                 presenter.sendTakeTrainCardsCommand(index);
             }
+
+            @Override
+            public void clickTrainCards() {
+                presenter.startTrainCardsDialog();
+            }
+
+            @Override
+            public void clickTracks() {
+                presenter.showToast("You need to select a second train card.");
+            }
+
+            @Override
+            public void clickDestCards() {
+                presenter.showToast("You need to select a second train card.");
+            }
         };
+
+
     }
 
     public static State EndGame(GamePlayPresenter presenter){

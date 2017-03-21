@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
-import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.MessagePoller;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
@@ -18,11 +17,8 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
-import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
-import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
-import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -168,6 +164,30 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             owner.updateBank(model.getAllBankTrainCardsArray());
         }
 
+    }
+    public void startDestCardsDialog(){
+        owner.destCardsDialog();
+    }
+
+
+    public void startTracksDialog(){
+        owner.tracksDialog();
+    }
+
+    public void startTrainCardsDialog(){
+        owner.trainCardsDialog();
+    }
+
+    public void clickTrainCards(){
+        state.clickTrainCards();
+    }
+
+    public void clickDestCards(){
+        state.clickDestCards();
+    }
+
+    public void clickTracks(){
+        state.clickTracks();
     }
 
     protected void updateMap() {

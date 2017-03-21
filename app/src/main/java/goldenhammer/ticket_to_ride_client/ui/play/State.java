@@ -43,6 +43,18 @@ public class State {
         presenter.showToast("Can't do that");
     }
 
+
+    public void clickTrainCards(){
+        presenter.showToast("It isn't your turn.");
+    }
+
+    public void clickTracks(){
+        presenter.showToast("It isn't your turn.");
+    }
+
+    public void clickDestCards(){
+        presenter.showToast("It isn't your turn.");
+    }
     public void updateView(){
         presenter.updateMap();
         presenter.updatePlayers();
