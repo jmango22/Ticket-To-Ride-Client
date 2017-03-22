@@ -1,9 +1,10 @@
-package goldenhammer.ticket_to_ride_client.ui.play;
+package goldenhammer.ticket_to_ride_client.ui.play.states;
 
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Track;
+import goldenhammer.ticket_to_ride_client.ui.play.GamePlayPresenter;
 
 /**
  * Created by devonkinghorn on 3/4/17.

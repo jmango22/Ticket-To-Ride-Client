@@ -90,22 +90,6 @@ public class GamePlayActivity extends AppCompatActivity {
     private TextView tSlot3;
     private TextView tSlot4;
 
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onPause();
-        ServerProxy.SINGLETON.stopCommandPolling();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-        ServerProxy.SINGLETON.startCommandPolling();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,8 +152,19 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updateBank();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+        ServerProxy.SINGLETON.stopCommandPolling();
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+        ServerProxy.SINGLETON.startCommandPolling();
+    }
 
     public void placeHolders(){
        // ServerProxy.SINGLETON.stopCommandPolling();
@@ -178,10 +173,7 @@ public class GamePlayActivity extends AppCompatActivity {
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
         presenter.updateBank();
         //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,79 +181,6 @@ public class GamePlayActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_game_play,menu);
         return true;
-    }
-
-    private void selectItem(int position) {
-
-            /*Fragment fragment = null;
-
-            switch (position) {
-                case 0:
-                    fragment = new CreateFragment();
-                    break;
-                case 1:
-                    fragment = new ReadFragment();
-                    break;
-                case 2:
-                    fragment = new HelpFragment();
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (fragment != null) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-*/
-                mDrawerList.setItemChecked(position, true);
-                mDrawerList.setSelection(position);
-                //getActionBar().setTitle(mNavDrawerItemTitles[position]);
-                mDrawerLayout.closeDrawer(mDrawerList);
-
-            /*} else {
-                Log.e("MainActivity", "Error in creating fragment");
-            }*/
-        }
-
-    public void initDrawer(){
-//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-//        mDrawerList.setAdapter(adapter);
-//        class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        }
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this,
-//                mDrawerLayout,
-//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-//                R.string.drawer_open,
-//                R.string.drawer_closed
-//        ) {
-//
-//            /** Called when a drawer has settled in a completely closed state. */
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-//                //getActionBar().setTitle(mTitle);
-//            }
-//
-//            /** Called when a drawer has settled in a completely open state. */
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                //getActionBar().setTitle(mDrawerTitle);
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
     }
 
     public List<DestCard> initializeHand(Hand hand){

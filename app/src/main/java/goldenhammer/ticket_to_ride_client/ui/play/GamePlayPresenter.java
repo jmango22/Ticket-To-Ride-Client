@@ -20,6 +20,8 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.State;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by devonkinghorn on 2/22/17.
@@ -155,11 +157,11 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
 
 
-    protected void initializeHand() {
+    public void initializeHand() {
         owner.initializeHand(model.getHand());
     }
 
-    protected void updateBank(){
+    public void updateBank(){
         if (model.getAllBankTrainCardsArray()!= null) {
             owner.updateBank(model.getAllBankTrainCardsArray());
         }
@@ -190,19 +192,19 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.clickTracks();
     }
 
-    protected void updateMap() {
+    public void updateMap() {
         owner.drawMap(model.getCurrentGame().getMap());
     }
 
-    protected void updatePlayers(){
+    public void updatePlayers(){
         owner.updatePlayers(model.getLeaderboard());
     }
 
-    protected void updateCurrentTurn(){
+    public void updateCurrentTurn(){
         owner.updateTurn(model.getCurrentTurnPlayer());
     }
 
-    protected void updateHand(){
+    public void updateHand(){
         owner.updateHand(model.getHand());
     }
 
@@ -228,7 +230,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         });
     }
 
-    protected void showToast(String message) {
+    public void showToast(String message) {
         owner.toastMessage(message);
     }
 
