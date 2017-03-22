@@ -45,11 +45,6 @@ import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
-//TODO Dialog for selecting cards
-//TODO Dialog for initializing Hand
-//TODO Functions to draw the map, tracks, etc.
-//TODO Buttons for each action
-//TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
     private String[] mNavDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
@@ -97,6 +92,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
 //        ServerProxy.SINGLETON.stopGameListPolling();
         chats = new Dialog(GamePlayActivity.this);
+        chats.setTitle("Chats");
+        chats.setContentView(R.layout.dialog_chat);
         chatString = "";
         chatText = (TextView) chats.findViewById(R.id.chat_text);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -231,11 +228,15 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void updateChat(String chatString){
-        if (!this.chatString.equals(chatString)) {
+        /*if (!this.chatString.equals(chatString)) {
             this.chatString = chatString;
             if (chatText != null) {
                 chatText.setText(this.chatString);
             }
+        }*/
+        this.chatString = chatString;
+        if (chatText != null) {
+            chatText.setText(this.chatString);
         }
     }
 
@@ -244,13 +245,18 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void chatDialog(){
-        chats.setTitle("Chats");
-        chats.setContentView(R.layout.dialog_chat);
+
+        //chats.setTitle("Chats");
+        //chats.setContentView(R.layout.dialog_chat);
 
         presenter.onChatOpen();
 
         if (chatText == null){
             chatText = (TextView) chats.findViewById(R.id.chat_text);
+            chatText.setText(chatString);
+        }
+
+        if (chatString != null){
             chatText.setText(chatString);
         }
         final EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
@@ -347,7 +353,6 @@ public class GamePlayActivity extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO figure out how to deal with this option when just one of the cards is taken.
                 dTrainCards.hide();
             }
         });
@@ -390,7 +395,6 @@ public class GamePlayActivity extends AppCompatActivity {
         tSlotTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO should the top of the deck be a certain index?
                 setSelectedTrainCard(tSlotTop,5);
             }
         });
@@ -420,7 +424,6 @@ public class GamePlayActivity extends AppCompatActivity {
         drawTracks(mapView,map.getTracks());
         mapView.setBackgroundResource(R.drawable.map);
 
-        //TODO draw Map, Tracks, Cities
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks){
@@ -516,7 +519,6 @@ public class GamePlayActivity extends AppCompatActivity {
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
             textNone.setText("Keep all cards");
 
-//TODO set up Dest Cards Text
             slot0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -690,7 +692,6 @@ public class GamePlayActivity extends AppCompatActivity {
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
             textNone.setText("Keep all cards");
 
-//TODO set up Dest Cards Text
             slot0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
