@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.model;
 
+import android.graphics.PointF;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,4 +47,6 @@ public class Map {
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
     }
+
+
 }

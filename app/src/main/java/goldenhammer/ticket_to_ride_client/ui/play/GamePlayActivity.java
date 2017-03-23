@@ -28,6 +28,7 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -161,7 +162,13 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updateBank();
     }
 
-
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        float x = e.getX()+220;
+        float y = e.getY()+50;
+        presenter.clickTrack(new PointF(x,y));
+        return super.onTouchEvent(e);
+    }
 
 
     public void placeHolders(){

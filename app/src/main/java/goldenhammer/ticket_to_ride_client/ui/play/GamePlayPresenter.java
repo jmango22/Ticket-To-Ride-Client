@@ -1,5 +1,9 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
+import android.app.Dialog;
+import android.graphics.PointF;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -68,6 +72,26 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     @Override
     public void onResume() {
         model.addObserver(this);
+    }
+
+    public void clickTrack(PointF point){
+        //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
+        Track selected = selectedTrack(point, model.getAllTracks());
+        if(selected != null) {
+            final Dialog dialog = new Dialog(owner);
+            //showToast("The track is between " +  selected.getCity1().getName() + " and " + selected.getCity2().getName());
+        }else{
+            showToast("No Track Selected");
+        }
+    }
+    public Track selectedTrack(PointF pt, List<Track> tracks){
+        int tolerance = 6;
+        for(Track t: tracks){
+            if(t.pointByLine(pt,tolerance)){
+                return t;
+            }
+        }
+        return null;
     }
 
     public void updateChat(){
@@ -210,12 +234,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             public void run() {
                 System.out.println("hey");
 
-//                new Timer().schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        System.out.println("jude");
-//                    }
-//                },1000);
             }
         },1000);
     }

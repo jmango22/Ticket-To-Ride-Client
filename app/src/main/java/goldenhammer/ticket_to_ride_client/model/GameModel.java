@@ -15,12 +15,14 @@ public class GameModel {
     private List<TrainCard> trainCardDeck;
     private Map map;
     private GameName name;
+    private int currentTurn;
 
     public GameModel() {
         players = new ArrayList<>();
         destinationDeck = new ArrayList<>();
         trainCardDeck = new ArrayList<>();
         map = new Map();
+        currentTurn = 0;
     }
 
     public GameName getGameName(){
@@ -79,14 +81,14 @@ public class GameModel {
         }
     }
 
-    public boolean isMyTurn(CommandManager cmdMgr) {
-        if(getCurrentTurnPlayer(cmdMgr) == getMyPlayerNumber()) {
+    public boolean isMyTurn() {
+        if(getCurrentTurnPlayer() == getMyPlayerNumber()) {
             return true;
         }
         return false;
     }
 
-    public int getCurrentTurnPlayer(CommandManager cmdMgr) {
+   /* public int getCurrentTurnPlayer(CommandManager cmdMgr) {
         List<Command> allCommands = cmdMgr.getCommandList();
         //Umm... are we using the number of EndTurn Commands to find out who's turn it is?
         int numberOfEndTurns = 0;
@@ -97,6 +99,14 @@ public class GameModel {
         }
         //This is correct if we start with player zero. If we start with player number 1 add 1 to this.
         return (numberOfEndTurns % players.size());
+    }*/
+
+    public int getCurrentTurnPlayer(){
+        return currentTurn;
+    }
+
+    public void setCurrentTurn(int currentTurn){
+        this.currentTurn = currentTurn;
     }
 
 

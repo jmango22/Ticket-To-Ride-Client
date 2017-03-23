@@ -23,7 +23,7 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="192.168.252.184"
+        android:text="192.168.1.138"
         android:hint="Host" />
 
     <EditText
@@ -36,7 +36,7 @@
         style="@android:style/Widget.Holo.EditText"
         android:layout_above="@+id/hostText"
         android:layout_alignStart="@+id/hostText"
-        android:text=""
+        android:text="password"
         android:layout_alignEnd="@+id/hostText"/>
 
     <EditText
@@ -47,7 +47,7 @@
         android:id="@+id/usernameText"
         android:hint="Username"
         style="@android:style/Widget.Holo.EditText"
-        android:text=""
+        android:text="rachel"
         android:layout_above="@+id/passwordText"
         android:layout_alignStart="@+id/passwordText"
         android:layout_alignEnd="@+id/passwordText" />
