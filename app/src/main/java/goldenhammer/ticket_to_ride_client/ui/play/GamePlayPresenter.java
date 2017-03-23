@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
-import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.MessagePoller;
 import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
@@ -18,10 +17,11 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
-import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.State;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by devonkinghorn on 2/22/17.
@@ -48,16 +48,22 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    List<Command> commands = Serializer.deserializeCommands(res.getBody());
+                    Command command = Serializer.deserializeCommand(res.getBody());
+                    List<Command> commands = new ArrayList<Command>();
+                    commands.add(command);
                     model.addCommands(commands);
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
+                    model.changed();
                 }
             }
         };
         state = StateSelector.MyTurn(this);
         handInitialized = false;
+    }
 
+    public State getState(){
+        return state;
     }
 
     @Override
@@ -101,8 +107,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     @Override
-    public void takeTrainCards() {
+    public void takeTrainCards(int index) {
         state.takeDestCards();
+    }
+
+    public void sendTakeTrainCardsCommand(int index){
+       // DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        //proxy.doCommand(command,myCommandCallback);
     }
 
     @Override
@@ -110,7 +121,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.takeDestCards();
     }
 
-    void sendTakeDestCardsCommand() {
+    public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(1);
         proxy.doCommand(command, myCommandCallback);
     }
@@ -120,22 +131,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.returnDestCards(toReturn);
     }
 
-    void sendReturnDestCardsCommand(List<DestCard> toReturn) {
+    public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
-        proxy.doCommand(command, new Callback() {
-            @Override
-            public void run(Results res) {
-                if(res.getResponseCode() < 400) {
-                    Command command = Serializer.deserializeCommand(res.getBody());
-                    List<Command> commands = new ArrayList<Command>();
-                    commands.add(command);
-                    model.addCommands(commands);
-                } else {
-                    showToast(Serializer.deserializeMessage(res.getBody()));
-                    model.changed();
-                }
-            }
-        });
+        proxy.doCommand(command, myCommandCallback);
     }
 
     @Override
@@ -143,38 +141,70 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.layTrack(track);
     }
 
+    public void sendLayTrackCommand(Track track){
+        //LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber(), track);
+        //proxy.doCommand(command, myCommandCallback);
+    }
 
     @Override
     public void loadGame() {
 
     }
 
+    public void endGame(){
+        owner.onEndGame();
+    }
 
 
-    protected void initializeHand() {
+
+    public void initializeHand() {
         owner.initializeHand(model.getHand());
     }
 
-    protected void updateBank(){
+    public void updateBank(){
         if (model.getAllBankTrainCardsArray()!= null) {
             owner.updateBank(model.getAllBankTrainCardsArray());
         }
 
     }
+    public void startDestCardsDialog(){
+        owner.destCardsDialog();
+    }
 
-    protected void updateMap() {
+
+    public void startTracksDialog(){
+        owner.tracksDialog();
+    }
+
+    public void startTrainCardsDialog(){
+        owner.trainCardsDialog();
+    }
+
+    public void clickTrainCards(){
+        state.clickTrainCards();
+    }
+
+    public void clickDestCards(){
+        state.clickDestCards();
+    }
+
+    public void clickTracks(){
+        state.clickTracks();
+    }
+
+    public void updateMap() {
         owner.drawMap(model.getCurrentGame().getMap());
     }
 
-    protected void updatePlayers(){
+    public void updatePlayers(){
         owner.updatePlayers(model.getLeaderboard());
     }
 
-    protected void updateCurrentTurn(){
+    public void updateCurrentTurn(){
         owner.updateTurn(model.getCurrentTurnPlayer());
     }
 
-    protected void updateHand(){
+    public void updateHand(){
         owner.updateHand(model.getHand());
     }
 
@@ -200,9 +230,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         });
     }
 
-    protected void showToast(String message) {
+    public void showToast(String message) {
         owner.toastMessage(message);
     }
+
     public void demo() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

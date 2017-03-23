@@ -4,18 +4,9 @@ import android.app.Dialog;
 import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
-import android.os.PersistableBundle;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,8 +27,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +45,6 @@ import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
-import static android.support.design.R.attr.height;
-
-//TODO Dialog for selecting cards
-//TODO Dialog for initializing Hand
-//TODO Functions to draw the map, tracks, etc.
-//TODO Buttons for each action
-//TODO Demo Button
 public class GamePlayActivity extends AppCompatActivity {
     private String[] mNavDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
@@ -73,6 +54,12 @@ public class GamePlayActivity extends AppCompatActivity {
     private Hand hand;
     private TextView selectedView;
     private int selectedIndex;
+
+    private TextView selectedTrainCard;
+    private int selectedTrainIndex;
+
+    private boolean[] returningDestCards = new boolean[3];
+
     private GamePlayPresenter presenter;
     private DrawnDestCards drawnDestCards;
     private int screenHeight;
@@ -84,26 +71,19 @@ public class GamePlayActivity extends AppCompatActivity {
     private float mapScaleY;
     private int mapWindowHeight= 500;//488;
     private int mapWindowWidth = 774;
+
     private  Dialog chats;
     private String chatString;
     private TextView chatText;
     private String chatToSend;
     private boolean initialized;
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onPause();
-        ServerProxy.SINGLETON.stopCommandPolling();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-        ServerProxy.SINGLETON.startCommandPolling();
-    }
+    private Dialog dTrainCards;
+    private TextView tSlot0;
+    private TextView tSlot1;
+    private TextView tSlot2;
+    private TextView tSlot3;
+    private TextView tSlot4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +92,8 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter = new GamePlayPresenter(this);
 //        ServerProxy.SINGLETON.stopGameListPolling();
         chats = new Dialog(GamePlayActivity.this);
+        chats.setTitle("Chats");
+        chats.setContentView(R.layout.dialog_chat);
         chatString = "";
         chatText = (TextView) chats.findViewById(R.id.chat_text);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -131,6 +113,14 @@ public class GamePlayActivity extends AppCompatActivity {
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
 
         initialized = false;
+        dTrainCards = new Dialog(GamePlayActivity.this);
+        dTrainCards.setContentView(R.layout.dialog_train_cards);
+
+        tSlot0 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_0);
+        tSlot1 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_1);
+        tSlot2 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_2);
+        tSlot3 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_3);
+        tSlot4 = (TextView) dTrainCards.findViewById(R.id.t_card_slot_4);
 
         destButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,8 +128,6 @@ public class GamePlayActivity extends AppCompatActivity {
                 destCardsDialog();
             }
         });
-
-
 
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,8 +149,19 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updateBank();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+        ServerProxy.SINGLETON.stopCommandPolling();
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+        ServerProxy.SINGLETON.startCommandPolling();
+    }
 
     public void placeHolders(){
        // ServerProxy.SINGLETON.stopCommandPolling();
@@ -171,10 +170,7 @@ public class GamePlayActivity extends AppCompatActivity {
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
         presenter.updateBank();
         //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,79 +178,6 @@ public class GamePlayActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_game_play,menu);
         return true;
-    }
-
-    private void selectItem(int position) {
-
-            /*Fragment fragment = null;
-
-            switch (position) {
-                case 0:
-                    fragment = new CreateFragment();
-                    break;
-                case 1:
-                    fragment = new ReadFragment();
-                    break;
-                case 2:
-                    fragment = new HelpFragment();
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (fragment != null) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-*/
-                mDrawerList.setItemChecked(position, true);
-                mDrawerList.setSelection(position);
-                //getActionBar().setTitle(mNavDrawerItemTitles[position]);
-                mDrawerLayout.closeDrawer(mDrawerList);
-
-            /*} else {
-                Log.e("MainActivity", "Error in creating fragment");
-            }*/
-        }
-
-    public void initDrawer(){
-//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-//        mDrawerList.setAdapter(adapter);
-//        class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        }
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this,
-//                mDrawerLayout,
-//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-//                R.string.drawer_open,
-//                R.string.drawer_closed
-//        ) {
-//
-//            /** Called when a drawer has settled in a completely closed state. */
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-//                //getActionBar().setTitle(mTitle);
-//            }
-//
-//            /** Called when a drawer has settled in a completely open state. */
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                //getActionBar().setTitle(mDrawerTitle);
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
     }
 
     public List<DestCard> initializeHand(Hand hand){
@@ -272,10 +195,21 @@ public class GamePlayActivity extends AppCompatActivity {
         }
         this.selectedView = view;
         this.selectedIndex = index;
-        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_yellow));
+        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
     }
 
-    public void returnDestCards(){
+    public void setSelectedDestCard(TextView view, int index){
+        if (returningDestCards[index]){
+            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_black));
+            returningDestCards[index] = false;
+        }
+        else{
+            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
+            returningDestCards[index] = true;
+        }
+    }
+
+    public void returnInitDestCards(){
         List<DestCard> toReturn = new ArrayList<>();
         if (selectedIndex != -1) {
             toReturn.add(drawnDestCards.getRemainingDestCards().get(selectedIndex));
@@ -283,12 +217,26 @@ public class GamePlayActivity extends AppCompatActivity {
          presenter.returnDestCards(toReturn);
     }
 
+    public void returnDestCards(){
+        List<DestCard> toReturn = new ArrayList<>();
+        for (int i=0; i<3; i++){
+            if (returningDestCards[i]){
+                toReturn.add(drawnDestCards.getRemainingDestCards().get(i));
+            }
+        }
+        presenter.returnDestCards(toReturn);
+    }
+
     public void updateChat(String chatString){
-        if (!this.chatString.equals(chatString)) {
+        /*if (!this.chatString.equals(chatString)) {
             this.chatString = chatString;
             if (chatText != null) {
                 chatText.setText(this.chatString);
             }
+        }*/
+        this.chatString = chatString;
+        if (chatText != null) {
+            chatText.setText(this.chatString);
         }
     }
 
@@ -297,13 +245,18 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void chatDialog(){
-        chats.setTitle("Chats");
-        chats.setContentView(R.layout.dialog_chat);
+
+        //chats.setTitle("Chats");
+        //chats.setContentView(R.layout.dialog_chat);
 
         presenter.onChatOpen();
 
         if (chatText == null){
             chatText = (TextView) chats.findViewById(R.id.chat_text);
+            chatText.setText(chatString);
+        }
+
+        if (chatString != null){
             chatText.setText(chatString);
         }
         final EditText chatEditText = (EditText) chats.findViewById(R.id.chat_edit_text);
@@ -367,10 +320,101 @@ public class GamePlayActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-
-    public void getTrackColor(Color c){
-
+    public void setSelectedTrainCard(TextView view, int index){
+        if (this.selectedTrainCard != null){
+            this.selectedTrainCard.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        }
+        this.selectedTrainCard = view;
+        this.selectedTrainIndex = index;
+        if (view != null) {
+            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
+        }
     }
+
+    public void trainCardsDialog(){
+        dTrainCards.setTitle(R.string.draw_train_card);
+        //dTrainCards.setContentView(R.layout.dialog_train_cards);
+        final TextView tSlotTop = (TextView) dTrainCards.findViewById(R.id.t_card_top);
+        Button takeCardButton = (Button) dTrainCards.findViewById(R.id.take_card_button);
+        Button closeButton = (Button) dTrainCards.findViewById(R.id.close_button_3);
+        TextView rulesText = (TextView) dTrainCards.findViewById(R.id.wild_rules_text);
+        rulesText.setText(R.string.wild_rule);
+
+
+        setSelectedTrainCard(null,-1);//Not sure if I really need to do this.
+        tSlot0.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        tSlot1.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        tSlot2.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        tSlot3.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        tSlot4.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        tSlotTop.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dTrainCards.hide();
+            }
+        });
+
+        tSlot0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot0,0);
+            }
+        });
+
+        tSlot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot1,1);
+            }
+        });
+
+        tSlot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot2,2);
+            }
+        });
+
+        tSlot3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot3,3);
+            }
+        });
+
+        tSlot4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot4,4);
+            }
+        });
+
+        tSlotTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlotTop,5);
+            }
+        });
+
+        takeCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedTrainIndex!= -1) {
+                    presenter.takeTrainCards(selectedTrainIndex);
+                }
+                else{
+                    toastMessage("You must select a card.");
+                }
+                //TODO closes dialog if it's the second card taken.
+            }
+        });
+
+        dTrainCards.show();
+    }
+
 
     public void drawMap(Map map){
 
@@ -380,7 +424,6 @@ public class GamePlayActivity extends AppCompatActivity {
         drawTracks(mapView,map.getTracks());
         mapView.setBackgroundResource(R.drawable.map);
 
-        //TODO draw Map, Tracks, Cities
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks){
@@ -399,8 +442,12 @@ public class GamePlayActivity extends AppCompatActivity {
                 p.setColor(getBoardColor(Color.values()[t.getOwner()]));
             }
                 p.setStrokeWidth(8);
-                PointF pt1 =t.getCity1().getLocation();
-                PointF pt2 =t.getCity2().getLocation();
+            PointF pt1 = t.getCity1().getLocation();
+            PointF pt2 = t.getCity2().getLocation();
+            if (t.getSecondTrack()) {
+                pt1.offset(8,8);
+                pt2.offset(8,8);
+            }
                 c.drawLine(pt1.x*mapScaleX,pt1.y*mapScaleY,
                         pt2.x*mapScaleX, pt2.y*mapScaleY, p);
             //Drawing the color of train required for the track.
@@ -444,6 +491,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private int getCityFileId(DestCard card) {
         return getResourceID(getFileName(card));
     }
+
     public void initHandDialog(DrawnDestCards drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
 
@@ -471,7 +519,6 @@ public class GamePlayActivity extends AppCompatActivity {
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
             textNone.setText("Keep all cards");
 
-//TODO set up Dest Cards Text
             slot0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -504,7 +551,7 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.hide();
-                returnDestCards();
+                returnInitDestCards();
             }
         });
         dialog.getWindow().setLayout(1400, 1000);
@@ -613,6 +660,79 @@ public class GamePlayActivity extends AppCompatActivity {
         updateDestCards(hand.getDestinationCards());
     }
 
+    public void tracksDialog(){
+
+    }
+
+    public void drawDestCardsDialog(DrawnDestCards drawnCards){
+        final Dialog dialog = new Dialog(GamePlayActivity.this);
+        dialog.setContentView(R.layout.dialog_init_hand2);
+        ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
+
+        if (drawnCards == null){
+            dialog.hide();
+            return;
+        }
+
+        List<DestCard> cards = drawnCards.getRemainingDestCards();
+        if (cards.size()== 3) {
+            slot0.setImageResource(getCityFileId(cards.get(0)));
+            slot1.setImageResource(getCityFileId(cards.get(1)));
+            slot2.setImageResource(getCityFileId(cards.get(2)));
+            final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
+            final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
+            final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
+            final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
+            text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
+            text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
+            text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
+            textNone.setText("Keep all cards");
+
+            slot0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelectedDestCard(text0, 0);
+                }
+            });
+
+            slot1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelectedDestCard(text1, 1);
+                }
+            });
+
+            slot2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelectedDestCard(text2, 2);
+                }
+            });
+
+            none.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setSelectedDestCard(textNone, -1);
+                }
+            });
+        }
+        returnCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+                returnDestCards();
+            }
+        });
+        dialog.getWindow().setLayout(1400, 1000);
+        dialog.setTitle(R.string.return_cards_title);
+        dialog.show();
+
+    }
+
     public void updateBank(TrainCard[] bankCards){
         View slot0 =  findViewById(R.id.card_slot_0);
         View slot1 =  findViewById(R.id.card_slot_1);
@@ -625,39 +745,45 @@ public class GamePlayActivity extends AppCompatActivity {
         slot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
         slot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
         slot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
+
+        tSlot0.setBackgroundColor(getBoardColor(bankCards[0].getColor()));
+        tSlot1.setBackgroundColor(getBoardColor(bankCards[1].getColor()));
+        tSlot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
+        tSlot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
+        tSlot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
     }
 
     public int getBoardColor(Color t){
         Resources res = getResources();
         if (t == Color.RED){
-            return android.graphics.Color.RED;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_red);
         }
         else if (t == Color.ORANGE){
-            return android.graphics.Color.CYAN;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_orange);
         }
         else if (t == Color.YELLOW){
-            return android.graphics.Color.YELLOW;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_yellow);
         }
         else if (t == Color.GREEN){
-            return android.graphics.Color.GREEN;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_green);
         }
         else if (t == Color.BLUE){
-            return android.graphics.Color.BLUE;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_blue);
         }
         else if (t == Color.PURPLE){
-            return android.graphics.Color.MAGENTA;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_pink);
         }
         else if (t == Color.WILD){
-            return android.graphics.Color.LTGRAY;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_wild);
         }
         else if (t == Color.BLACK){
-            return android.graphics.Color.BLACK;
+            return ContextCompat.getColor(getBaseContext(),R.color.card_black);
         }
         else if (t == Color.WHITE){
-           return android.graphics.Color.WHITE;
+           return ContextCompat.getColor(getBaseContext(),R.color.card_white);
         }
         else{
-            return R.color.error;
+            return ContextCompat.getColor(getBaseContext(),R.color.error);
         }
     }
 
@@ -734,15 +860,18 @@ public class GamePlayActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_draw_train:{
-                toastMessage("Draw a Train");
+                presenter.clickTrainCards();
+                //trainCardsDialog();
                 break;
             }
             case R.id.menu_draw_dest:{
-                toastMessage("Draw Destination Card");
+                presenter.clickDestCards();
+                //drawDestCardsDialog(new DrawnDestCards());
                 break;
             }
             case R.id.menu_lay_track:{
-                toastMessage("Lay Track");
+                presenter.clickTracks();
+
                 break;
             }
             case R.id.menu_chat:{
@@ -759,6 +888,12 @@ public class GamePlayActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 //        mDrawerToggle.syncState();
     }
+
+    public void onEndGame(){
+        //Intent intent = new Intent(getBaseContext(), EndGameActivity.class);
+        //startActivity(intent);
+    }
+
 
     }
 
