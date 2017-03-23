@@ -10,7 +10,7 @@ import goldenhammer.ticket_to_ride_client.model.Track;
  */
 
 public interface IGamePlayPresenter {
-  void takeTrainCards();
+  void takeTrainCards(int index);
   void takeDestCards();
   void returnDestCards(List<DestCard> toReturn);
   void layTrack(Track track);
