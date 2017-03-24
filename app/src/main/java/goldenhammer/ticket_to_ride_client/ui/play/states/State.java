@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.play.states;
 
+import android.graphics.PointF;
+
 import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.DestCard;
@@ -64,4 +66,7 @@ public class State {
         presenter.updateChat();
         //presenter.updateBank();
     }
+
+    public Track onTouchEvent(PointF pt, List<Track> tracks){ return null; }
+
 }

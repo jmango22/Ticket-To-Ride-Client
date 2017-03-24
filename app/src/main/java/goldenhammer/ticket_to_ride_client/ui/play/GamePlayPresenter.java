@@ -2,6 +2,9 @@ package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
 import android.graphics.PointF;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.communication.Callback;
 import goldenhammer.ticket_to_ride_client.communication.IProxy;
 import goldenhammer.ticket_to_ride_client.communication.MessagePoller;
@@ -23,6 +27,7 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
@@ -80,25 +85,37 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         model.addObserver(this);
     }
 
-    public void clickTrack(PointF point){
+    public void clickTrack(PointF pt){
         //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
-        Track selected = selectedTrack(point, model.getAllTracks());
+        final Track selected = state.onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
-            final Dialog dialog = new Dialog(owner);
-            //showToast("The track is between " +  selected.getCity1().getName() + " and " + selected.getCity2().getName());
-        }else{
-            showToast("No Track Selected");
-        }
-    }
-    public Track selectedTrack(PointF pt, List<Track> tracks){
-        int tolerance = 6;
-        for(Track t: tracks){
-            if(t.pointByLine(pt,tolerance)){
-                return t;
+            if (selected.getOwner() == -1) {
+                showToast("Track already claimed");
+            } else {
+                final Dialog dialog = new Dialog(owner);
+                dialog.setContentView(R.layout.dialog_lay_track);
+                TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
+                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "?");
+                Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
+                Button close = (Button) dialog.findViewById(R.id.retry_button);
+                dialog.show();
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        state.layTrack(selected);
+                        dialog.dismiss();
+                    }
+                });
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
         }
-        return null;
     }
+
 
     public void updateChat(){
         if (model.getMessages()!= null){// && !owner.getChat().equals(model.getMessages().getString())){

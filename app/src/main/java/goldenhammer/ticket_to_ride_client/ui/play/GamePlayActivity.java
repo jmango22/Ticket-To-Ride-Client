@@ -165,8 +165,8 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        float x = e.getX()+220;
-        float y = e.getY()+50;
+        float x = (e.getX()-220)/mapScaleX;
+        float y = (e.getY()-50)/mapScaleY;
         presenter.clickTrack(new PointF(x,y));
         return super.onTouchEvent(e);
     }
@@ -292,7 +292,7 @@ public class GamePlayActivity extends AppCompatActivity {
         }
         this.selectedView = view;
         this.selectedIndex = index;
-        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
+        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_orange));
     }
 
     public void setSelectedDestCard(TextView view, int index){
@@ -301,7 +301,7 @@ public class GamePlayActivity extends AppCompatActivity {
             returningDestCards[index] = false;
         }
         else{
-            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_orange));
             returningDestCards[index] = true;
         }
     }
@@ -424,7 +424,7 @@ public class GamePlayActivity extends AppCompatActivity {
         this.selectedTrainCard = view;
         this.selectedTrainIndex = index;
         if (view != null) {
-            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.card_orange));
         }
     }
 
