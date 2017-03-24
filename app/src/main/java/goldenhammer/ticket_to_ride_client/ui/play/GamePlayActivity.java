@@ -659,7 +659,7 @@ public class GamePlayActivity extends AppCompatActivity {
         updateTrainCards(hand.getTrainCards());
         updateDestCards(hand.getDestinationCards());
     }
-
+//TODO have the tracks button start the onTouchListener.
     public void tracksDialog(){
 
     }

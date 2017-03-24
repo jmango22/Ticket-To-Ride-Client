@@ -22,9 +22,18 @@ public class ClientModelFacade extends Observable {
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
+    private ArrayList<EndResult> endResults;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
+    }
+
+    public synchronized void setEndResults(ArrayList<EndResult> results){
+        endResults = results;
+    }
+
+    public synchronized ArrayList<EndResult> getEndResults (){
+        return endResults;
     }
 
     public synchronized void addNewObserver(Observer o){
