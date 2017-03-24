@@ -4,9 +4,18 @@ import android.app.Dialog;
 import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
+import android.os.PersistableBundle;
+import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +28,9 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +142,8 @@ public class GamePlayActivity extends AppCompatActivity {
             }
         });
 
+
+
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +163,13 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updatePlayers();
         presenter.updateBank();
     }
-
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        float x = (e.getX()-220)/mapScaleX;
+        float y = (e.getY()-50)/mapScaleY;
+        presenter.clickTrack(new PointF(x,y));
+        return super.onTouchEvent(e);
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -170,7 +191,10 @@ public class GamePlayActivity extends AppCompatActivity {
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
         presenter.updateBank();
         //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,6 +202,79 @@ public class GamePlayActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_game_play,menu);
         return true;
+    }
+
+    private void selectItem(int position) {
+
+            /*Fragment fragment = null;
+
+            switch (position) {
+                case 0:
+                    fragment = new CreateFragment();
+                    break;
+                case 1:
+                    fragment = new ReadFragment();
+                    break;
+                case 2:
+                    fragment = new HelpFragment();
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (fragment != null) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+*/
+                mDrawerList.setItemChecked(position, true);
+                mDrawerList.setSelection(position);
+                //getActionBar().setTitle(mNavDrawerItemTitles[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
+
+            /*} else {
+                Log.e("MainActivity", "Error in creating fragment");
+            }*/
+        }
+
+    public void initDrawer(){
+//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
+//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
+//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
+//        mDrawerList.setAdapter(adapter);
+//        class DrawerItemClickListener implements ListView.OnItemClickListener {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        }
+//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this,
+//                mDrawerLayout,
+//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
+//                R.string.drawer_open,
+//                R.string.drawer_closed
+//        ) {
+//
+//            /** Called when a drawer has settled in a completely closed state. */
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+//                //getActionBar().setTitle(mTitle);
+//            }
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                //getActionBar().setTitle(mDrawerTitle);
+//            }
+//        };
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
     }
 
     public List<DestCard> initializeHand(Hand hand){
@@ -195,7 +292,7 @@ public class GamePlayActivity extends AppCompatActivity {
         }
         this.selectedView = view;
         this.selectedIndex = index;
-        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
+        view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_orange));
     }
 
     public void setSelectedDestCard(TextView view, int index){
@@ -204,7 +301,7 @@ public class GamePlayActivity extends AppCompatActivity {
             returningDestCards[index] = false;
         }
         else{
-            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.cyan));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.card_orange));
             returningDestCards[index] = true;
         }
     }
@@ -327,7 +424,7 @@ public class GamePlayActivity extends AppCompatActivity {
         this.selectedTrainCard = view;
         this.selectedTrainIndex = index;
         if (view != null) {
-            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.card_orange));
         }
     }
 
@@ -519,6 +616,7 @@ public class GamePlayActivity extends AppCompatActivity {
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
             textNone.setText("Keep all cards");
 
+//TODO set up Dest Cards Text
             slot0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

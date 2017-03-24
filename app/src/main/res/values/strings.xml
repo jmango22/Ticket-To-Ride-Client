@@ -22,6 +22,8 @@
     <string name="draw_train_card">Train Card Selection</string>
     <string name="wild_rule">If you select a wild, you will only receive one card.</string>
     <string name="take_card">Take Card</string>
+    <string name="confirm_track">Confirm Track</string>
+    <string name="retry">Retry</string>
 
 
     <string-array name="nav_drawer_items_array">

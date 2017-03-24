@@ -5,6 +5,7 @@ package goldenhammer.ticket_to_ride_client.model.commands;
  */
 
 public abstract class DrawTrainCardCommand extends Command {
+    int slotNumber;
 
     public DrawTrainCardCommand(int commandNumber){
         super(commandNumber);

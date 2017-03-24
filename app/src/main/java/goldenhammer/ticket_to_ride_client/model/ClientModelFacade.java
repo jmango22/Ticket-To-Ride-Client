@@ -203,7 +203,7 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized boolean isMyTurn() {
-        return mCurrentGame.isMyTurn(mCommandMgr);
+        return mCurrentGame.isMyTurn();
     }
 
     /**
@@ -211,7 +211,7 @@ public class ClientModelFacade extends Observable {
      * @return the playerNumber of the player whose turn it is
      */
     public synchronized int getCurrentTurnPlayer() {
-        return mCurrentGame.getCurrentTurnPlayer(mCommandMgr);
+        return mCurrentGame.getCurrentTurnPlayer();
     }
 
     /**
