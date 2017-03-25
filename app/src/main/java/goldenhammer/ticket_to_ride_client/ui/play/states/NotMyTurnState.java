@@ -1,5 +1,6 @@
 package goldenhammer.ticket_to_ride_client.ui.play.states;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.ui.play.GamePlayPresenter;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 
@@ -10,5 +11,13 @@ import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 public class NotMyTurnState extends State {
     public NotMyTurnState(GamePlayPresenter presenter) {
         super(presenter);
+    }
+
+    @Override
+    public void updateView() {
+        super.updateView();
+        String name =ClientModelFacade.SINGLETON.getLeaderboard()
+                .get(ClientModelFacade.SINGLETON.getCurrentTurnPlayer()).getUsername();
+        presenter.updateTitle(name + "\'s Turn");
     }
 }

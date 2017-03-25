@@ -62,5 +62,11 @@ public class MyTurnState extends State {
         }
         return null;
     }
+
+    @Override
+    public void updateView() {
+        super.updateView();
+        presenter.updateTitle("Your Turn");
+    }
 }
 

@@ -57,9 +57,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    Command command = Serializer.deserializeCommand(res.getBody());
-                    List<Command> commands = new ArrayList<Command>();
-                    commands.add(command);
+                    List<Command> commands =Serializer.deserializeCommands(res.getBody());
                     model.addCommands(commands);
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
@@ -145,6 +143,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             state = StateSelector.NotMyTurn(this);
         }
         state.updateView();
+    }
+
+    public void updateTitle(String title){
+        if (model.getLastRound()){
+            owner.updateTitle("Last Round: " + title);
+        }
+        else {
+            owner.updateTitle(title);
+        }
     }
 
     @Override

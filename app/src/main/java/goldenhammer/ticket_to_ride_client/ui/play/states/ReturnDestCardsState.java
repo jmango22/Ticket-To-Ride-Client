@@ -23,6 +23,7 @@ public class ReturnDestCardsState extends State {
     @Override
     public void updateView() {
         super.updateView();
+        presenter.updateTitle("Return your Destination Cards");
         //TODO: show the dialog maybe not call super
     }
 }

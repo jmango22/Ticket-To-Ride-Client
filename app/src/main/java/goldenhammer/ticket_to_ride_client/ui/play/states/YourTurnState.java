@@ -12,7 +12,9 @@ public class YourTurnState extends State {
         super(presenter);
     }
 
-
-
-
+    @Override
+    public void updateView() {
+        super.updateView();
+        presenter.updateTitle("It's your turn!");
+    }
 }
