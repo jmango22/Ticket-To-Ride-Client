@@ -145,6 +145,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.updateView();
     }
 
+    public void updateTitle(String title){
+        if (model.getLastRound()){
+            owner.updateTitle("Last Round: " + title);
+        }
+        else {
+            owner.updateTitle(title);
+        }
+    }
+
     @Override
     public void takeTrainCards(int index) {
         state.takeDestCards();

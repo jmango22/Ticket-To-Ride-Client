@@ -18,4 +18,6 @@
     <color name="background2">#8C794D</color>
     <color name="background3">#A97B0D</color>
     <color name="background">#35A6DC</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
 </resources>

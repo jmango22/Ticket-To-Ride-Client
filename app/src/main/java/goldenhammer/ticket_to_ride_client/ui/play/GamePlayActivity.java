@@ -48,6 +48,7 @@ import java.util.List;
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.communication.LocalProxy;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
+import goldenhammer.ticket_to_ride_client.model.City;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
@@ -91,6 +92,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private TextView chatText;
     private String chatToSend;
     private boolean initialized;
+    private Toolbar myToolbar;
 
     private Dialog dTrainCards;
     private TextView tSlot0;
@@ -110,7 +112,7 @@ public class GamePlayActivity extends AppCompatActivity {
         chats.setContentView(R.layout.dialog_chat);
         chatString = "";
         chatText = (TextView) chats.findViewById(R.id.chat_text);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
         mapView.getHeight();
@@ -164,6 +166,15 @@ public class GamePlayActivity extends AppCompatActivity {
         presenter.updatePlayers();
         presenter.updateBank();
     }
+
+    public void updateTitle(String title){
+        if (getActionBar() != null){
+            //getActionBar().setTitle(title);
+            myToolbar.setTitle(title);
+        }
+    }
+
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         float x = (e.getX()-220)/mapScaleX;
@@ -205,78 +216,6 @@ public class GamePlayActivity extends AppCompatActivity {
         return true;
     }
 
-    private void selectItem(int position) {
-
-            /*Fragment fragment = null;
-
-            switch (position) {
-                case 0:
-                    fragment = new CreateFragment();
-                    break;
-                case 1:
-                    fragment = new ReadFragment();
-                    break;
-                case 2:
-                    fragment = new HelpFragment();
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (fragment != null) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-*/
-                mDrawerList.setItemChecked(position, true);
-                mDrawerList.setSelection(position);
-                //getActionBar().setTitle(mNavDrawerItemTitles[position]);
-                mDrawerLayout.closeDrawer(mDrawerList);
-
-            /*} else {
-                Log.e("MainActivity", "Error in creating fragment");
-            }*/
-        }
-
-    public void initDrawer(){
-//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-//        mDrawerList.setAdapter(adapter);
-//        class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        }
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this,
-//                mDrawerLayout,
-//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-//                R.string.drawer_open,
-//                R.string.drawer_closed
-//        ) {
-//
-//            /** Called when a drawer has settled in a completely closed state. */
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-//                //getActionBar().setTitle(mTitle);
-//            }
-//
-//            /** Called when a drawer has settled in a completely open state. */
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                //getActionBar().setTitle(mDrawerTitle);
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
-    }
 
     public List<DestCard> initializeHand(Hand hand){
         updateHand(hand);
@@ -519,12 +458,12 @@ public class GamePlayActivity extends AppCompatActivity {
         //Drawable mapDrawable = new (R.drawable.map);
         //mapView.setImageDrawable();
         //mapView.setImageResource(R.drawable.map);
-        drawTracks(mapView,map.getTracks());
-        mapView.setBackgroundResource(R.drawable.map);
+        drawTracks(mapView,map.getTracks(), map.getCities());
+        mapView.setBackgroundResource(R.drawable.map2);
 
     }
 
-    public void drawTracks(ImageView mapView,List<Track> tracks){
+    public void drawTracks(ImageView mapView,List<Track> tracks, List<City> cities){
         Bitmap bmp = Bitmap.createBitmap(mapWindowWidth, mapWindowHeight, Bitmap.Config.ARGB_8888);
         //Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.map);
         Canvas c = new Canvas(bmp);
@@ -534,7 +473,7 @@ public class GamePlayActivity extends AppCompatActivity {
         for (Track t : tracks){
             //Drawing underlying track (who owns it)
             if (t.getOwner() == -1) {
-                p.setColor(getBoardColor(Color.WHITE));
+                p.setColor(ContextCompat.getColor(getBaseContext(),R.color.white));
             }
             else{
                 p.setColor(getBoardColor(Color.values()[t.getOwner()]));
@@ -561,16 +500,30 @@ public class GamePlayActivity extends AppCompatActivity {
             c.drawLine(p1.x*mapScaleX,p1.y*mapScaleY,
                     p2.x*mapScaleX, p2.y*mapScaleY, p);
         }
+
+        for (City d: cities){
+            PointF location = new PointF(d.getLocation().x*mapScaleX,d.getLocation().y*mapScaleY);
+            p.setColor(ContextCompat.getColor(getBaseContext(),R.color.black));
+            p.setAlpha(170);
+            c.drawRect(location.x-20 ,(location.y-13),
+                    (location.x + d.getName().length()*8 -20) , location.y+1 ,p);
+            p.setColor(ContextCompat.getColor(getBaseContext(),R.color.white));
+            p.setTextSize(15);
+            p.setAlpha(255);
+            c.drawText(d.getName(),location.x -20 ,location.y ,p);
+        }
         for (Track t : tracks){
             if (!t.getSecondTrack()) {
                 PointF midpoint = midPoint(t.getCity1().getLocation(), t.getCity2().getLocation());
                 p.setColor(getBoardColor(Color.WHITE));
+                p.setAlpha(170);
                 c.drawRect(midpoint.x-1,midpoint.y-13,midpoint.x+9,midpoint.y+1,p);
                 /*p.setColor(getBoardColor(Color.WHITE));
                 p.setTextSize(21);
                 p.setFakeBoldText(true);
                 c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y,p);*/
                 p.setColor(ContextCompat.getColor(getBaseContext(),R.color.card_black));
+                p.setAlpha(255);
                 //p.setFakeBoldText(false);
                 p.setTextSize(15);
                 c.drawText(Integer.toString(t.getLength()), midpoint.x, midpoint.y, p);
@@ -580,6 +533,7 @@ public class GamePlayActivity extends AppCompatActivity {
         //mapView.draw(c);
         //mapView.setImageBitmap(bmp);
     }
+
 
     public PointF midPoint(PointF p1, PointF p2){
         float x = ((p1.x + p2.x)/2.0f)*mapScaleX;
@@ -862,7 +816,6 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public int getBoardColor(Color t){
-        Resources res = getResources();
         if (t == Color.RED){
             return ContextCompat.getColor(getBaseContext(),R.color.card_red);
         }

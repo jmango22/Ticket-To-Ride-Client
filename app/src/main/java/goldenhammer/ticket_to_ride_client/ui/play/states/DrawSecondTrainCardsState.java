@@ -31,4 +31,10 @@ public class DrawSecondTrainCardsState extends State {
     public void clickDestCards() {
         presenter.showToast("You need to select a second train card.");
     }
+
+    @Override
+    public void updateView() {
+        super.updateView();
+        presenter.updateTitle("Draw your second Train Card");
+    }
 }

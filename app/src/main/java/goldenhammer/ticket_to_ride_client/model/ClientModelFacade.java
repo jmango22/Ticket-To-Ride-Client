@@ -25,6 +25,8 @@ public class ClientModelFacade extends Observable {
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
     private ArrayList<EndResult> endResults;
+    private boolean lastRound;
+    private int activePlayerNumber;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -33,6 +35,15 @@ public class ClientModelFacade extends Observable {
     public synchronized void setEndResults(ArrayList<EndResult> result){
         endResults = result;
         setChanged();
+    }
+
+
+    public synchronized void setLastRound(boolean isLastRound){
+        lastRound = isLastRound;
+    }
+
+    public synchronized boolean  getLastRound(){
+        return lastRound;
     }
 
     public synchronized ArrayList<EndResult> getEndResults(){
