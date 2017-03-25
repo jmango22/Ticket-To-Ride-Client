@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
@@ -539,12 +540,12 @@ public class GamePlayActivity extends AppCompatActivity {
                 p.setColor(getBoardColor(Color.values()[t.getOwner()]));
             }
                 p.setStrokeWidth(8);
-            PointF pt1 = t.getCity1().getLocation();
-            PointF pt2 = t.getCity2().getLocation();
-            if (t.getSecondTrack()) {
+            PointF pt1 = t.getLocation1();
+            PointF pt2 = t.getLocation2();
+            /*if (t.getSecondTrack()) {
                 pt1.offset(8,8);
                 pt2.offset(8,8);
-            }
+            }*/
                 c.drawLine(pt1.x*mapScaleX,pt1.y*mapScaleY,
                         pt2.x*mapScaleX, pt2.y*mapScaleY, p);
             //Drawing the color of train required for the track.
@@ -559,12 +560,21 @@ public class GamePlayActivity extends AppCompatActivity {
             PointF p2 =t.getCity2().getLocation();
             c.drawLine(p1.x*mapScaleX,p1.y*mapScaleY,
                     p2.x*mapScaleX, p2.y*mapScaleY, p);
-
-
-            p.setColor(getBoardColor(Color.WHITE));
-            p.setTextSize(20);
-            PointF midpoint = midPoint(t.getCity1().getLocation(),t.getCity2().getLocation());
-            c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y, p);
+        }
+        for (Track t : tracks){
+            if (!t.getSecondTrack()) {
+                PointF midpoint = midPoint(t.getCity1().getLocation(), t.getCity2().getLocation());
+                p.setColor(getBoardColor(Color.WHITE));
+                c.drawRect(midpoint.x-1,midpoint.y-13,midpoint.x+9,midpoint.y+1,p);
+                /*p.setColor(getBoardColor(Color.WHITE));
+                p.setTextSize(21);
+                p.setFakeBoldText(true);
+                c.drawText(Integer.toString(t.getLength()),midpoint.x,midpoint.y,p);*/
+                p.setColor(ContextCompat.getColor(getBaseContext(),R.color.card_black));
+                //p.setFakeBoldText(false);
+                p.setTextSize(15);
+                c.drawText(Integer.toString(t.getLength()), midpoint.x, midpoint.y, p);
+            }
         }
         mapView.setImageBitmap(bmp);
         //mapView.draw(c);
