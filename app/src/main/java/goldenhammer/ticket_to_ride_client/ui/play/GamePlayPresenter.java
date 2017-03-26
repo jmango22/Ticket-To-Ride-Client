@@ -127,7 +127,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     @Override
                     public void onClick(View v) {
                         dialog.hide();
-                        dialog.dismiss();
                     }
                 });
             }
@@ -254,8 +253,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                         Serializer.deserializeCommand(res.getBody()).execute();
                     }
                 });
-                track.setOwner(model.getMyPlayerNumber());
-                model.getHand().removeTrainCards(handAdapter.getCards());
                 dialog.dismiss();
             }
         });
@@ -305,13 +302,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTracks(){
-        if(model.getHand().getTrainCards().size() == 0){
-            ArrayList<TrainCard> newCards = new ArrayList<>();
-            for(int i = 0; i < 10; i++){
-                newCards.add(new TrainCard(Color.WILD));
-            }
-            model.getHand().addTrainCards(newCards);
-        }
         state.clickTracks();
     }
 
