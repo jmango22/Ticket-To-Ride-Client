@@ -2,8 +2,15 @@ package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
 import android.graphics.PointF;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,15 +29,19 @@ import goldenhammer.ticket_to_ride_client.communication.Results;
 import goldenhammer.ticket_to_ride_client.communication.Serializer;
 import goldenhammer.ticket_to_ride_client.communication.ServerProxy;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
+import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
+
+import static java.lang.Character.toUpperCase;
 
 /**
  * Created by devonkinghorn on 2/22/17.
@@ -87,12 +98,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
         final Track selected = state.onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
-            if (selected.getOwner() == -1) {
+            if (selected.getOwner() != -1) {
                 showToast("Track already claimed");
             } else {
                 final Dialog dialog = new Dialog(owner);
                 dialog.setContentView(R.layout.dialog_lay_track);
-                TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
+                final TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
                 text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "?");
                 Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                 Button close = (Button) dialog.findViewById(R.id.retry_button);
@@ -100,18 +111,54 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        state.layTrack(selected);
-                        dialog.dismiss();
+                        if(!enoughCards(selected)) {
+                            text.setText("Not enough Cards! Please select another track");
+                            Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
+                            confirm.setVisibility(View.INVISIBLE);
+                        }else {
+                            dialog.dismiss();
+                            state.layTrack(selected);
+                        }
                     }
                 });
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.hide();
                         dialog.dismiss();
                     }
                 });
             }
         }
+    }
+
+    private boolean enoughCards(Track t){
+        if(t.getColor() == null){
+            return model.getHand().enoughTrainCards(t.getLength());
+        }else{
+            int cardCount = model.getHand().getWildTrainCards();
+            if (t.getColor() == Color.RED) {
+                cardCount += model.getHand().getRedTrainCards();
+            } else if (t.getColor() == Color.ORANGE) {
+                cardCount += model.getHand().getOrangeTrainCards();
+            } else if (t.getColor() == Color.YELLOW) {
+                cardCount += model.getHand().getYellowTrainCards();
+            } else if (t.getColor() == Color.GREEN) {
+                cardCount += model.getHand().getGreenTrainCards();
+            } else if (t.getColor() == Color.BLUE) {
+                cardCount += model.getHand().getBlueTrainCards();
+            } else if (t.getColor() == Color.PURPLE) {
+                cardCount += model.getHand().getPinkTrainCards();
+            }else if (t.getColor() == Color.BLACK) {
+                cardCount += model.getHand().getBlackTrainCards();
+            } else if (t.getColor() == Color.WHITE) {
+                cardCount += model.getHand().getWhiteTrainCards();
+            }
+            if(cardCount >= t.getLength()){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -189,9 +236,37 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         state.layTrack(track);
     }
 
-    public void sendLayTrackCommand(Track track){
-        //LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber(), track);
-        //proxy.doCommand(command, myCommandCallback);
+    public void sendLayTrackCommand(final Track track){
+        final Dialog dialog = new Dialog(owner);
+        dialog.setContentView(R.layout.dialog_card_select);
+        dialog.setTitle(track.nametoString());
+        TextView trackMessage = (TextView) dialog.findViewById(R.id.track_card_message);
+        trackMessage.setText(track.infotoString());
+        Button confirm = (Button) dialog.findViewById(R.id.confirm_cards_button);
+        confirm.setEnabled(false);
+        RecyclerView handlist = (RecyclerView) dialog.findViewById(R.id.cards);
+        handlist.setLayoutManager(new LinearLayoutManager(owner));
+        final HandAdapter handAdapter = new HandAdapter(model.getHand().getTrainCards(),track,confirm);
+        handlist.setAdapter(handAdapter);
+        dialog.show();
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayTrackCommand command = new LayTrackCommand(0);
+                command.setCards(handAdapter.getCards());
+                command.setTrack(track);
+                proxy.doCommand(command, new Callback() {
+                    @Override
+                    public void run(Results res) {
+                        Serializer.deserializeCommand(res.getBody()).execute();
+                    }
+                });
+                track.setOwner(model.getMyPlayerNumber());
+                model.getHand().removeTrainCards(handAdapter.getCards());
+                dialog.dismiss();
+            }
+        });
+
     }
 
     @Override
@@ -237,6 +312,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTracks(){
+        if(model.getHand().getTrainCards().size() == 0){
+            ArrayList<TrainCard> newCards = new ArrayList<>();
+            for(int i = 0; i < 10; i++){
+                newCards.add(new TrainCard(Color.WILD));
+            }
+            model.getHand().addTrainCards(newCards);
+        }
         state.clickTracks();
     }
 
@@ -282,14 +364,93 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         owner.toastMessage(message);
     }
 
-    public void demo() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("hey");
 
+   private class ViewHolder extends RecyclerView.ViewHolder implements CheckBox.OnClickListener {
+        TrainCard card;
+        TextView cardText;
+        CheckBox onOff;
+        HandAdapter owner;
+
+        public ViewHolder(View itemView, HandAdapter owner) {
+            super(itemView);
+            cardText = (TextView) itemView.findViewById(R.id.hand_card_item);
+            onOff = (CheckBox) itemView.findViewById(R.id.use_card_item);
+            itemView.setOnClickListener(this);
+            onOff.setOnClickListener(this);
+            this.owner = owner;
+        }
+
+        public void bindView(TrainCard card) {
+            this.card = card;
+            cardText.setText(card.getColor().toString());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(onOff.isChecked()){
+                owner.addCard(card);
+            }else{
+                owner.removeCard(card);
             }
-        },1000);
+        }
+
     }
+
+
+    private class HandAdapter extends RecyclerView.Adapter<ViewHolder> {
+        ArrayList<TrainCard> cards;
+        private List<TrainCard> hand;
+        ViewHolder view;
+        Track selected;
+        Button confirm;
+
+        public HandAdapter(List<TrainCard> hand, Track selected, Button confirm) {
+            this.hand = hand;
+            cards = new ArrayList<>();
+            this.selected = selected;
+            this.confirm = confirm;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(R.layout.hand_list_item, parent, false);
+            this.view = new ViewHolder(view, this);
+            return this.view;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            TrainCard card = hand.get(position);
+            holder.bindView(card);
+        }
+
+        @Override
+        public int getItemCount() {
+            return hand.size();
+        }
+
+        public void addCard(TrainCard card){
+            cards.add(card);
+            buttonSet();
+        }
+
+        public void removeCard(TrainCard card){
+            cards.remove(card);
+            buttonSet();
+        }
+
+        private void buttonSet(){
+            if(cards.size() == selected.getLength()){
+                confirm.setEnabled(true);
+            }else{
+                confirm.setEnabled(false);
+            }
+        }
+        public ArrayList<TrainCard> getCards(){
+            return cards;
+        }
+    }
+
+
 }

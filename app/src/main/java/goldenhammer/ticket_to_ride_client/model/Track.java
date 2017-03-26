@@ -130,7 +130,21 @@ public class Track {
             return false;
         }
     }
+    public String nametoString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Track from ");
+        sb.append(city1.getName() + " to " + city2.getName());
+        return sb.toString();
+    }
 
+    public String infotoString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Length: ");
+        sb.append(length);
+        sb.append(" Color: ");
+        sb.append(color);
+        return sb.toString();
+    }
     public boolean pointByLine(PointF pt, double tolerance) {
         double x = city2.getLocation().x - city1.getLocation().x;
         double y = city2.getLocation().x - city1.getLocation().y;
