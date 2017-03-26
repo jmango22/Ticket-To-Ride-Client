@@ -34,7 +34,7 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
@@ -68,8 +68,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    Command command = Serializer.deserializeCommand(res.getBody());
-                    List<Command> commands = new ArrayList<Command>();
+                    BaseCommand command = Serializer.deserializeCommand(res.getBody());
+                    List<BaseCommand> commands = new ArrayList<BaseCommand>();
                     commands.add(command);
                     model.addCommands(commands);
                 } else {
@@ -97,6 +97,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrack(PointF pt){
+        ArrayList<TrainCard> newCards = new ArrayList<>();
+        for(int i = 0; i < 10; i++)
+        {
+            newCards.add(new TrainCard(Color.BLUE));
+        }
+        model.getHand().addTrainCards(newCards);
         //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
         final Track selected = state.onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
@@ -118,8 +124,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                            dialog.dismiss();
                             state.layTrack(selected);
+                            dialog.hide();
                         }
                     }
                 });
@@ -179,7 +185,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         }
         else if (isMyTurn) {
             handInitialized = true;
-            Command previousCommand = model.getPreviousCommand();
+            BaseCommand previousCommand = model.getPreviousCommand();
             if (previousCommand instanceof DrawDestCardsCommand){
                 state = StateSelector.MustReturnDestCard(this);
             } else {
@@ -244,7 +250,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayTrackCommand command = new LayTrackCommand(0);
+                LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                 command.setCards(handAdapter.getCards());
                 command.setTrack(track);
                 proxy.doCommand(command, new Callback() {

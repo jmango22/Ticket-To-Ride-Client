@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
-import goldenhammer.ticket_to_ride_client.model.Message;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -182,8 +181,8 @@ public class ClientModelFacade extends Observable {
      * Command Manager Code
      */
 
-    public synchronized Command getPreviousCommand() {
-        List<Command> commands = mCommandMgr.getCommandList();
+    public synchronized BaseCommand getPreviousCommand() {
+        List<BaseCommand> commands = mCommandMgr.getCommandList();
         if(commands.size() == 0){
             return null;
         }
@@ -231,12 +230,12 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized boolean shouldInitializeHand() {
-        List<Command> commands = mCommandMgr.getCommandList();
+        List<BaseCommand> commands = mCommandMgr.getCommandList();
         if(commands.size() > getCurrentGame().getLeaderBoard().size() * 2){
             return false;
         }
         int myNumber = getMyPlayerNumber();
-        for (Command command: commands){
+        for (BaseCommand command: commands){
             //What if the user draws DestCards later in the game?
             if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
                 return false;
@@ -245,7 +244,7 @@ public class ClientModelFacade extends Observable {
         return true;
     }
 
-    public synchronized void addCommands(List<Command> newCommands) {
+    public synchronized void addCommands(List<BaseCommand> newCommands) {
         if (newCommands.size() > 0) {
             mCommandMgr.addCommands(newCommands);
             changed();
@@ -287,6 +286,33 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+    public synchronized void removeTrainCards(ArrayList<TrainCard> cards){
+        mUser.getHand().removeTrainCards(cards);
+        changed();
+    }
+
+    public synchronized void changeTrackOwner(Track track, int playerNumber){
+        track.setOwner(playerNumber);
+        changed();
+    }
+
+    public synchronized void setDrawnDestCards(ArrayList<DestCard> cards){
+        DrawnDestCards tempCards = new DrawnDestCards(cards);
+        mUser.getHand().setDrawnDestinationCards(tempCards);
+        changed();
+    }
+
+    public synchronized void addTrainCard(TrainCard card){
+        ArrayList cards = new ArrayList<TrainCard>();
+        cards.add(card);
+        mUser.getHand().addTrainCards(cards);
+        changed();
+    }
+
+    public synchronized void setEndGameResults(List results){
+
+
+    }
     //END INITIALIZING CODE
 
 }

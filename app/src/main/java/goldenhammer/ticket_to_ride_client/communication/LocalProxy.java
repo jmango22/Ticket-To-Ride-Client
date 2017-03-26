@@ -22,7 +22,7 @@ import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.ChatMessages;
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
@@ -181,7 +181,7 @@ public class LocalProxy implements IProxy {
     }
 
     @Override
-    public void doCommand(Command command, Callback c) {
+    public void doCommand(BaseCommand command, Callback c) {
 
 
     }

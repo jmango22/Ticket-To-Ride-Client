@@ -19,20 +19,20 @@ public class MyTurnState extends State {
     }
 
     @Override
-    public void takeDestCards() {
-        presenter.sendTakeDestCardsCommand();
+    public void takeDestCards()
+    {
+            presenter.sendTakeDestCardsCommand();
     }
 
     @Override
     public void takeTrainCards(int index) {
-        presenter.sendTakeTrainCardsCommand(index);
+            presenter.sendTakeTrainCardsCommand(index);
     }
 
     @Override
     public void layTrack(Track track) {
         layTrack = false;
         presenter.sendLayTrackCommand(track);
-        //consider how the cards are going to be taken from player's hand when they build.
     }
 
     @Override
@@ -42,8 +42,12 @@ public class MyTurnState extends State {
 
     @Override
     public void clickTracks() {
-        layTrack = true;
-        presenter.showToast("Select a train to claim");
+        if(!layTrack) {
+            layTrack = true;
+            presenter.showToast("Select a train to claim.");
+        }else{
+            layTrack=false;
+        }
     }
 
     @Override

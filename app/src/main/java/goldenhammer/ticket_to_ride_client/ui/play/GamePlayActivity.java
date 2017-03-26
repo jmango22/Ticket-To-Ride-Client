@@ -165,9 +165,11 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        float x = (e.getX()-220)/mapScaleX;
-        float y = (e.getY()-50)/mapScaleY;
-        presenter.clickTrack(new PointF(x,y));
+        if(e.getAction() == MotionEvent.ACTION_UP) {
+            float x = (e.getX() - 220) / mapScaleX;
+            float y = (e.getY() - 50) / mapScaleY;
+            presenter.clickTrack(new PointF(x, y));
+        }
         return super.onTouchEvent(e);
     }
     @Override

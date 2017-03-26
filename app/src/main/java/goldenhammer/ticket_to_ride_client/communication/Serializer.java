@@ -18,7 +18,7 @@ import goldenhammer.ticket_to_ride_client.model.GameList;
 import goldenhammer.ticket_to_ride_client.model.GameModel;
 import goldenhammer.ticket_to_ride_client.model.ChatMessages;
 import goldenhammer.ticket_to_ride_client.model.Message;
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 
 /**
  * Created by devonkinghorn on 3/4/17.
@@ -34,14 +34,14 @@ public class Serializer {
         return parser.parse(json).getAsJsonObject();
     }
     static final String commandPackagePrefix = "goldenhammer.ticket_to_ride_client.model.commands.";
-    public static Command deserializeCommand(String json) {
+    public static BaseCommand deserializeCommand(String json) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         String commandName = jsonObject.get("name").getAsString();
         StringBuilder sb = new StringBuilder(commandName);
         commandName = sb.replace(0, 1, sb.substring(0, 1).toUpperCase()).toString();
         String className = commandPackagePrefix + commandName + "Command";
-        Command basecmd = null;
+        BaseCommand basecmd = null;
         try {
             Class c = null;
             try {
@@ -49,7 +49,7 @@ public class Serializer {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            basecmd = (Command)gson.fromJson(json, c);
+            basecmd = (BaseCommand)gson.fromJson(json, c);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -57,13 +57,13 @@ public class Serializer {
     }
 
 
-    public static List<Command> deserializeCommands(String commandString) {
+    public static List<BaseCommand> deserializeCommands(String commandString) {
         Gson gson = new Gson();
         JsonArray commands = gson.fromJson(commandString, JsonArray.class);
-        List<Command> list = new ArrayList<>();
+        List<BaseCommand> list = new ArrayList<>();
         for(int i = 0; i < commands.size(); i++) {
             try {
-                Command c = deserializeCommand(commands.get(i).toString());
+                BaseCommand c = deserializeCommand(commands.get(i).toString());
                 list.add(c);
             } catch (JsonSyntaxException e){
                 e.printStackTrace();
