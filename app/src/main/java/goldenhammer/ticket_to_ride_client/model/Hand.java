@@ -84,19 +84,116 @@ public class Hand {
         trainCards.add(card);
     }
 
-    //TODO: test how this removes Train cards from the player's hand
-    public void removeTrainCards(List<TrainCard> cards) {
-        Iterator<TrainCard> i = trainCards.iterator();
-        int remainder = cards.size();
-
-        while((i.hasNext()) && (remainder > 0)) {
-            TrainCard card = i.next();
-            for(TrainCard neededCard: cards) {
-                if(card.equals(neededCard)) {
-                    remainder = remainder - 1;
-                    i.remove();
-                }
+    public boolean removeTrainCards(List<TrainCard> cards) {
+         boolean success = true;
+        for(int i = 0 ; i < cards.size(); i++){
+            success = trainCards.remove(cards.get(i));
+            if(!success){
+                break;
             }
         }
+        return success;
+    }
+
+    public boolean enoughTrainCards(int number){
+        int wild = getWildTrainCards();
+        if ((getRedTrainCards() + wild >= number) || (getOrangeTrainCards() + wild >= number)
+                || (getYellowTrainCards() + wild >= number) || (getGreenTrainCards() + wild >= number)
+                || (getBlueTrainCards() + wild >= number) || (getWhiteTrainCards() + wild >= number)
+                || (getBlackTrainCards() + wild >= number) || (getPinkTrainCards() + wild >= number)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getRedTrainCards(){
+        int red = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.RED) {
+                red++;
+            }
+        }
+        return red;
+    }
+
+    public int getOrangeTrainCards(){
+        int orange= 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.ORANGE) {
+                orange++;
+            }
+        }
+        return orange;
+    }
+
+    public int getYellowTrainCards(){
+        int yellow = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.YELLOW) {
+                yellow++;
+            }
+        }
+        return yellow;
+    }
+
+    public int getGreenTrainCards(){
+        int green = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.GREEN) {
+                green++;
+            }
+        }
+        return green;
+    }
+
+    public int getBlueTrainCards(){
+        int blue = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.BLUE) {
+                blue++;
+            }
+        }
+        return blue;
+    }
+
+    public int getWhiteTrainCards(){
+        int white = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.WHITE) {
+                white++;
+            }
+        }
+        return white;
+    }
+
+    public int getBlackTrainCards(){
+        int black = 0;
+        for (TrainCard t : trainCards) {
+           if (t.getColor() == Color.BLACK) {
+                black++;
+            }
+        }
+        return black;
+    }
+
+    public int getPinkTrainCards(){
+        int pink = 0;
+        for (TrainCard t : trainCards) {
+        if (t.getColor() == Color.PURPLE) {
+                pink++;
+            }
+        }
+        return pink;
+    }
+
+    public int getWildTrainCards(){
+        int wild = 0;
+        for (TrainCard t : trainCards) {
+            if (t.getColor() == Color.WILD) {
+                wild++;
+            }
+        }
+        return wild;
     }
 }
