@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
-import goldenhammer.ticket_to_ride_client.model.Message;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 
 /**
@@ -24,19 +23,11 @@ public class ClientModelFacade extends Observable {
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
-    private ArrayList<EndResult> endResults;
     private boolean lastRound;
-    private int activePlayerNumber;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
     }
-
-    public synchronized void setEndResults(ArrayList<EndResult> result){
-        endResults = result;
-        setChanged();
-    }
-
 
     public synchronized void setLastRound(boolean isLastRound){
         lastRound = isLastRound;
@@ -47,10 +38,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized ArrayList<EndResult> getEndResults(){
-        return endResults;
+        return mCurrentGame.getEndResults();
     }
 
     public synchronized EndResult getPlayerEndResults(int playerNumber){
+        ArrayList<EndResult> endResults = mCurrentGame.getEndResults();
         for (EndResult e : endResults){
             if (e.getPlayer() == playerNumber){
                 return e;
@@ -59,8 +51,16 @@ public class ClientModelFacade extends Observable {
         return null;
     }
 
-    public synchronized void addNewObserver(Observer o){
-        addObserver(o);
+    public synchronized void removePieces(int pieces){
+       int currentPieces =  getLeaderboard().get(getMyPlayerNumber()).getNumPieces();
+        getLeaderboard().get(getMyPlayerNumber()).setPieces(currentPieces-pieces);
+        changed();
+    }
+
+    public synchronized void addPoints(int points){
+        int myPoints = getLeaderboard().get(getMyPlayerNumber()).getPoints();
+        getLeaderboard().get(getMyPlayerNumber()).setPoints(points+myPoints);
+        changed();
     }
 
     public synchronized ClientModelFacade getInstance(){
@@ -170,6 +170,14 @@ public class ClientModelFacade extends Observable {
             changed();
         }
     }
+    public Color getBankCardColor(int slot){
+        ArrayList<TrainCard> bank = new ArrayList<>();
+        for(int i = 0; i < 5; i++)
+        {
+            bank.add(new TrainCard(Color.YELLOW));
+        }
+        return bank.get(slot).getColor();
+    }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {
         mUser.setDrawDestCards(cards);
@@ -237,8 +245,8 @@ public class ClientModelFacade extends Observable {
      * Command Manager Code
      */
 
-    public synchronized Command getPreviousCommand() {
-        List<Command> commands = mCommandMgr.getCommandList();
+    public synchronized BaseCommand getPreviousCommand() {
+        List<BaseCommand> commands = mCommandMgr.getCommandList();
         if(commands.size() == 0){
             return null;
         }
@@ -286,12 +294,12 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized boolean shouldInitializeHand() {
-        List<Command> commands = mCommandMgr.getCommandList();
+        List<BaseCommand> commands = mCommandMgr.getCommandList();
         if(commands.size() > getCurrentGame().getLeaderBoard().size() * 2){
             return false;
         }
         int myNumber = getMyPlayerNumber();
-        for (Command command: commands){
+        for (BaseCommand command: commands){
             //What if the user draws DestCards later in the game?
             if (command.getPlayerNumber() == myNumber && command instanceof ReturnDestCardsCommand){
                 return false;
@@ -300,7 +308,7 @@ public class ClientModelFacade extends Observable {
         return true;
     }
 
-    public synchronized void addCommands(List<Command> newCommands) {
+    public synchronized void addCommands(List<BaseCommand> newCommands) {
         if (newCommands.size() > 0) {
             mCommandMgr.addCommands(newCommands);
             changed();
@@ -342,6 +350,37 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+    public synchronized void removeTrainCards(ArrayList<TrainCard> cards){
+        mUser.getHand().removeTrainCards(cards);
+        changed();
+    }
+
+    public synchronized void changeTrackOwner(Track track, int playerNumber){
+        track.setOwner(playerNumber);
+        changed();
+    }
+
+    public synchronized void setDrawnDestCards(ArrayList<DestCard> cards){
+        DrawnDestCards tempCards = new DrawnDestCards(cards);
+        mUser.getHand().setDrawnDestinationCards(tempCards);
+        changed();
+    }
+
+    public synchronized void addTrainCard(TrainCard card){
+        ArrayList cards = new ArrayList<TrainCard>();
+        cards.add(card);
+        mUser.getHand().addTrainCards(cards);
+        changed();
+    }
+
+    public synchronized void setEndGameResults(ArrayList<EndResult> results){
+        mCurrentGame.setEndResults(results);
+        changed();
+    }
+
+    public synchronized boolean isEndGame(){
+        return mCurrentGame.getEndGame();
+    }
     //END INITIALIZING CODE
 
 }

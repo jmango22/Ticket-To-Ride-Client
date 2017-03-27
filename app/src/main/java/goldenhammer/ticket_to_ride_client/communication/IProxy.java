@@ -1,9 +1,9 @@
 package goldenhammer.ticket_to_ride_client.communication;
 
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Username;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 
 public interface IProxy {
 
@@ -23,7 +23,7 @@ public interface IProxy {
 
     void leaveGame(GameName gameName, Callback c);
 
-    void doCommand(Command command, Callback c);
+    void doCommand(BaseCommand command, Callback c);
 
     void getCommands(int lastCommandNumber, Callback c);
 

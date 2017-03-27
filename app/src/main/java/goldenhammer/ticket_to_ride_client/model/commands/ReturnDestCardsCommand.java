@@ -10,13 +10,13 @@ import goldenhammer.ticket_to_ride_client.model.Hand;
 /**
  * Created by McKean on 3/3/2017.
  */
-
-public class ReturnDestCardsCommand extends Command {
+public class ReturnDestCardsCommand extends BaseCommand {
     List<DestCard> toReturn;
+
     public ReturnDestCardsCommand(int commandNumber, List<DestCard> toReturn) {
-        super(commandNumber);
         this.toReturn = toReturn;
-        this.setName("ReturnDestCards");
+        setName("ReturnDestCards");
+        setCommandNumber(commandNumber);
     }
     @Override
     public void execute() {

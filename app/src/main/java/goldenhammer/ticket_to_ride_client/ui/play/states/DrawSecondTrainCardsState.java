@@ -13,8 +13,9 @@ public class DrawSecondTrainCardsState extends State {
     }
 
     @Override
-    public void takeTrainCards(int index) {
+    public boolean takeTrainCards(int index) {
         presenter.sendTakeTrainCardsCommand(index);
+        return true;
     }
 
     @Override

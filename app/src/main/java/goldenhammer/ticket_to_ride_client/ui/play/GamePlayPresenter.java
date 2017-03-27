@@ -7,19 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.communication.Callback;
@@ -34,7 +29,7 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
@@ -61,6 +56,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
+        ServerProxy.SINGLETON.startCommandPolling();
         //proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
 
@@ -69,16 +65,18 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    List<Command> commands =Serializer.deserializeCommands(res.getBody());
-                    model.addCommands(commands);
+                    model.addCommands(Serializer.deserializeCommands(res.getBody()));
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
-                    model.changed();
                 }
             }
         };
         state = StateSelector.MyTurn(this);
         handInitialized = false;
+    }
+
+    public void setState(State state){
+        this.state = state;
     }
 
     public State getState(){
@@ -121,8 +119,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                            dialog.dismiss();
-                            state.layTrack(selected);
+                           state.layTrack(selected);
+                           dialog.hide();
                         }
                     }
                 });
@@ -130,7 +128,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     @Override
                     public void onClick(View v) {
                         dialog.hide();
-                        dialog.dismiss();
                     }
                 });
             }
@@ -175,26 +172,27 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if(model.isEndGame()){
+            owner.onEndGame();
+        }else {
 //        TODO: how should we handle selecting cards from the bank
-        boolean isMyTurn = model.isMyTurn();
-        if (!handInitialized && model.shouldInitializeHand()) {
-            state = StateSelector.InitializeHand(this);
-        }
-        else if (isMyTurn) {
-            handInitialized = true;
-            Command previousCommand = model.getPreviousCommand();
-            if (previousCommand instanceof DrawDestCardsCommand){
-                state = StateSelector.MustReturnDestCard(this);
+            boolean isMyTurn = model.isMyTurn();
+            if (!handInitialized && model.shouldInitializeHand()) {
+                state = StateSelector.InitializeHand(this);
+            } else if (isMyTurn) {
+                handInitialized = true;
+                BaseCommand previousCommand = model.getPreviousCommand();
+                if (previousCommand instanceof DrawDestCardsCommand) {
+                    state = StateSelector.MustReturnDestCard(this);
+                } else {
+                    state = StateSelector.MyTurn(this);
+                }
             } else {
-                state = StateSelector.MyTurn(this);
+                handInitialized = true;
+                state = StateSelector.NotMyTurn(this);
             }
+            state.updateView();
         }
-        else {
-            handInitialized = true;
-            state = StateSelector.NotMyTurn(this);
-        }
-        state.updateView();
     }
 
     public void updateTitle(String title){
@@ -207,13 +205,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     @Override
-    public void takeTrainCards(int index) {
-        state.takeTrainCards(index);
+
+    public boolean takeTrainCards(int index) {
+        return state.takeTrainCards(index);
     }
 
     public void sendTakeTrainCardsCommand(int index){
-        //DrawTrainCardCommand command = new DrawTrainCardCommand(index);
-        //proxy.doCommand(command,myCommandCallback);
+       DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        proxy.doCommand(command,myCommandCallback);
+
     }
 
     @Override
@@ -258,18 +258,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayTrackCommand command = new LayTrackCommand(0);
-                command.setCards(handAdapter.getCards());
-                command.setTrack(track);
-                proxy.doCommand(command, new Callback() {
-                    @Override
-                    public void run(Results res) {
-                        Serializer.deserializeCommand(res.getBody()).execute();
-                    }
-                });
-                track.setOwner(model.getMyPlayerNumber());
-                model.getHand().removeTrainCards(handAdapter.getCards());
-                dialog.dismiss();
+                    LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
+                    command.setCards(handAdapter.getCards());
+                    command.setTrack(track);
+                    command.execute();
+                    dialog.dismiss();
+                    proxy.doCommand(command, myCommandCallback);
             }
         });
 
@@ -297,7 +291,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
     public void startDestCardsDialog(){
-        owner.destCardsDialog();
+        proxy.doCommand(new DrawDestCardsCommand(model.getNextCommandNumber()),myCommandCallback);
+        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void startTracksDialog(){
@@ -320,13 +315,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTracks(){
-        if(model.getHand().getTrainCards().size() == 0){
-            ArrayList<TrainCard> newCards = new ArrayList<>();
-            for(int i = 0; i < 10; i++){
-                newCards.add(new TrainCard(Color.WILD));
-            }
-            model.getHand().addTrainCards(newCards);
-        }
         state.clickTracks();
     }
 
@@ -449,12 +437,32 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         }
 
         private void buttonSet(){
-            if(cards.size() == selected.getLength()){
+            if ((cards.size() == selected.getLength()) && (checkCards(cards,selected))) {
                 confirm.setEnabled(true);
-            }else{
+            } else {
                 confirm.setEnabled(false);
             }
         }
+
+        private boolean checkCards(ArrayList<TrainCard> cards, Track selected){
+            Color color = selected.getColor();
+            if (color == null) {
+                if(cards.get(0).getColor() != Color.WILD){
+                    color = cards.get(0).getColor();
+                }else{
+                    if(cards.size() >1){
+                        color = cards.get(1).getColor();
+                    }
+                }
+            }
+            for(TrainCard c: cards){
+                if((c.getColor() != color) &&(c.getColor() != Color.WILD)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public ArrayList<TrainCard> getCards(){
             return cards;
         }

@@ -10,19 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/endGameBackground"
-        android:alpha=".4"/>
+        android:src="@drawable/map"
+        android:alpha=".3"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_over"
-        android:textSize="20dp"
+        android:id="@+id/gameovertext"
+        android:textSize="@dimen/gameOverText"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:layout_centerHorizontal="true"/>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id ="@+id/tablevalues"
+        android:layout_below="@id/gameovertext">
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/player_name"
+        android:textSize="@dimen/endGameSub"
+        android:layout_margin="@dimen/endGameMargin"
+        android:textAlignment="center"
         android:id="@+id/end_playername"
         android:textStyle="bold"
         android:textAllCaps="true"/>
@@ -30,6 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/built_train"
+        android:textSize="@dimen/endGameSub"
+        android:layout_margin="@dimen/endGameMargin"
+        android:textAlignment="center"
         android:id="@+id/end_train_points"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -38,6 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/completed_dest"
+        android:textSize="@dimen/endGameSub"
+        android:layout_margin="@dimen/endGameMargin"
+        android:textAlignment="center"
         android:id="@+id/end_completed"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -46,6 +63,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/incomplete_dest"
+        android:textAlignment="center"
+        android:textSize="@dimen/endGameSub"
+        android:layout_margin="@dimen/endGameMargin"
         android:id="@+id/end_incomplete"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -54,6 +74,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/longest_continuous"
+        android:textAlignment="center"
+        android:textSize="@dimen/endGameSub"
+        android:layout_margin="@dimen/endGameMargin"
         android:id="@+id/end_longest_continuous"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -62,181 +85,282 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/total"
+        android:textSize="@dimen/endGameSub"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/endGameMargin"
         android:id="@+id/end_total_points"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:layout_toRightOf="@id/end_longest_continuous"/>
-
+        </TableRow>
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/endGame_player0_name"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:layout_below="@id/end_playername"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player0_builtTrains"
         android:layout_below="@id/end_train_points"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player0_completedDest"
         android:layout_below="@id/end_completed"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player0_incomplete"
         android:layout_below="@id/end_incomplete"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player0_longestCont"
         android:layout_below="@id/end_longest_continuous"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player0_total"
         android:layout_below="@id/end_total_points"/>
-
+        </TableRow>
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:layout_below="@id/endGame_player0_name"
         android:id="@+id/endGame_player1_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player1_builtTrains"
         android:layout_below="@id/endGame_player0_builtTrains"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player1_completedDest"
         android:layout_below="@id/endGame_player0_completedDest"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player1_incomplete"
         android:layout_below="@id/endGame_player0_incomplete"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player1_longestCont"
         android:layout_below="@id/endGame_player0_longestCont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player1_total"
         android:layout_below="@id/endGame_player0_total"/>
-
+        </TableRow>
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:layout_below="@id/endGame_player1_name"
         android:id="@+id/endGame_player2_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player2_builtTrains"
         android:layout_below="@id/endGame_player1_builtTrains"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player2_completedDest"
         android:layout_below="@id/endGame_player1_completedDest"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player2_incomplete"
         android:layout_below="@id/endGame_player1_incomplete"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player2_longestCont"
         android:layout_below="@id/endGame_player1_longestCont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player2_total"
         android:layout_below="@id/endGame_player1_total"/>
-
+        </TableRow>
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:layout_below="@id/endGame_player2_name"
         android:id="@+id/endGame_player3_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player3_builtTrains"
         android:layout_below="@id/endGame_player2_builtTrains"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player3_completedDest"
         android:layout_below="@id/endGame_player2_completedDest"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player3_incomplete"
         android:layout_below="@id/endGame_player2_incomplete"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player3_longestCont"
         android:layout_below="@id/endGame_player2_longestCont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player3_total"
         android:layout_below="@id/endGame_player2_total"/>
-
+        </TableRow>
+        <TableRow>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:layout_below="@id/endGame_player3_name"
         android:id="@+id/endGame_player4_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player4_builtTrains"
         android:layout_below="@id/endGame_player3_builtTrains"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player4_completedDest"
         android:layout_below="@id/endGame_player3_completedDest"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player4_incomplete"
         android:layout_below="@id/endGame_player3_incomplete"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player4_longestCont"
         android:layout_below="@id/endGame_player3_longestCont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/endGameMargin"
+        android:textSize="@dimen/endPlayerInfo"
+        android:textAlignment="center"
         android:id="@+id/endGame_player4_total"
         android:layout_below="@id/endGame_player3_total"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/the_winner_is"
-        android:id="@+id/endGame_Winner"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:layout_below="@id/endGame_player4_name"
-        android:layout_centerHorizontal="true"/>
+        </TableRow>
+    </TableLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/close_button"
+        android:text="@string/returnToMenu"
+        android:textSize="@dimen/endPlayerInfo"
+        android:padding="@dimen/endGameMargin"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/endGame_Winner"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/endGameMargin"
         android:id= "@+id/endGame_closeButton"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endGame_Winner"
+        android:textSize="@dimen/winnerText"
+        android:textStyle="bold"
+        android:layout_above="@id/endGame_closeButton"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

@@ -28,7 +28,6 @@ public class LoginPresenter implements Observer, ILoginPresenter {
 
     public LoginPresenter(LoginActivity loginActivity){
         owner = loginActivity;
-
         proxy = ServerProxy.SINGLETON;
         //proxy = LocalProxy.SINGLETON;
     }

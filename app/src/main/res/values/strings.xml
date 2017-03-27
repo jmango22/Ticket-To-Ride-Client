@@ -25,14 +25,15 @@
     <string name="confirm_track">Confirm Track</string>
     <string name="confirm_cards">Confirm Cards</string>
     <string name="retry">Retry</string>
-    <string name="player_name"><u>Player Names</u></string>
-    <string name="built_train"><u>Built Train Points</u></string>
-    <string name="completed_dest"><u>Completed Destinations</u></string>
-    <string name="incomplete_dest"><u>Incomplete Destinations</u></string>
-    <string name="longest_continuous"><u>Longest Continuous Train</u></string>
-    <string name="total"><u>Total Points</u></string>
+    <string name="player_name"><u>Player\nNames</u></string>
+    <string name="built_train"><u>Built Train\nPoints</u></string>
+    <string name="completed_dest"><u>Completed\nDestinations</u></string>
+    <string name="incomplete_dest"><u>Incomplete\nDestinations</u></string>
+    <string name="longest_continuous"><u>Longest\nContinuous\nTrain</u></string>
+    <string name="total"><u>Total\nPoints</u></string>
     <string name="game_over"><u><b>Game Over</b></u></string>
-    <string name="the_winner_is"><b>The Winner is </b></string>
+    <string name="returnToMenu">Return To Menu</string>
+
 
     <string-array name="nav_drawer_items_array">
         <item>Item1</item>

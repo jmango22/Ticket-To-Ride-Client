@@ -17,7 +17,7 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Password;
 import goldenhammer.ticket_to_ride_client.model.Player;
 import goldenhammer.ticket_to_ride_client.model.Username;
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 
 /**
  * JavaDoc created by Rachel on 2/22/2017
@@ -232,7 +232,7 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public void doCommand(Command command, Callback c) {
+    public void doCommand(BaseCommand command, Callback c) {
         String url = "/commands";
         try {
             communicator.post(url, new JSONObject(Serializer.serialize(command)), c);

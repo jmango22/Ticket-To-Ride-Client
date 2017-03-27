@@ -1,16 +1,30 @@
 package goldenhammer.ticket_to_ride_client.model.commands;
 
-/**
- * Created by McKean on 3/3/2017.
- */
+import java.util.List;
 
-public class DrawDestCardsCommand extends Command {
-    public DrawDestCardsCommand(int commandNumber) {
-        super(commandNumber);
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+import goldenhammer.ticket_to_ride_client.model.DestCard;
+
+/**
+ * Created by jon on 3/2/17.
+ */
+public class DrawDestCardsCommand extends BaseCommand {
+    private List<DestCard> cards;
+
+    public DrawDestCardsCommand(){
+        setName("DrawDestCardsCommand");
+    }
+    public DrawDestCardsCommand(int CommandNumber){
+        setName("DrawDestCardsCommand");
+        setCommandNumber(CommandNumber);
     }
 
     @Override
     public void execute() {
+        ClientModelFacade.SINGLETON.setDrawnDestCards(cards);
+    }
 
+    public void setCards(List<DestCard> cards){
+        this.cards = cards;
     }
 }

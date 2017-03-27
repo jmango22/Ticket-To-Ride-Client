@@ -27,7 +27,11 @@
             android:name=".ui.play.GamePlayActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.play.EndGameActivity"></activity>
+
+        <activity
+            android:name=".ui.play.EndGameActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

@@ -2,8 +2,7 @@ package goldenhammer.ticket_to_ride_client.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import goldenhammer.ticket_to_ride_client.model.commands.Command;
+import java.util.Random;
 
 /**
  * Created by McKean on 2/3/2017.
@@ -16,6 +15,7 @@ public class GameModel {
     private Map map;
     private GameName name;
     private int currentTurn;
+    private ArrayList<EndResult> results;
 
     public GameModel() {
         players = new ArrayList<>();
@@ -23,6 +23,10 @@ public class GameModel {
         trainCardDeck = new ArrayList<>();
         map = new Map();
         currentTurn = 0;
+    }
+
+    public List<TrainCard> getTrainCardDeck(){
+        return trainCardDeck;
     }
 
     public GameName getGameName(){
@@ -109,5 +113,21 @@ public class GameModel {
         this.currentTurn = currentTurn;
     }
 
+    public boolean getEndGame(){
+        if(results == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void setEndResults(ArrayList<EndResult> results){
+        this.results = results;
+        
+    }
+
+    public ArrayList<EndResult> getEndResults(){
+        return results;
+    }
 
 }
