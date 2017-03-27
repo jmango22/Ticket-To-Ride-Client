@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/portText"
         android:inputType="number"
-        android:text="8080"
+        android:text="8082"
         android:hint="Port" />
 
     <EditText
@@ -23,7 +23,7 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="192.168.1.138"
+        android:text="10.24.222.0"
         android:hint="Host" />
 
     <EditText
@@ -47,7 +47,7 @@
         android:id="@+id/usernameText"
         android:hint="Username"
         style="@android:style/Widget.Holo.EditText"
-        android:text="rachelsalterego"
+        android:text="mckean"
         android:layout_above="@+id/passwordText"
         android:layout_alignStart="@+id/passwordText"
         android:layout_alignEnd="@+id/passwordText" />
