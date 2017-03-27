@@ -170,14 +170,6 @@ public class ClientModelFacade extends Observable {
             changed();
         }
     }
-    public Color getBankCardColor(int slot){
-        ArrayList<TrainCard> bank = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
-        {
-            bank.add(new TrainCard(Color.YELLOW));
-        }
-        return bank.get(slot).getColor();
-    }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {
         mUser.setDrawDestCards(cards);

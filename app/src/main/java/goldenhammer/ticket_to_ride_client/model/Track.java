@@ -145,7 +145,7 @@ public class Track {
         if(color != null) {
             sb.append(color);
         }else{
-            sb.append("Wild");
+            sb.append("Gray");
         }
         return sb.toString();
     }
