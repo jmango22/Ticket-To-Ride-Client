@@ -31,6 +31,7 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
@@ -65,10 +66,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
                     model.addCommands(Serializer.deserializeCommands(res.getBody()));
-                    //BaseCommand command = Serializer.deserializeCommand(res.getBody());
-                    //List<BaseCommand> commands = new ArrayList<BaseCommand>();
-                    //commands.add(command);
-                   // model.addCommands(commands);
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
                 }
@@ -114,8 +111,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                           state.layTrack(selected);                           state.layTrack(selected);
-                            dialog.hide();
+                           state.layTrack(selected);
+                           dialog.hide();
                         }
                     }
                 });
@@ -201,12 +198,12 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeTrainCards(int index) {
-        state.takeDestCards();
+        state.takeTrainCards(index);
     }
 
     public void sendTakeTrainCardsCommand(int index){
-       // DrawTrainCardCommand command = new DrawTrainCardCommand(index);
-        //proxy.doCommand(command,myCommandCallback);
+       DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        proxy.doCommand(command,myCommandCallback);
     }
 
     @Override
@@ -254,12 +251,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     command.setCards(handAdapter.getCards());
                     command.setTrack(track);
                     dialog.dismiss();
-                    proxy.doCommand(command, new Callback() {
-                        @Override
-                        public void run(Results res) {
-
-                        }
-                    });
+                    proxy.doCommand(command, myCommandCallback);
             }
         });
 

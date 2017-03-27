@@ -51,6 +51,11 @@ public class ClientModelFacade extends Observable {
         return null;
     }
 
+    public void removePieces(int pieces){
+       int currentPieces =  getLeaderboard().get(getMyPlayerNumber()).getNumPieces();
+        getLeaderboard().get(getMyPlayerNumber()).setPieces(currentPieces-pieces);
+        changed();
+    }
 
     public synchronized ClientModelFacade getInstance(){
         return SINGLETON;
@@ -158,6 +163,9 @@ public class ClientModelFacade extends Observable {
             mUser.addBankCard(temp);
             changed();
         }
+    }
+    public Color getBankCardColor(int slot){
+        return mBank.getTrainCard(slot).getColor();
     }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {

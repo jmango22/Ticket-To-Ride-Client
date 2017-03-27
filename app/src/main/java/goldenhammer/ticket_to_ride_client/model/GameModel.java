@@ -25,6 +25,10 @@ public class GameModel {
         currentTurn = 0;
     }
 
+    public List<TrainCard> getTrainCardDeck(){
+        return trainCardDeck;
+    }
+
     public GameName getGameName(){
         return name;
     }

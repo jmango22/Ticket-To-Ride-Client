@@ -21,8 +21,12 @@ public class Bank {
         return availableTrainCards.getAvailableCards();
     }
 
-    public void setAvailableTrainCards(TrainCard[] trainCards) {
-        this.availableTrainCards.setAvailableCards(trainCards);
+    public void setAvailableTrainCards(List<TrainCard> trainCards) {
+        TrainCard[] arrayTrainCards = new TrainCard[trainCards.size()];
+        for(int i = 0; i < trainCards.size(); i++){
+            arrayTrainCards[i]= trainCards.get(i);
+        }
+        this.availableTrainCards.setAvailableCards(arrayTrainCards);
     }
 
     public void replaceAvailableTrainCard(TrainCard card, int pos) {

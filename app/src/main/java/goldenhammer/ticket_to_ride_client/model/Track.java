@@ -150,12 +150,12 @@ public class Track {
         return sb.toString();
     }
     public boolean pointByLine(PointF pt, double tolerance) {
-        double x = city2.getLocation().x - city1.getLocation().x;
-        double y = city2.getLocation().x - city1.getLocation().y;
+        double x = getLocation2().x - getLocation1().x;
+        double y = getLocation2().y - getLocation1().y;
         double n = (x*x) +(y*y);
         n = Math.sqrt(n);
 
-        double d = ((city1.getLocation().x* (-y))+(city1.getLocation().y* x))/n;
+        double d = ((getLocation1().x* (-y))+(getLocation1().y* x))/n;
         double distance = ((pt.x* (-y))+(pt.y)* x)/n;
         distance = distance - d;
         if((distance<= tolerance)&&(distance >= (-tolerance))){

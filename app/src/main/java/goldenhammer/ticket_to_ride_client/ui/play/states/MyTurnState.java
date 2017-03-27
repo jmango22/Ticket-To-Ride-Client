@@ -57,7 +57,7 @@ public class MyTurnState extends State {
 
     public Track onTouchEvent(PointF pt, List<Track> tracks){
         if(layTrack) {
-            int tolerance = 6;
+            int tolerance = 3;
             for (Track t : tracks) {
                 if (t.pointByLine(pt, tolerance)) {
                     return t;
