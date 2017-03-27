@@ -142,7 +142,11 @@ public class Track {
         sb.append("Length: ");
         sb.append(length);
         sb.append(" Color: ");
-        sb.append(color);
+        if(color != null) {
+            sb.append(color);
+        }else{
+            sb.append("Wild");
+        }
         return sb.toString();
     }
     public boolean pointByLine(PointF pt, double tolerance) {

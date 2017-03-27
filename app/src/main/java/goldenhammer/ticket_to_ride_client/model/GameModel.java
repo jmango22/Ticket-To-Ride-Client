@@ -2,6 +2,7 @@ package goldenhammer.ticket_to_ride_client.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by McKean on 2/3/2017.

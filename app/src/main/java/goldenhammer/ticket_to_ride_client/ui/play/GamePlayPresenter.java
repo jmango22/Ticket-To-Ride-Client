@@ -7,19 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import goldenhammer.ticket_to_ride_client.R;
 import goldenhammer.ticket_to_ride_client.communication.Callback;
@@ -60,6 +55,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     public GamePlayPresenter(GamePlayActivity activity) {
         owner = activity;
         proxy = ServerProxy.SINGLETON;
+        ServerProxy.SINGLETON.startCommandPolling();
         //proxy = LocalProxy.SINGLETON;
         model = ClientModelFacade.SINGLETON;
 
@@ -254,11 +250,16 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
-                command.setCards(handAdapter.getCards());
-                command.setTrack(track);
-                proxy.doCommand(command, myCommandCallback);
-                dialog.dismiss();
+                    LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
+                    command.setCards(handAdapter.getCards());
+                    command.setTrack(track);
+                    dialog.dismiss();
+                    proxy.doCommand(command, new Callback() {
+                        @Override
+                        public void run(Results res) {
+
+                        }
+                    });
             }
         });
 
@@ -429,12 +430,32 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         }
 
         private void buttonSet(){
-            if(cards.size() == selected.getLength()){
+            if ((cards.size() == selected.getLength()) && (checkCards(cards,selected))) {
                 confirm.setEnabled(true);
-            }else{
+            } else {
                 confirm.setEnabled(false);
             }
         }
+
+        private boolean checkCards(ArrayList<TrainCard> cards, Track selected){
+            Color color = selected.getColor();
+            if (color == null) {
+                if(cards.get(0).getColor() != Color.WILD){
+                    color = cards.get(0).getColor();
+                }else{
+                    if(cards.size() >1){
+                        color = cards.get(1).getColor();
+                    }
+                }
+            }
+            for(TrainCard c: cards){
+                if((c.getColor() != color) &&(c.getColor() != Color.WILD)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public ArrayList<TrainCard> getCards(){
             return cards;
         }

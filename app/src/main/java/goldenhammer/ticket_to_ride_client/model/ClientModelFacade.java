@@ -51,9 +51,6 @@ public class ClientModelFacade extends Observable {
         return null;
     }
 
-    public synchronized void addNewObserver(Observer o){
-        addObserver(o);
-    }
 
     public synchronized ClientModelFacade getInstance(){
         return SINGLETON;
