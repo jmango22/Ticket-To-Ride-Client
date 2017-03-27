@@ -60,6 +60,7 @@ import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
+import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
 
 public class GamePlayActivity extends AppCompatActivity implements ImageView.OnTouchListener{
     private List<PlayerOverview> players;
@@ -155,6 +156,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
             @Override
             public void onClick(View v) {
                 placeHolders();
+                //presenter.setState(new MyTurnState(presenter));
             }
         });
         presenter.updateHand();
@@ -164,9 +166,10 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
     }
 
     public void updateTitle(String title){
-        if (getActionBar() != null){
+        if (getSupportActionBar() != null){
             //getActionBar().setTitle(title);
             myToolbar.setTitle(title);
+            //setSupportActionBar(myToolbar);
         }
     }
 

@@ -54,7 +54,7 @@ public class MyTurnState extends State {
 
     @Override
     public void clickDestCards() {
-        presenter.startDestCardsDialog();
+        presenter.sendTakeDestCardsCommand();
     }
 
     public Track onTouchEvent(PointF pt, List<Track> tracks){

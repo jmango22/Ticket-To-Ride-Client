@@ -83,6 +83,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         return state;
     }
 
+    public void setState(State s){
+        state = s;
+    }
+
     @Override
     public void onPause() {
         model.deleteObserver(this);
@@ -201,6 +205,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     @Override
+
     public boolean takeTrainCards(int index) {
         return state.takeTrainCards(index);
     }
@@ -208,6 +213,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     public void sendTakeTrainCardsCommand(int index){
        DrawTrainCardCommand command = new DrawTrainCardCommand(index);
         proxy.doCommand(command,myCommandCallback);
+
     }
 
     @Override
@@ -216,7 +222,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void sendTakeDestCardsCommand() {
-        DrawDestCardsCommand command = new DrawDestCardsCommand(1);
+        DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
+        //TODO, ^ was command number 1, not sure what it's supposed to be.
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -288,7 +295,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
-
     public void startTracksDialog(){
         owner.tracksDialog();
     }
@@ -303,6 +309,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void clickDestCards(){
         state.clickDestCards();
+    }
+    public void takeDestCardsDialog(){
+        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void clickTracks(){

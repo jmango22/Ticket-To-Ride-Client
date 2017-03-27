@@ -63,10 +63,10 @@ public class State {
     public void updateView(){
         presenter.updateMap();
         presenter.updatePlayers();
-        presenter.updateCurrentTurn();
+        //presenter.updateCurrentTurn();
         presenter.updateHand();
         presenter.updateChat();
-        //presenter.updateBank();
+        presenter.updateBank();
     }
 
     public Track onTouchEvent(PointF pt, List<Track> tracks){ return null; }
