@@ -23,19 +23,11 @@ public class ClientModelFacade extends Observable {
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
-    private ArrayList<EndResult> endResults;
     private boolean lastRound;
-    private int activePlayerNumber;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
     }
-
-    public synchronized void setEndResults(ArrayList<EndResult> result){
-        endResults = result;
-        setChanged();
-    }
-
 
     public synchronized void setLastRound(boolean isLastRound){
         lastRound = isLastRound;
@@ -46,10 +38,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized ArrayList<EndResult> getEndResults(){
-        return endResults;
+        return mCurrentGame.getEndResults();
     }
 
     public synchronized EndResult getPlayerEndResults(int playerNumber){
+        ArrayList<EndResult> endResults = mCurrentGame.getEndResults();
         for (EndResult e : endResults){
             if (e.getPlayer() == playerNumber){
                 return e;
@@ -364,9 +357,9 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
-    public synchronized void setEndGameResults(List results){
-
-        mCurrentGame.setEndGame(true);
+    public synchronized void setEndGameResults(ArrayList<EndResult> results){
+        mCurrentGame.setEndResults(results);
+        changed();
     }
 
     public synchronized boolean isEndGame(){

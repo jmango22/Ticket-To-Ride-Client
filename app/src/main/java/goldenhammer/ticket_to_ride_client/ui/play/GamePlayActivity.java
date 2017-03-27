@@ -457,7 +457,7 @@ public class GamePlayActivity extends AppCompatActivity {
         //mapView.setImageDrawable();
         //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks(), map.getCities());
-        mapView.setBackgroundResource(R.drawable.map2);
+        mapView.setBackgroundResource(R.drawable.map);
 
     }
 
