@@ -27,6 +27,7 @@ import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.commands.Command;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
@@ -71,6 +72,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public State getState(){
         return state;
+    }
+
+    public void setState(State s){
+        state = s;
     }
 
     @Override
@@ -156,11 +161,11 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void takeTrainCards(int index) {
-        state.takeDestCards();
+        state.takeTrainCards(index);
     }
 
     public void sendTakeTrainCardsCommand(int index){
-       // DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        //DrawTrainCardCommand command = new DrawTrainCardCommand(index);
         //proxy.doCommand(command,myCommandCallback);
     }
 
@@ -170,7 +175,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void sendTakeDestCardsCommand() {
-        DrawDestCardsCommand command = new DrawDestCardsCommand(1);
+        DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
+        //TODO, ^ was command number 1, not sure what it's supposed to be.
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -219,7 +225,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         owner.destCardsDialog();
     }
 
-
     public void startTracksDialog(){
         owner.tracksDialog();
     }
@@ -234,6 +239,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void clickDestCards(){
         state.clickDestCards();
+    }
+    public void takeDestCardsDialog(){
+        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void clickTracks(){
