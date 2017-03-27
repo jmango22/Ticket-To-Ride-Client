@@ -51,9 +51,15 @@ public class ClientModelFacade extends Observable {
         return null;
     }
 
-    public void removePieces(int pieces){
+    public synchronized void removePieces(int pieces){
        int currentPieces =  getLeaderboard().get(getMyPlayerNumber()).getNumPieces();
         getLeaderboard().get(getMyPlayerNumber()).setPieces(currentPieces-pieces);
+        changed();
+    }
+
+    public synchronized void addPoints(int points){
+        int myPoints = getLeaderboard().get(getMyPlayerNumber()).getPoints();
+        getLeaderboard().get(getMyPlayerNumber()).setPoints(points+myPoints);
         changed();
     }
 
@@ -165,7 +171,12 @@ public class ClientModelFacade extends Observable {
         }
     }
     public Color getBankCardColor(int slot){
-        return mBank.getTrainCard(slot).getColor();
+        ArrayList<TrainCard> bank = new ArrayList<>();
+        for(int i = 0; i < 5; i++)
+        {
+            bank.add(new TrainCard(Color.YELLOW));
+        }
+        return bank.get(slot).getColor();
     }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {

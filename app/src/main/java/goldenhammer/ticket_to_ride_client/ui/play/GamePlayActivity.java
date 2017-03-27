@@ -61,11 +61,7 @@ import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 
-public class GamePlayActivity extends AppCompatActivity {
-    private String[] mNavDrawerItemTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+public class GamePlayActivity extends AppCompatActivity implements ImageView.OnTouchListener{
     private List<PlayerOverview> players;
     private Hand hand;
     private TextView selectedView;
@@ -117,6 +113,7 @@ public class GamePlayActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
         mapView.getHeight();
+       mapView.setOnTouchListener(this);
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
@@ -174,15 +171,18 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
 
-    @Override
+   /* @Override
     public boolean onTouchEvent(MotionEvent e) {
         if(e.getAction() == MotionEvent.ACTION_UP) {
-            float x = (e.getX() - 220) / mapScaleX;
-            float y = (e.getY() - 50) / mapScaleY;
+            float xChange = screenWidth - mapWindowWidth;
+            float yChange = screenHeight - mapWindowHeight;
+            float x = (e.getX() - xChange)*mapScaleX;
+            float y = (e.getY() - yChange)*mapScaleY;
             presenter.clickTrack(new PointF(x, y));
         }
         return super.onTouchEvent(e);
-    }
+    }*/
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -378,10 +378,50 @@ public class GamePlayActivity extends AppCompatActivity {
 
         setSelectedTrainCard(null,-1);//Not sure if I really need to do this.
         tSlot0.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        ImageView image = (ImageView)dTrainCards.findViewById(R.id.card0_slotColor);
+        image.setBackgroundColor(getBoardColor(ClientModelFacade.SINGLETON.getBankCardColor(0)));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot0,0);
+            }
+        });
         tSlot1.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        image = (ImageView) dTrainCards.findViewById(R.id.card1_slotColor);
+        image.setBackgroundColor(getBoardColor(ClientModelFacade.SINGLETON.getBankCardColor(1)));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot1,1);
+            }
+        });
         tSlot2.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        image = (ImageView)dTrainCards.findViewById(R.id.card2_slotColor);
+        image.setBackgroundColor(getBoardColor(ClientModelFacade.SINGLETON.getBankCardColor(2)));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot2,2);
+            }
+        });
         tSlot3.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        image = (ImageView) dTrainCards.findViewById(R.id.card3_slotColor);
+        image.setBackgroundColor(getBoardColor(ClientModelFacade.SINGLETON.getBankCardColor(3)));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot3,3);
+            }
+        });
         tSlot4.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
+        image = (ImageView)dTrainCards.findViewById(R.id.card4_slotColor);
+        image.setBackgroundColor(getBoardColor(ClientModelFacade.SINGLETON.getBankCardColor(4)));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectedTrainCard(tSlot4,4);
+            }
+        });
         tSlotTop.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.error));
 
 
@@ -438,7 +478,9 @@ public class GamePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectedTrainIndex!= -1) {
-                    presenter.takeTrainCards(selectedTrainIndex);
+                    if(presenter.takeTrainCards(selectedTrainIndex)){
+                        dTrainCards.hide();
+                    }
                 }
                 else{
                     toastMessage("You must select a card.");
@@ -920,12 +962,10 @@ public class GamePlayActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.menu_draw_train:{
                 presenter.clickTrainCards();
-                //trainCardsDialog();
                 break;
             }
             case R.id.menu_draw_dest:{
                 presenter.clickDestCards();
-                //drawDestCardsDialog(new DrawnDestCards());
                 break;
             }
             case R.id.menu_lay_track:{
@@ -954,5 +994,12 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            presenter.clickTrack(new PointF(event.getX()/mapScaleX, event.getY()/mapScaleY));
+        }
+        return true;
     }
+}
 

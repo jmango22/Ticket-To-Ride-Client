@@ -75,6 +75,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         handInitialized = false;
     }
 
+    public void setState(State state){
+        this.state = state;
+    }
+
     public State getState(){
         return state;
     }
@@ -197,8 +201,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     @Override
-    public void takeTrainCards(int index) {
-        state.takeTrainCards(index);
+    public boolean takeTrainCards(int index) {
+        return state.takeTrainCards(index);
     }
 
     public void sendTakeTrainCardsCommand(int index){
@@ -250,6 +254,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                     command.setCards(handAdapter.getCards());
                     command.setTrack(track);
+                    command.execute();
                     dialog.dismiss();
                     proxy.doCommand(command, myCommandCallback);
             }
@@ -279,7 +284,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     }
     public void startDestCardsDialog(){
-        owner.destCardsDialog();
+        proxy.doCommand(new DrawDestCardsCommand(model.getNextCommandNumber()),myCommandCallback);
+        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
 

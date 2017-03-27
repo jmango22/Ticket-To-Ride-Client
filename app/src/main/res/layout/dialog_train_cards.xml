@@ -9,42 +9,91 @@
         android:id="@+id/card_bank_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <TextView
             android:layout_width="50dp"
-            android:layout_height="80dp"
+            android:layout_height="15dp"
             android:id="@+id/t_card_slot_0"
             android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
             android:text="0"
             android:textAlignment="center"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="65dp"
+            android:layout_below="@id/t_card_slot_0"
+            android:id="@+id/card0_slotColor"/>
+        </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="50dp"
-            android:layout_height="80dp"
+            android:layout_height="15dp"
             android:id="@+id/t_card_slot_1"
             android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
             android:text="1"
-            android:textAlignment="center"/>
+            android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="65dp"
+            android:layout_below="@id/t_card_slot_1"
+            android:id="@+id/card1_slotColor"/>
+        </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="50dp"
-            android:layout_height="80dp"
+            android:layout_height="15dp"
             android:id="@+id/t_card_slot_2"
+            android:layout_marginBottom="5dp"
             android:layout_marginStart="20dp"
             android:text="2"
-            android:textAlignment="center"
-            />
+            android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="65dp"
+            android:layout_below="@id/t_card_slot_2"
+            android:id="@+id/card2_slotColor"/>
+        </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="50dp"
-            android:layout_height="80dp"
+            android:layout_height="15dp"
             android:id="@+id/t_card_slot_3"
             android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
             android:text="3"
-            android:textAlignment="center"/>
+            android:layout_centerHorizontal="true"/>
+        <ImageView
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_below="@id/t_card_slot_3"
+        android:id="@+id/card3_slotColor"/>
+        </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="50dp"
-            android:layout_height="80dp"
+            android:layout_height="15dp"
             android:id="@+id/t_card_slot_4"
             android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
             android:text="4"
-            android:textAlignment="center"/>
+            android:layout_centerHorizontal="true"/>
+        <ImageView
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_below="@id/t_card_slot_4"
+        android:id="@+id/card4_slotColor"/>
+        </RelativeLayout>
         <TextView
             android:layout_width="50dp"
             android:layout_height="80dp"

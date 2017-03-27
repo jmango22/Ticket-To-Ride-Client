@@ -21,8 +21,9 @@ public class State {
     /**
      * defaults to not your turn
      */
-    public void takeTrainCards(int index){
+    public boolean takeTrainCards(int index){
         presenter.showToast("Can't do that");
+        return false;
     }
 
     /**
