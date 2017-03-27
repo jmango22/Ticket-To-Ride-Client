@@ -20,7 +20,7 @@ public class CommandManager {
 
     public void addCommands(List<BaseCommand> newCommands) {
         for (BaseCommand command : newCommands) {
-            if(commandList.size() == command.getCommandNumber()) {
+            if(!commandList.contains(command)) {
                 command.execute();
                 commandList.add(command);
             }

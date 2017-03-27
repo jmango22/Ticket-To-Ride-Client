@@ -68,13 +68,13 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             @Override
             public void run(Results res) {
                 if(res.getResponseCode() < 400) {
-                    BaseCommand command = Serializer.deserializeCommand(res.getBody());
-                    List<BaseCommand> commands = new ArrayList<BaseCommand>();
-                    commands.add(command);
-                    model.addCommands(commands);
+                    model.addCommands(Serializer.deserializeCommands(res.getBody()));
+                    //BaseCommand command = Serializer.deserializeCommand(res.getBody());
+                    //List<BaseCommand> commands = new ArrayList<BaseCommand>();
+                    //commands.add(command);
+                   // model.addCommands(commands);
                 } else {
                     showToast(Serializer.deserializeMessage(res.getBody()));
-                    model.changed();
                 }
             }
         };
@@ -97,12 +97,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrack(PointF pt){
-        ArrayList<TrainCard> newCards = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-        {
-            newCards.add(new TrainCard(Color.BLUE));
-        }
-        model.getHand().addTrainCards(newCards);
         //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
         final Track selected = state.onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
@@ -177,26 +171,27 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if(model.isEndGame()){
+            owner.onEndGame();
+        }else {
 //        TODO: how should we handle selecting cards from the bank
-        boolean isMyTurn = model.isMyTurn();
-        if (!handInitialized && model.shouldInitializeHand()) {
-            state = StateSelector.InitializeHand(this);
-        }
-        else if (isMyTurn) {
-            handInitialized = true;
-            BaseCommand previousCommand = model.getPreviousCommand();
-            if (previousCommand instanceof DrawDestCardsCommand){
-                state = StateSelector.MustReturnDestCard(this);
+            boolean isMyTurn = model.isMyTurn();
+            if (!handInitialized && model.shouldInitializeHand()) {
+                state = StateSelector.InitializeHand(this);
+            } else if (isMyTurn) {
+                handInitialized = true;
+                BaseCommand previousCommand = model.getPreviousCommand();
+                if (previousCommand instanceof DrawDestCardsCommand) {
+                    state = StateSelector.MustReturnDestCard(this);
+                } else {
+                    state = StateSelector.MyTurn(this);
+                }
             } else {
-                state = StateSelector.MyTurn(this);
+                handInitialized = true;
+                state = StateSelector.NotMyTurn(this);
             }
+            state.updateView();
         }
-        else {
-            handInitialized = true;
-            state = StateSelector.NotMyTurn(this);
-        }
-        state.updateView();
     }
 
     @Override
@@ -253,12 +248,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                 command.setCards(handAdapter.getCards());
                 command.setTrack(track);
-                proxy.doCommand(command, new Callback() {
-                    @Override
-                    public void run(Results res) {
-                        Serializer.deserializeCommand(res.getBody()).execute();
-                    }
-                });
+                proxy.doCommand(command, myCommandCallback);
                 dialog.dismiss();
             }
         });

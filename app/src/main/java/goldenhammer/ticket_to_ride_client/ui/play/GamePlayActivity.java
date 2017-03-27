@@ -1,6 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -103,7 +104,7 @@ public class GamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
-//        ServerProxy.SINGLETON.stopGameListPolling();
+        ServerProxy.SINGLETON.stopGameListPolling();
         chats = new Dialog(GamePlayActivity.this);
         chats.setTitle("Chats");
         chats.setContentView(R.layout.dialog_chat);
@@ -113,15 +114,14 @@ public class GamePlayActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
         mapView.getHeight();
-        //mapView.setImageResource(R.drawable.map);
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-         screenHeight = displayMetrics.heightPixels;
-         screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
         mapScaleX = (float)(mapWindowWidth)/(float)mapX;
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
 
@@ -154,7 +154,6 @@ public class GamePlayActivity extends AppCompatActivity {
         demoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //presenter.demo();
                 placeHolders();
             }
         });
@@ -187,13 +186,10 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void placeHolders(){
-       // ServerProxy.SINGLETON.stopCommandPolling();
         GameModel m = ClientModelFacade.SINGLETON.getCurrentGame();
         LocalProxy.SINGLETON.playGame(null,null);
         int handSize = ClientModelFacade.SINGLETON.getUserDestCards().size();
         presenter.updateBank();
-        //GameModel n = ClientModelFacade.SINGLETON.getCurrentGame();
-
     }
 
 
@@ -206,78 +202,6 @@ public class GamePlayActivity extends AppCompatActivity {
         return true;
     }
 
-    private void selectItem(int position) {
-
-            /*Fragment fragment = null;
-
-            switch (position) {
-                case 0:
-                    fragment = new CreateFragment();
-                    break;
-                case 1:
-                    fragment = new ReadFragment();
-                    break;
-                case 2:
-                    fragment = new HelpFragment();
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (fragment != null) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-*/
-                mDrawerList.setItemChecked(position, true);
-                mDrawerList.setSelection(position);
-                //getActionBar().setTitle(mNavDrawerItemTitles[position]);
-                mDrawerLayout.closeDrawer(mDrawerList);
-
-            /*} else {
-                Log.e("MainActivity", "Error in creating fragment");
-            }*/
-        }
-
-    public void initDrawer(){
-//        ObjectDrawerItem[] drawerItems = new ObjectDrawerItem[4];
-//        drawerItems[0] = new ObjectDrawerItem(R.drawable.icon, "ItemToBe");
-//        DrawerItemAdapter adapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItems);
-//        mDrawerList.setAdapter(adapter);
-//        class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        }
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this,
-//                mDrawerLayout,
-//                new Toolbar(getBaseContext()),//TODO not sure if this is right. Was R.drawable.icon
-//                R.string.drawer_open,
-//                R.string.drawer_closed
-//        ) {
-//
-//            /** Called when a drawer has settled in a completely closed state. */
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-//                //getActionBar().setTitle(mTitle);
-//            }
-//
-//            /** Called when a drawer has settled in a completely open state. */
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                //getActionBar().setTitle(mDrawerTitle);
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
-    }
 
     public List<DestCard> initializeHand(Hand hand){
         updateHand(hand);
@@ -990,8 +914,8 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void onEndGame(){
-        //Intent intent = new Intent(getBaseContext(), EndGameActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(getBaseContext(), EndGameActivity.class);
+        startActivity(intent);
     }
 
 

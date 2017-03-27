@@ -14,6 +14,7 @@ public class GameModel {
     private Map map;
     private GameName name;
     private int currentTurn;
+    private boolean endGame;
 
     public GameModel() {
         players = new ArrayList<>();
@@ -21,6 +22,7 @@ public class GameModel {
         trainCardDeck = new ArrayList<>();
         map = new Map();
         currentTurn = 0;
+        endGame = false;
     }
 
     public GameName getGameName(){
@@ -107,5 +109,16 @@ public class GameModel {
         this.currentTurn = currentTurn;
     }
 
+    public boolean getEndGame(){
+        return endGame;
+    }
+
+    public void setEndGame(boolean value){
+        this.endGame = value;
+    }
+
+    public void setEndResults(){
+        
+    }
 
 }

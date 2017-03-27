@@ -311,7 +311,11 @@ public class ClientModelFacade extends Observable {
 
     public synchronized void setEndGameResults(List results){
 
+        mCurrentGame.setEndGame(true);
+    }
 
+    public synchronized boolean isEndGame(){
+        return mCurrentGame.getEndGame();
     }
     //END INITIALIZING CODE
 
