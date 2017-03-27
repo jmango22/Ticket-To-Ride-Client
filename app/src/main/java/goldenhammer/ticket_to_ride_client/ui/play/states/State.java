@@ -58,6 +58,7 @@ public class State {
     public void clickDestCards(){
         presenter.showToast("It isn't your turn.");
     }
+
     public void updateView(){
         presenter.updateMap();
         presenter.updatePlayers();

@@ -1,5 +1,7 @@
 package goldenhammer.ticket_to_ride_client.model;
 
+import android.graphics.PointF;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -21,9 +23,39 @@ public class ClientModelFacade extends Observable {
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
+    private ArrayList<EndResult> endResults;
+    private boolean lastRound;
+    private int activePlayerNumber;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
+    }
+
+    public synchronized void setEndResults(ArrayList<EndResult> result){
+        endResults = result;
+        setChanged();
+    }
+
+
+    public synchronized void setLastRound(boolean isLastRound){
+        lastRound = isLastRound;
+    }
+
+    public synchronized boolean  getLastRound(){
+        return lastRound;
+    }
+
+    public synchronized ArrayList<EndResult> getEndResults(){
+        return endResults;
+    }
+
+    public synchronized EndResult getPlayerEndResults(int playerNumber){
+        for (EndResult e : endResults){
+            if (e.getPlayer() == playerNumber){
+                return e;
+            }
+        }
+        return null;
     }
 
     public synchronized void addNewObserver(Observer o){
@@ -68,7 +100,30 @@ public class ClientModelFacade extends Observable {
     public synchronized void setCurrentGame(GameModel mCurrentGame) {
         this.mCurrentGame = mCurrentGame;
         mCurrentGame.updatePoints();
+        offsetTracks();
         changed();
+    }
+
+    public synchronized void offsetTracks(){
+        int shiftScale = 16;
+        for (Track t : mCurrentGame.getAllTracks()){
+            t.setLocation1(t.getCity1().getLocation());
+            t.setLocation2(t.getCity2().getLocation());
+            if (t.getSecondTrack()){
+                PointF normal = getNormal(t.getLocation1(),t.getLocation2());
+                t.getLocation1().offset(shiftScale*normal.x,shiftScale*normal.y);
+                t.getLocation2().offset(shiftScale*normal.x,shiftScale*normal.y);
+            }
+        }
+    }
+
+    public PointF getNormal(PointF point1, PointF point2){
+        float dy = point2.y - point1.y;
+        float dx = point2.x - point1.x;
+        PointF normal =new PointF(-dy,dx);
+        float length = normal.length();
+        normal.set(normal.x/length, normal.y/length);
+        return normal;
     }
 
     public synchronized Player getUser() {

@@ -22,7 +22,10 @@ public class InitializeHandState extends State {
     @Override
     public void updateView() {
         super.updateView();
+        presenter.updateTitle("Initializing Hand");
         presenter.initializeHand();
         //TODO: show the dialog maybe not call super
     }
+
+
 }

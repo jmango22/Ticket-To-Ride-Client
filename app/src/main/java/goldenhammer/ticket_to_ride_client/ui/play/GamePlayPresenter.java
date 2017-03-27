@@ -118,7 +118,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                            state.layTrack(selected);
+                           state.layTrack(selected);                           state.layTrack(selected);
                             dialog.hide();
                         }
                     }
@@ -191,6 +191,15 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 state = StateSelector.NotMyTurn(this);
             }
             state.updateView();
+        }
+    }
+
+    public void updateTitle(String title){
+        if (model.getLastRound()){
+            owner.updateTitle("Last Round: " + title);
+        }
+        else {
+            owner.updateTitle(title);
         }
     }
 
