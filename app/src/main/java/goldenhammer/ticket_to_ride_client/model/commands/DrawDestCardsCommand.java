@@ -12,10 +12,10 @@ public class DrawDestCardsCommand extends BaseCommand {
     private List<DestCard> cards;
 
     public DrawDestCardsCommand(){
-        setName("DrawDestCardsCommand");
+        setName("DrawDestCards");
     }
     public DrawDestCardsCommand(int CommandNumber){
-        setName("DrawDestCardsCommand");
+        setName("DrawDestCards");
         setCommandNumber(CommandNumber);
     }
 
