@@ -170,14 +170,6 @@ public class ClientModelFacade extends Observable {
             changed();
         }
     }
-    public Color getBankCardColor(int slot){
-        ArrayList<TrainCard> bank = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
-        {
-            bank.add(new TrainCard(Color.YELLOW));
-        }
-        return bank.get(slot).getColor();
-    }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {
         mUser.setDrawDestCards(cards);
@@ -376,6 +368,12 @@ public class ClientModelFacade extends Observable {
     public synchronized void setEndGameResults(ArrayList<EndResult> results){
         mCurrentGame.setEndResults(results);
         changed();
+    }
+
+    public String getGameName(){
+        if(getCurrentGame() == null)
+            return null;
+        return getCurrentGame().getGameName().getString();
     }
 
     public synchronized boolean isEndGame(){
