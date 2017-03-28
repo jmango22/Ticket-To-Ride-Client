@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/portText"
         android:inputType="number"
-        android:text="8080"
+        android:text="8081"
         android:hint="Port" />
 
     <EditText

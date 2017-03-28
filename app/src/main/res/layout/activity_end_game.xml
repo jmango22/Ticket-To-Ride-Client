@@ -5,13 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:id="@+id/background"
+    android:background="@drawable/map2"
     tools:context="goldenhammer.ticket_to_ride_client.ui.play.EndGameActivity">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/endGameBackground"
-        android:src="@drawable/map"
-        android:alpha=".3"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

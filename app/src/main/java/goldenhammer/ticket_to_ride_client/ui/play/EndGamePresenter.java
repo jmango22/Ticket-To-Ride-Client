@@ -84,9 +84,9 @@ public class EndGamePresenter implements IEndGamePresenter {
 
     @Override
     public void buttonClicked() {
-        Intent intent = new Intent(owner.getApplicationContext(), GameSelectorActivity.class);
+        Intent intent = new Intent(owner.getBaseContext(), GameSelectorActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-        ClientModelFacade.SINGLETON.setCurrentGame(new GameModel());
+        ClientModelFacade.SINGLETON.clearCurrentGame();
         owner.startActivity(intent);
     }
 }

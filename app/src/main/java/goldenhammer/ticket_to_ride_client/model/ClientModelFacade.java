@@ -104,6 +104,9 @@ public class ClientModelFacade extends Observable {
         offsetTracks();
         changed();
     }
+    public synchronized void clearCurrentGame(){
+        mCurrentGame = null;
+    }
 
     public synchronized void offsetTracks(){
         int shiftScale = 16;

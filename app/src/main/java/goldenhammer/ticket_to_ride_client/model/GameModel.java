@@ -110,6 +110,11 @@ public class GameModel {
     }
 
     public void setCurrentTurn(int currentTurn){
+        if(currentTurn < 0){
+            currentTurn = 0;
+        }else if (currentTurn >= players.size()){
+            currentTurn = 0;
+        }
         this.currentTurn = currentTurn;
     }
 

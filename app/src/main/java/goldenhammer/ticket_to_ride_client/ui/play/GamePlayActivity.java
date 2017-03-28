@@ -457,18 +457,13 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
 
 
     public void drawMap(Map map){
-
-        //Drawable mapDrawable = new (R.drawable.map);
-        //mapView.setImageDrawable();
-        //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks(), map.getCities());
-        mapView.setBackgroundResource(R.drawable.map);
+        mapView.setBackgroundResource(R.drawable.map2);
 
     }
 
     public void drawTracks(ImageView mapView,List<Track> tracks, List<City> cities){
         Bitmap bmp = Bitmap.createBitmap(mapWindowWidth, mapWindowHeight, Bitmap.Config.ARGB_8888);
-        //Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.map);
         Canvas c = new Canvas(bmp);
 
 
@@ -954,6 +949,12 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
     public void onEndGame(){
         Intent intent = new Intent(getBaseContext(), EndGameActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        ClientModelFacade.SINGLETON.clearCurrentGame();
+        super.onBackPressed();
     }
 
 
