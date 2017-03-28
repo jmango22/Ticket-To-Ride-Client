@@ -62,7 +62,7 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
 
-public class GamePlayActivity extends AppCompatActivity implements ImageView.OnTouchListener{
+public class GamePlayActivity extends AppCompatActivity /*implements ImageView.OnTouchListener*/{
     private List<PlayerOverview> players;
     private Hand hand;
     private TextView selectedView;
@@ -114,7 +114,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
         setSupportActionBar(myToolbar);
         mapView = (ImageView) findViewById(R.id.map_image);
         mapView.getHeight();
-       mapView.setOnTouchListener(this);
+       //mapView.setOnTouchListener(this);
         Button destButton = (Button) findViewById(R.id.dest_button);
         Button leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         Button demoButton = (Button) findViewById(R.id.demo_button);
@@ -174,17 +174,19 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
     }
 
 
-   /* @Override
+    @Override
     public boolean onTouchEvent(MotionEvent e) {
         if(e.getAction() == MotionEvent.ACTION_UP) {
             float xChange = screenWidth - mapWindowWidth;
             float yChange = screenHeight - mapWindowHeight;
-            float x = (e.getX() - xChange)*mapScaleX;
-            float y = (e.getY() - yChange)*mapScaleY;
+            float x = e.getX()/mapScaleX;
+            float y =e.getY()/mapScaleY;
+            x = x -xChange;
+            y = y-yChange;
             presenter.clickTrack(new PointF(x, y));
         }
         return super.onTouchEvent(e);
-    }*/
+    }
 
     @Override
     protected void onPause() {
@@ -958,12 +960,14 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
     }
 
 
-    @Override
+    /*@Override
     public boolean onTouch(View v, MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_UP) {
-            presenter.clickTrack(new PointF(event.getX()/mapScaleX, event.getY()/mapScaleY));
+            float xChange = (mapWindowWidth);//*mapScaleX;
+            float yChange = (mapWindowHeight);//*mapScaleY;
+            presenter.clickTrack(new PointF(event.getX()+xChange,event.getY()-yChange));
         }
         return true;
-    }
+    }*/
 }
 

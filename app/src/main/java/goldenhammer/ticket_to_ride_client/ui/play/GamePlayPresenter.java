@@ -94,7 +94,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrack(PointF pt){
-        //CURRENTLY THE POINT IS IN COORDINATES ASSOCIATED WITH THE SCREEN AND NOT WORLD COORDINATES
         final Track selected = state.onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
             if (selected.getOwner() != -1) {
