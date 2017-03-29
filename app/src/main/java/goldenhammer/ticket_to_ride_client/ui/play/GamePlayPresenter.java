@@ -83,6 +83,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         return state;
     }
 
+
     @Override
     public void onPause() {
         model.deleteObserver(this);

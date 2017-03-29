@@ -15,6 +15,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+
 public class ClientCommunicator {
     private String serverHost;
     private String serverPort;
@@ -61,6 +63,9 @@ public class ClientCommunicator {
     public void setHeader(HttpURLConnection connection){
         if(authorizationToken != null){
             connection.setRequestProperty("Authorization", authorizationToken);
+        }
+        if(gameName == null) {
+            gameName = ClientModelFacade.SINGLETON.getGameName();
         }
         if(gameName != null){
             connection.setRequestProperty("gamename", gameName);
