@@ -731,6 +731,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
 
     public void drawDestCardsDialog(DrawnDestCards drawnCards){
         final Dialog dialog = new Dialog(GamePlayActivity.this);
+        this.drawnDestCards = drawnCards;
         dialog.setContentView(R.layout.dialog_init_hand2);
         ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
         ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
