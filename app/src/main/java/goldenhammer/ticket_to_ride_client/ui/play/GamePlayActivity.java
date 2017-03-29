@@ -178,11 +178,11 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
     public boolean onTouchEvent(MotionEvent e) {
         if(e.getAction() == MotionEvent.ACTION_UP) {
             float xChange = screenWidth - mapWindowWidth;
-            float yChange = screenHeight - mapWindowHeight;
-            float x = e.getX()/mapScaleX;
-            float y =e.getY()/mapScaleY;
-            x = x -xChange;
-            y = y-yChange;
+            float yChange = 30;
+            float x = (e.getX()-mapView.getX())/mapView.getWidth() * mapX;//e.getX();///mapScaleX;
+            float y = (e.getY()-mapView.getY())/mapView.getHeight() * mapY;//e.getY();///mapScaleY;
+//            x = (x -xChange)/mapScaleX;
+//            y = (y-yChange)/mapScaleY;
             presenter.clickTrack(new PointF(x, y));
         }
         return super.onTouchEvent(e);
