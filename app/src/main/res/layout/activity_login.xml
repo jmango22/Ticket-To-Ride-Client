@@ -12,6 +12,7 @@
         android:id="@+id/portText"
         android:inputType="number"
         android:text="8082"
+
         android:hint="Port" />
 
     <EditText

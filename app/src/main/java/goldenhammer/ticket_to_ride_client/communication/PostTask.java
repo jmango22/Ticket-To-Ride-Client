@@ -50,7 +50,8 @@ public class PostTask extends AsyncTask<Void, Void, Results> {
                 return new Results(setResults(connection.getInputStream()), connection.getResponseCode());
             }
             else{
-                return new Results("Unsuccessful, Please Try Again", connection.getResponseCode());
+                String result = setResults(connection.getErrorStream());
+                return new Results(result, connection.getResponseCode());
             }
         }catch(MalformedURLException e){
             return new Results("Wrong URL. Check Port and Host", 500);
