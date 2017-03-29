@@ -163,6 +163,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         presenter.updateMap();
         presenter.updatePlayers();
         presenter.updateBank();
+        ServerProxy.SINGLETON.startCommandPolling();
     }
 
     public void updateTitle(String title){

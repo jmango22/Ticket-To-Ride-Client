@@ -12,28 +12,32 @@ import goldenhammer.ticket_to_ride_client.ui.play.states.State;
  */
 
 public class StateSelector {
+    static GamePlayPresenter presenter;
 
-    public static State MyTurn(GamePlayPresenter presenter){
+    public static void setPresenter(GamePlayPresenter pre){
+        presenter = pre; }
+
+    public static State MyTurn(){
         return new MyTurnState(presenter);
     }
 
-    public static State NotMyTurn(GamePlayPresenter presenter) {
+    public static State NotMyTurn() {
         return new NotMyTurnState(presenter);
     }
 
-    public static State MustReturnDestCard(GamePlayPresenter presenter){
+    public static State MustReturnDestCard(){
         return new ReturnDestCardsState(presenter);
     }
 
-    public static State InitializeHand(GamePlayPresenter presenter) {
+    public static State InitializeHand() {
         return new InitializeHandState(presenter);
     }
 
-    public static State DrawSecondTrainCard(GamePlayPresenter presenter){
+    public static State DrawSecondTrainCard(){
         return new DrawSecondTrainCardsState(presenter);
     }
 
-    public static State EndGame(GamePlayPresenter presenter){
+    public static State EndGame(){
         return new EndGameState(presenter);
     }
 }

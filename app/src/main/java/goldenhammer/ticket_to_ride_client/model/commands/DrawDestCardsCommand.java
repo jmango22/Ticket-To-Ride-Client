@@ -4,6 +4,9 @@ import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
+import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
+import goldenhammer.ticket_to_ride_client.ui.play.states.ReturnDestCardsState;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by jon on 3/2/17.
@@ -21,10 +24,19 @@ public class DrawDestCardsCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        ClientModelFacade.SINGLETON.setDrawnDestCards(cards);
+        if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
+            ClientModelFacade.SINGLETON.setDrawnDestCards(cards);
+            setState();
+        }
     }
 
     public void setCards(List<DestCard> cards){
         this.cards = cards;
+    }
+
+    private void setState(){
+        if(ClientModelFacade.SINGLETON.getState() instanceof MyTurnState){
+            ClientModelFacade.SINGLETON.setState(StateSelector.MustReturnDestCard());
+        }
     }
 }

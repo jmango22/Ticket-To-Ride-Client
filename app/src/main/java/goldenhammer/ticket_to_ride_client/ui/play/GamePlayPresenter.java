@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.EndGameState;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
@@ -49,7 +51,6 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     private ClientModelFacade model;
     private Callback myCommandCallback;
     private GameName name;
-    private State state;
     private boolean handInitialized;
     private MessagePoller poller;
 
@@ -71,18 +72,9 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 }
             }
         };
-        state = StateSelector.MyTurn(this);
+        StateSelector.setPresenter(this);
         handInitialized = false;
     }
-
-    public void setState(State state){
-        this.state = state;
-    }
-
-    public State getState(){
-        return state;
-    }
-
 
     @Override
     public void onPause() {
@@ -95,7 +87,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrack(PointF pt){
-        final Track selected = state.onTouchEvent(pt, model.getAllTracks());
+        final Track selected = model.getState().onTouchEvent(pt, model.getAllTracks());
         if(selected != null) {
             if (selected.getOwner() != -1) {
                 showToast("Track already claimed");
@@ -103,19 +95,31 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 final Dialog dialog = new Dialog(owner);
                 dialog.setContentView(R.layout.dialog_lay_track);
                 final TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
-                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "?");
+                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "? \n" +selected.infotoString());
+                final Track secondT = secondTrack(selected);
+                final CheckBox secondCheck = (CheckBox) dialog.findViewById(R.id.secondTrackCheck);
+                if(secondT != null)
+                {
+                    TextView second = (TextView) dialog.findViewById(R.id.second_track_message);
+                    second.setText("There is also a second track connecting those cities. Is this the intended track?" + "\n" + secondT.infotoString());
+                    secondCheck.setVisibility(View.VISIBLE);
+                }
                 Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                 Button close = (Button) dialog.findViewById(R.id.retry_button);
                 dialog.show();
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!enoughCards(selected)) {
+                        Track selectedTrack = selected;
+                        if(secondCheck.isChecked()){
+                            selectedTrack = secondT;
+                        }
+                        if(!enoughCards(selectedTrack)) {
                             text.setText("Not enough Cards! Please select another track");
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                           state.layTrack(selected);
+                           model.getState().layTrack(selectedTrack);
                            dialog.hide();
                         }
                     }
@@ -128,6 +132,17 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 });
             }
         }
+    }
+
+    private Track secondTrack(Track track) {
+        for (Track list : model.getAllTracks()) {
+            if (list.getCity1().getName().equals(track.getCity1().getName()) && list.getCity2().getName().equals(track.getCity2().getName())) {
+                if(list.getSecondTrack() || track.getSecondTrack()) {
+                    return list;
+                }
+            }
+        }
+        return null;
     }
 
     private boolean enoughCards(Track t){
@@ -168,26 +183,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(model.isEndGame()){
+        if(model.getState() instanceof EndGameState){
             owner.onEndGame();
         }else {
-//        TODO: how should we handle selecting cards from the bank
-            boolean isMyTurn = model.isMyTurn();
-            if (!handInitialized && model.shouldInitializeHand()) {
-                state = StateSelector.InitializeHand(this);
-            } else if (isMyTurn) {
-                handInitialized = true;
-                BaseCommand previousCommand = model.getPreviousCommand();
-                if (previousCommand instanceof DrawDestCardsCommand) {
-                    state = StateSelector.MustReturnDestCard(this);
-                } else {
-                    state = StateSelector.MyTurn(this);
-                }
-            } else {
-                handInitialized = true;
-                state = StateSelector.NotMyTurn(this);
-            }
-            state.updateView();
+            model.getState().updateView();
         }
     }
 
@@ -203,29 +202,30 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     @Override
 
     public boolean takeTrainCards(int index) {
-        return state.takeTrainCards(index);
+        return model.getState().takeTrainCards(index);
     }
 
     public void sendTakeTrainCardsCommand(int index){
+
        DrawTrainCardCommand command = new DrawTrainCardCommand(model.getNextCommandNumber(), index);
+
         proxy.doCommand(command,myCommandCallback);
 
     }
 
     @Override
     public void takeDestCards() {
-        state.takeDestCards();
+        model.getState().takeDestCards();
     }
 
     public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
-        //TODO, ^ was command number 1, not sure what it's supposed to be.
         proxy.doCommand(command, myCommandCallback);
     }
 
     @Override
     public void returnDestCards(List<DestCard> toReturn) {
-        state.returnDestCards(toReturn);
+        model.getState().returnDestCards(toReturn);
     }
 
     public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
@@ -235,7 +235,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     @Override
     public void layTrack(Track track) {
-        state.layTrack(track);
+        model.getState().layTrack(track);
     }
 
     public void sendLayTrackCommand(final Track track){
@@ -300,18 +300,18 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrainCards(){
-        state.clickTrainCards();
+        model.getState().clickTrainCards();
     }
 
     public void clickDestCards(){
-        state.clickDestCards();
+        model.getState().clickDestCards();
     }
     public void takeDestCardsDialog(){
         owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void clickTracks(){
-        state.clickTracks();
+        model.getState().clickTracks();
     }
 
     public void updateMap() {
