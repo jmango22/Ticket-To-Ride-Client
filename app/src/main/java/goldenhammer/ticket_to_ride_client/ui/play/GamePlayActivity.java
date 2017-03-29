@@ -165,6 +165,8 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         presenter.updateBank();
     }
 
+    //TODO make the destination cards list update while still open.
+
     public void updateTitle(String title){
         if (getSupportActionBar() != null){
             //getActionBar().setTitle(title);
@@ -176,17 +178,23 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if(e.getAction() == MotionEvent.ACTION_UP) {
+        if(e.getAction() == MotionEvent.ACTION_DOWN) {
             float xChange = screenWidth - mapWindowWidth;
             float yChange = screenHeight - mapWindowHeight;
-            float x = e.getX()/mapScaleX;
-            float y =e.getY()/mapScaleY;
-            x = x -xChange;
-            y = y-yChange;
+            float x = e.getX() -xChange;
+            float y = e.getY()-yChange;
+             x = x/mapScaleX;
+             y = y/mapScaleY;
+            //toastMessage(e.getX()+ ", "+ e.getY() + '\n' + x + ", " + y);
+
             presenter.clickTrack(new PointF(x, y));
+        }
+        else if (e.getAction() == MotionEvent.ACTION_UP){
+
         }
         return super.onTouchEvent(e);
     }
+
 
     @Override
     protected void onPause() {

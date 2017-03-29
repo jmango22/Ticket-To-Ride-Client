@@ -150,7 +150,7 @@ public class Track {
         return sb.toString();
     }
     public boolean pointByLine(PointF pt, double tolerance) {
-        double x = location2.x - location1.x;
+        /*double x = location2.x - location1.x;
         double y = location2.y - location1.y;
         double n = (x*x) +(y*y);
         n = Math.sqrt(n);
@@ -161,8 +161,43 @@ public class Track {
         if((distance<= tolerance)&&(distance >= (-tolerance))){
             return true;
         }
-        return false;
+        return false;*/
+        PointF d = new PointF((float)((location2.x - location1.x)/distance(location1,location2)),
+                (float)((location2.y - location1.y)/distance(location1,location2)));
+
+        PointF qTemp = new PointF((pt.x - location1.x), (pt.y - location1.y));
+        double temp = dotProd(qTemp,d);
+        PointF qTemp2 = new PointF((float)(d.x * temp),(float) (d.y*temp));
+        PointF qPrime = new PointF(
+                location1.x + qTemp2.x,
+                location1.y + qTemp2.y
+        );
+        return (distance(pt,qPrime) <= tolerance && temp <= distance(location2,location1) && temp >=0);
     }
+
+    private double dotProd(PointF pt1, PointF pt2){
+        return ((pt1.x * pt2.x) + (pt1.y * pt2.y));
+    }
+
+    public double distance(PointF pt1, PointF pt2){
+        double x = pt2.x - pt1.x;
+        double y = pt2.y - pt1.y;
+        double n = (x*x) +(y*y);
+        n = Math.sqrt(n);
+        return n;
+    }
+    /*
+		PointF d = new PointF((location2.x - location1.x)/location1.distance(location2),
+				(location2.y - location1.y)/location1.distance(location2));
+
+		PointF qTemp = new PointF((pt.x - location1.x), (pt.y - location1.y));
+		double temp = dotProd(qTemp,d);
+		PointF qTemp2 = new PointF(d.x * temp, d.y*temp);
+		PointF qPrime = new PointF(
+				location1.x + qTemp2.x,
+				location1.y + qTemp2.y
+		);
+		return (pt.distance(qPrime) <= tolerance && temp <= location2.distance(location1) && temp >=0);*/
 
     public int getPointValue(){
         switch (length){
