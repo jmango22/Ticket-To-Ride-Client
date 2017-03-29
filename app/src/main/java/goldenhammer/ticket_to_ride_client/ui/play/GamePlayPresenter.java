@@ -208,6 +208,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendTakeTrainCardsCommand(int index){
        DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+        command.setAsMyCommand();
         proxy.doCommand(command,myCommandCallback);
 
     }
@@ -219,6 +220,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
+        command.setAsMyCommand();
         //TODO, ^ was command number 1, not sure what it's supposed to be.
         proxy.doCommand(command, myCommandCallback);
     }
@@ -230,6 +232,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
+        command.setAsMyCommand();
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -259,6 +262,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     command.setTrack(track);
                     command.execute();
                     dialog.dismiss();
+                    command.setAsMyCommand();
                     proxy.doCommand(command, myCommandCallback);
             }
         });
