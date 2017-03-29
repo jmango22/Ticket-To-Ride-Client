@@ -33,7 +33,7 @@ public class CommandPoller {
         @Override
         public void run() {
             int number = ClientModelFacade.SINGLETON.getLastCommandNumber();
-            ServerProxy.SINGLETON.getCommands(number, new Callback() {
+            ServerProxy.SINGLETON.getCommands(0, new Callback() {
                 @Override
                 public void run(Results res) {
                     if(res.getResponseCode() == HttpURLConnection.HTTP_OK){

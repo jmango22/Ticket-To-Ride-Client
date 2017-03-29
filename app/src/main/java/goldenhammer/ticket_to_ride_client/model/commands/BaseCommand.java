@@ -63,26 +63,15 @@ public abstract class BaseCommand implements Serializable {
         this.gameName = gameName;
     }
 
-    @Override
+   @Override
     public  boolean equals(Object o){
         if(o instanceof BaseCommand){
             BaseCommand b = (BaseCommand) o;
-            if(!b.name.equals(name)){
+            if((!b.name.equals(name))||(b.commandNumber != commandNumber)||(!b.gameName.equals(gameName))||(b.playerNumber != playerNumber)||(!b.playerName.equals(playerName))){
                 return false;
+            }else{
+                return true;
             }
-            if(b.commandNumber != commandNumber){
-                return false;
-            }
-            if(!b.gameName.equals(gameName)){
-                return false;
-            }
-            if(b.playerNumber != playerNumber){
-                return false;
-            }
-            if(!b.playerName.equals(playerName)){
-                return false;
-            }
-            return true;
         }
         return false;
     }

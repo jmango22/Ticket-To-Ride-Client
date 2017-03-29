@@ -6,6 +6,8 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.Color;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
+import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by McKean on 3/3/2017.
@@ -25,15 +27,17 @@ public class LayTrackCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        ArrayList<TrainCard> actualCards = new ArrayList<>();
-        for(Color c: cards){
-            actualCards.add(new TrainCard(c));
+        if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
+            ArrayList<TrainCard> actualCards = new ArrayList<>();
+            for (Color c : cards) {
+                actualCards.add(new TrainCard(c));
+            }
+            ClientModelFacade.SINGLETON.changeTrackOwner(track, getPlayerNumber());
+            ClientModelFacade.SINGLETON.removeTrainCards(actualCards);
+            ClientModelFacade.SINGLETON.removePieces(track.getLength());
+            ClientModelFacade.SINGLETON.addPoints(track.getPointValue());
+            setState();
         }
-        ClientModelFacade.SINGLETON.changeTrackOwner(track,getPlayerNumber());
-        ClientModelFacade.SINGLETON.removeTrainCards(actualCards);
-        ClientModelFacade.SINGLETON.removePieces(track.getLength());
-        ClientModelFacade.SINGLETON.addPoints(track.getPointValue());
-
     }
 
     public void setCards(ArrayList<TrainCard> cards){
@@ -48,5 +52,11 @@ public class LayTrackCommand extends BaseCommand {
 
     public void setTrack(Track track){
         this.track = track;
+    }
+
+    private void setState(){
+        if(ClientModelFacade.SINGLETON.getState() instanceof MyTurnState){
+            ClientModelFacade.SINGLETON.setState(StateSelector.NotMyTurn());
+        }
     }
 }

@@ -26,7 +26,6 @@ public class MyTurnState extends State {
 
     @Override
     public boolean takeTrainCards(int index) {
-            presenter.setState(new DrawSecondTrainCardsState(presenter));
             presenter.sendTakeTrainCardsCommand(index);
             return false;
     }

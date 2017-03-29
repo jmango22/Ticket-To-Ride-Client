@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.ReturnDestCardsCommand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 
 /**
  * Created by McKean on 2/3/2017.
@@ -24,6 +25,7 @@ public class ClientModelFacade extends Observable {
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
     private boolean lastRound;
+    private State state;
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -41,14 +43,12 @@ public class ClientModelFacade extends Observable {
         return mCurrentGame.getEndResults();
     }
 
-    public synchronized EndResult getPlayerEndResults(int playerNumber){
-        ArrayList<EndResult> endResults = mCurrentGame.getEndResults();
-        for (EndResult e : endResults){
-            if (e.getPlayer() == playerNumber){
-                return e;
-            }
-        }
-        return null;
+    public void setState(State state){
+        this.state = state;
+    }
+
+    public State getState(){
+        return state;
     }
 
     public synchronized void removePieces(int pieces){

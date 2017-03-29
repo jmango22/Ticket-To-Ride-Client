@@ -6,6 +6,7 @@ import java.util.List;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by McKean on 3/3/2017.
@@ -35,6 +36,11 @@ public class ReturnDestCardsCommand extends BaseCommand {
                 }
             }
             hand.setDrawnDestinationCards(new ArrayList<DestCard>());
+            setState();
         }
+    }
+
+    private void setState(){
+        ClientModelFacade.SINGLETON.setState(StateSelector.NotMyTurn());
     }
 }

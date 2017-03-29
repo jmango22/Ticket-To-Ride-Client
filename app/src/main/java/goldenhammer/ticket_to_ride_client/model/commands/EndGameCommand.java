@@ -6,6 +6,7 @@ import java.util.List;
 
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.EndResult;
+import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
  * Created by jon on 3/22/17.
@@ -27,6 +28,7 @@ public class EndGameCommand extends BaseCommand {
             results.add(e);
         }
         ClientModelFacade.SINGLETON.setEndGameResults(results);
+        ClientModelFacade.SINGLETON.setState(StateSelector.EndGame());
     }
 
     public void setPlayersResults(List<EndResult> results){
