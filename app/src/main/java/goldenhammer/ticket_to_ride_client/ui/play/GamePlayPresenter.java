@@ -73,6 +73,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             }
         };
         StateSelector.setPresenter(this);
+        model.setState(StateSelector.InitializeHand());
         handInitialized = false;
     }
 
@@ -118,6 +119,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                             text.setText("Not enough Cards! Please select another track");
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
+                            Button close = (Button) dialog.findViewById(R.id.retry_button);
+                            close.setVisibility(View.VISIBLE);
                         }else {
                            model.getState().layTrack(selectedTrack);
                            dialog.hide();

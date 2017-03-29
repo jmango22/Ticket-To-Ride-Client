@@ -27,7 +27,6 @@ public class LayTrackCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
             ArrayList<TrainCard> actualCards = new ArrayList<>();
             for (Color c : cards) {
                 actualCards.add(new TrainCard(c));
@@ -37,7 +36,6 @@ public class LayTrackCommand extends BaseCommand {
             ClientModelFacade.SINGLETON.removePieces(track.getLength());
             ClientModelFacade.SINGLETON.addPoints(track.getPointValue());
             setState();
-        }
     }
 
     public void setCards(ArrayList<TrainCard> cards){
