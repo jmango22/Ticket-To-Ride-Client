@@ -12,6 +12,7 @@ public class GameModel {
     private List<PlayerOverview> players;
     private List<DestCard> destinationDeck;
     private List<TrainCard> trainCardDeck;
+    private List<Color> mBank;
     private Map map;
     private GameName name;
     private int currentTurn;
@@ -27,6 +28,14 @@ public class GameModel {
 
     public List<TrainCard> getTrainCardDeck(){
         return trainCardDeck;
+    }
+
+    public TrainCard[] getBankCards(){
+        TrainCard[] deck = new TrainCard[mBank.size()];
+        for(int i = 0; i < mBank.size();i++){
+            deck[i] = new TrainCard(mBank.get(i));
+        }
+        return deck;
     }
 
     public GameName getGameName(){

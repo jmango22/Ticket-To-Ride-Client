@@ -102,6 +102,7 @@ public class ClientModelFacade extends Observable {
         this.mCurrentGame = mCurrentGame;
         mCurrentGame.updatePoints();
         offsetTracks();
+        mBank = new Bank(mCurrentGame.getBankCards());
         changed();
     }
     public synchronized void clearCurrentGame(){
