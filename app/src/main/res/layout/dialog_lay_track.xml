@@ -8,11 +8,26 @@
         android:textSize="15sp"
         android:layout_margin="10dp"
         android:layout_centerHorizontal="true" />
+    <CheckBox
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lay_track_message"
+        android:id ="@+id/secondTrackCheck"
+        android:layout_margin="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/second_track_message"
+        android:layout_toRightOf="@id/secondTrackCheck"
+        android:layout_below="@id/lay_track_message"
+        android:textSize="15sp"
+        android:layout_margin="10dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lay_track_button"
-        android:layout_below="@id/lay_track_message"
+        android:layout_below="@id/second_track_message"
         android:text="@string/confirm_track"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"/>

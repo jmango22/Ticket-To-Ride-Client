@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -94,19 +95,31 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 final Dialog dialog = new Dialog(owner);
                 dialog.setContentView(R.layout.dialog_lay_track);
                 final TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
-                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "?");
+                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "? \n" +selected.infotoString());
+                final Track secondT = secondTrack(selected);
+                final CheckBox secondCheck = (CheckBox) dialog.findViewById(R.id.secondTrackCheck);
+                if(secondT != null)
+                {
+                    TextView second = (TextView) dialog.findViewById(R.id.second_track_message);
+                    second.setText("There is also a second track connecting those cities. Is this the intended track?" + "\n" + secondT.infotoString());
+                    secondCheck.setVisibility(View.VISIBLE);
+                }
                 Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                 Button close = (Button) dialog.findViewById(R.id.retry_button);
                 dialog.show();
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!enoughCards(selected)) {
+                        Track selectedTrack = selected;
+                        if(secondCheck.isChecked()){
+                            selectedTrack = secondT;
+                        }
+                        if(!enoughCards(selectedTrack)) {
                             text.setText("Not enough Cards! Please select another track");
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
                         }else {
-                           model.getState().layTrack(selected);
+                           model.getState().layTrack(selectedTrack);
                            dialog.hide();
                         }
                     }
@@ -119,6 +132,17 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 });
             }
         }
+    }
+
+    private Track secondTrack(Track track) {
+        for (Track list : model.getAllTracks()) {
+            if (list.getCity1().getName().equals(track.getCity1().getName()) && list.getCity2().getName().equals(track.getCity2().getName())) {
+                if(list.getSecondTrack() || track.getSecondTrack()) {
+                    return list;
+                }
+            }
+        }
+        return null;
     }
 
     private boolean enoughCards(Track t){
