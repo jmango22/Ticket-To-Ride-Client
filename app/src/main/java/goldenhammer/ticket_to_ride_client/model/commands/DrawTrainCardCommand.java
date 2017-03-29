@@ -24,7 +24,8 @@ public class DrawTrainCardCommand extends BaseCommand {
         setName("DrawTrainCard");
     }
 
-    public DrawTrainCardCommand(int commandNumber){
+    public DrawTrainCardCommand(int commandNumber, int slot){
+        this.slot = slot;
         setName("DrawTrainCard");
         setCommandNumber(commandNumber);
     }

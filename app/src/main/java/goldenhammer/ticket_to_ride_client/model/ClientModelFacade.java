@@ -99,6 +99,9 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized void setCurrentGame(GameModel mCurrentGame) {
+        messages = new ChatMessages(new ArrayList<Message>());
+        mCommandMgr = new CommandManager();
+        lastRound = false;
         this.mCurrentGame = mCurrentGame;
         mCurrentGame.updatePoints();
         offsetTracks();

@@ -59,11 +59,19 @@ public class MyTurnState extends State {
     public Track onTouchEvent(PointF pt, List<Track> tracks){
         if(layTrack) {
             int tolerance = 10;
+            Track closest = null;
+            double minDistance = 100;
             for (Track t : tracks) {
-                if (t.pointByLine(pt, tolerance)) {
-                    return t;
+                double distance = t.pointByLine(pt);
+                if(distance < minDistance){
+                    minDistance = distance;
+                    closest = t;
                 }
+//                if (t.pointByLine(pt, tolerance)) {
+//                    return t;
+//                }
             }
+            return closest;
         }
         return null;
     }

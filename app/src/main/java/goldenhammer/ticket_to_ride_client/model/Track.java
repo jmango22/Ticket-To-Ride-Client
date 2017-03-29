@@ -149,7 +149,10 @@ public class Track {
         }
         return sb.toString();
     }
-    public boolean pointByLine(PointF pt, double tolerance) {
+    public double pointByLine(PointF pt){//, double tolerance) {
+        if(pt.x > Math.max(location1.x, location2.x) || pt.x < Math.min(location1.x, location2.x))
+            if(pt.y > Math.max(location1.y, location2.y) || pt.y < Math.min(location1.y, location2.y))
+                return 100000;
         double x = location2.x - location1.x;
         double y = location2.y - location1.y;
         double n = (x*x) +(y*y);
@@ -157,11 +160,11 @@ public class Track {
 
         double d = ((location1.x* (-y))+(location1.y * x))/n;
         double distance = ((pt.x* (-y))+(pt.y* x))/n;
-        distance = distance - d;
-        if((distance<= tolerance)&&(distance >= (-tolerance))){
-            return true;
-        }
-        return false;
+        return Math.abs(distance - d);
+//        if((distance<= tolerance)&&(distance >= (-tolerance))){
+//            return true;
+//        }
+//        return false;
     }
 
     public int getPointValue(){

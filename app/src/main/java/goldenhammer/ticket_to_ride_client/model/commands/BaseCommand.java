@@ -2,6 +2,8 @@ package goldenhammer.ticket_to_ride_client.model.commands;
 
 import java.io.Serializable;
 
+import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
+
 public abstract class BaseCommand implements Serializable {
     private String name;
     private int playerNumber;
@@ -25,6 +27,9 @@ public abstract class BaseCommand implements Serializable {
         this.commandNumber = commandNumber;
     }
 
+    public void setAsMyCommand() {
+        playerNumber = ClientModelFacade.SINGLETON.getMyPlayerNumber();
+    }
     public boolean validate() {
         return true;
     }
