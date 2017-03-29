@@ -462,7 +462,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
         //mapView.setImageDrawable();
         //mapView.setImageResource(R.drawable.map);
         drawTracks(mapView,map.getTracks(), map.getCities());
-        mapView.setBackgroundResource(R.drawable.map);
+        mapView.setBackgroundResource(R.drawable.map2);
 
     }
 
@@ -479,7 +479,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
                 p.setColor(ContextCompat.getColor(getBaseContext(),R.color.white));
             }
             else{
-                p.setColor(getBoardColor(Color.values()[t.getOwner()]));
+                p.setColor(getBoardColor(players.get(t.getOwner()).getColor()));
             }
                 p.setStrokeWidth(8);
             PointF pt1 = t.getLocation1();
@@ -698,7 +698,7 @@ public class GamePlayActivity extends AppCompatActivity implements ImageView.OnT
             trains3.setText("Pieces: " + Integer.toString(players.get(3).getNumPieces()));
         }
         if (players.size()> 4) {
-            View color4 = findViewById(R.id.player_color4);
+            View color4 = dialog.findViewById(R.id.player_color4);
             TextView name4 = (TextView) dialog.findViewById(R.id.player_name4);
             TextView points4 = (TextView) dialog.findViewById(R.id.player_points4);
             TextView trains4 = (TextView) dialog.findViewById(R.id.player_trains_remaining4);
