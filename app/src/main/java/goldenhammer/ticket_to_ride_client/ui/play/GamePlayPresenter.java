@@ -207,7 +207,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void sendTakeTrainCardsCommand(int index){
-       DrawTrainCardCommand command = new DrawTrainCardCommand(index);
+       DrawTrainCardCommand command = new DrawTrainCardCommand(model.getNextCommandNumber(), index);
         proxy.doCommand(command,myCommandCallback);
 
     }
