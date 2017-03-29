@@ -373,6 +373,12 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
+    public String getGameName(){
+        if(getCurrentGame() == null)
+            return null;
+        return getCurrentGame().getGameName().getString();
+    }
+
     public synchronized boolean isEndGame(){
         return mCurrentGame.getEndGame();
     }

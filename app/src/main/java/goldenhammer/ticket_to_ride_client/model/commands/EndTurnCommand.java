@@ -19,7 +19,7 @@ public class EndTurnCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        ClientModelFacade.SINGLETON.getCurrentGame().setCurrentTurn(ClientModelFacade.SINGLETON.getCurrentTurnPlayer()+1);
+        ClientModelFacade.SINGLETON.getCurrentGame().setCurrentTurn(nextPlayer);
     }
 
 }
