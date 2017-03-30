@@ -355,7 +355,12 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized void changeTrackOwner(Track track, int playerNumber){
-        track.setOwner(playerNumber);
+        List<Track> allTracks = getAllTracks();
+        for(Track i: allTracks){
+            if(i.getRoute_number() == track.getRoute_number()){
+                i.setOwner(playerNumber);
+            }
+        }
         changed();
     }
 
