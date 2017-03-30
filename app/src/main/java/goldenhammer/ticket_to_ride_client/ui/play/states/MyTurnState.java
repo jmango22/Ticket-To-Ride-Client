@@ -79,6 +79,7 @@ public class MyTurnState extends State {
     @Override
     public void updateView() {
         super.updateView();
+        presenter.closeInitHandDialog();
         presenter.updateTitle("Your Turn");
     }
 }

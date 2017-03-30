@@ -16,6 +16,8 @@ public class NotMyTurnState extends State {
     @Override
     public void updateView() {
         super.updateView();
+        presenter.closeInitHandDialog();
+        presenter.closeReturnDestCardsDialog();
         String name =ClientModelFacade.SINGLETON.getLeaderboard()
                 .get(ClientModelFacade.SINGLETON.getCurrentTurnPlayer()).getUsername();
         presenter.updateTitle(name + "\'s Turn");
