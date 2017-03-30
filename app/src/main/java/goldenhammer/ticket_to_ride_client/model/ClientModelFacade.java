@@ -52,9 +52,9 @@ public class ClientModelFacade extends Observable {
         return state;
     }
 
-    public synchronized void removePieces(int pieces){
-       int currentPieces =  getLeaderboard().get(getMyPlayerNumber()).getNumPieces();
-        getLeaderboard().get(getMyPlayerNumber()).setPieces(currentPieces-pieces);
+    public synchronized void removePieces(int playerNumber, int pieces){
+       int currentPieces =  getLeaderboard().get(playerNumber).getNumPieces();
+        getLeaderboard().get(playerNumber).setPieces(currentPieces-pieces);
         changed();
     }
 

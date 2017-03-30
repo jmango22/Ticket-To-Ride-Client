@@ -33,9 +33,9 @@ public class LayTrackCommand extends BaseCommand {
             }
             ClientModelFacade.SINGLETON.changeTrackOwner(track, getPlayerNumber());
             ClientModelFacade.SINGLETON.addPoints(getPlayerNumber(),track.getPointValue());
+            ClientModelFacade.SINGLETON.removePieces(getPlayerNumber(),track.getLength());
         if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
             ClientModelFacade.SINGLETON.removeTrainCards(actualCards);
-            ClientModelFacade.SINGLETON.removePieces(track.getLength());
             setState();
         }
     }
