@@ -73,7 +73,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             }
         };
         StateSelector.setPresenter(this);
-        model.setState(StateSelector.InitializeHand());
+        model.setState(new State(this));
         handInitialized = false;
     }
 
@@ -211,7 +211,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     public void sendTakeTrainCardsCommand(int index){
 
        DrawTrainCardCommand command = new DrawTrainCardCommand(model.getNextCommandNumber(), index);
-
+        command.setAsMyCommand();
+        command.setCard(model.getAllBankTrainCards().get(index));
         proxy.doCommand(command,myCommandCallback);
 
     }
@@ -223,6 +224,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
+        command.setAsMyCommand();
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -233,6 +235,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
+        command.setAsMyCommand();
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -260,9 +263,11 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                     command.setCards(handAdapter.getCards());
                     command.setTrack(track);
-                    command.execute();
-                    dialog.dismiss();
+
+                    command.setAsMyCommand();
+
                     proxy.doCommand(command, myCommandCallback);
+                    dialog.dismiss();
             }
         });
 
