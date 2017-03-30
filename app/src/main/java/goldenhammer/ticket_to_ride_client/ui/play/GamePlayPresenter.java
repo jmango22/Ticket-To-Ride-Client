@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.GameName;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
-import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawDestCardsCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.DrawTrainCardCommand;
 import goldenhammer.ticket_to_ride_client.model.commands.LayTrackCommand;
@@ -75,6 +73,14 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         StateSelector.setPresenter(this);
         model.setState(new State(this));
         handInitialized = false;
+    }
+
+    public void closeInitHandDialog(){
+        owner.closeInitHandDialog();
+    }
+
+    public void closeReturnDestCardsDialog(){
+        owner.closeReturnDestCardsDialog();
     }
 
     @Override
@@ -296,7 +302,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
     public void startDestCardsDialog(){
         proxy.doCommand(new DrawDestCardsCommand(model.getNextCommandNumber()),myCommandCallback);
-        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
+        owner.returnDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void startTracksDialog(){
@@ -315,7 +321,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         model.getState().clickDestCards();
     }
     public void takeDestCardsDialog(){
-        owner.drawDestCardsDialog(model.getHand().getDrawnDestCards());
+        owner.returnDestCardsDialog(model.getHand().getDrawnDestCards());
     }
 
     public void clickTracks(){

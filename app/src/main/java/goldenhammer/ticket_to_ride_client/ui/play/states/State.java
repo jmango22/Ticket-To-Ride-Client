@@ -67,6 +67,7 @@ public class State {
         presenter.updateHand();
         presenter.updateChat();
         presenter.updateBank();
+
     }
 
     public Track onTouchEvent(PointF pt, List<Track> tracks){ return null; }

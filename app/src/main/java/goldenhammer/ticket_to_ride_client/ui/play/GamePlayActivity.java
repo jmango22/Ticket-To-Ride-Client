@@ -85,6 +85,10 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
     private int mapWindowHeight= 500;//488;
     private int mapWindowWidth = 774;
 
+    private Dialog InitDialog;
+    private Dialog dialogReturnDestCards;
+
+
     private  Dialog chats;
     private String chatString;
     private TextView chatText;
@@ -125,7 +129,8 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         screenWidth = displayMetrics.widthPixels;
         mapScaleX = (float)(mapWindowWidth)/(float)mapX;
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
-
+        dialogReturnDestCards  = new Dialog(GamePlayActivity.this);
+        InitDialog = new Dialog(GamePlayActivity.this);
         initialized = false;
         dTrainCards = new Dialog(GamePlayActivity.this);
         dTrainCards.setContentView(R.layout.dialog_train_cards);
@@ -554,17 +559,20 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         return getResourceID(getFileName(card));
     }
 
-    public void initHandDialog(DrawnDestCards drawnCards){
-        final Dialog dialog = new Dialog(GamePlayActivity.this);
+    public void closeInitHandDialog(){
+        InitDialog.hide();
+    }
 
-        dialog.setContentView(R.layout.dialog_init_hand2);
-        ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
-        ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
-        ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
-        ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
-        Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
+    public void initHandDialog(DrawnDestCards drawnCards){
+
+        InitDialog.setContentView(R.layout.dialog_init_hand2);
+        ImageButton slot0 = (ImageButton) InitDialog.findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) InitDialog.findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) InitDialog.findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) InitDialog.findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) InitDialog.findViewById(R.id.return_cards_button);
         if (drawnCards == null){
-            dialog.hide();
+            InitDialog.hide();
             return;
         }
         List<DestCard> cards = drawnCards.getRemainingDestCards();
@@ -572,10 +580,10 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             slot0.setImageResource(getCityFileId(cards.get(0)));
             slot1.setImageResource(getCityFileId(cards.get(1)));
             slot2.setImageResource(getCityFileId(cards.get(2)));
-            final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
-            final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
-            final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
-            final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
+            final TextView text0 = (TextView) InitDialog.findViewById(R.id.dest_text_0);
+            final TextView text1 = (TextView) InitDialog.findViewById(R.id.dest_text_1);
+            final TextView text2 = (TextView) InitDialog.findViewById(R.id.dest_text_2);
+            final TextView textNone = (TextView) InitDialog.findViewById(R.id.dest_text_none);
             text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
             text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
@@ -613,13 +621,13 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         returnCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.hide();
+                //dialog.hide();
                 returnInitDestCards();
             }
         });
-        dialog.getWindow().setLayout(1400, 1000);
-        dialog.setTitle(R.string.return_cards_title);
-        dialog.show();
+        InitDialog.getWindow().setLayout(1400, 1000);
+        InitDialog.setTitle(R.string.return_cards_title);
+        InitDialog.show();
         System.out.println("showing Dialog");
     }
 
@@ -727,18 +735,21 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
 
     }
 
-    public void drawDestCardsDialog(DrawnDestCards drawnCards){
-        final Dialog dialog = new Dialog(GamePlayActivity.this);
+    public void closeReturnDestCardsDialog(){
+        dialogReturnDestCards.hide();
+    }
+
+    public void returnDestCardsDialog(DrawnDestCards drawnCards){
         this.drawnDestCards = drawnCards;
-        dialog.setContentView(R.layout.dialog_init_hand2);
-        ImageButton slot0 = (ImageButton) dialog.findViewById(R.id.dest_card_0) ;
-        ImageButton slot1 = (ImageButton) dialog.findViewById(R.id.dest_card_1);
-        ImageButton slot2 = (ImageButton) dialog.findViewById(R.id.dest_card_2);
-        ImageButton none = (ImageButton) dialog.findViewById(R.id.dest_card_none);
-        Button returnCards = (Button) dialog.findViewById(R.id.return_cards_button);
+        dialogReturnDestCards.setContentView(R.layout.dialog_init_hand2);
+        ImageButton slot0 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_0) ;
+        ImageButton slot1 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_1);
+        ImageButton slot2 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_2);
+        ImageButton none = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_none);
+        Button returnCards = (Button) dialogReturnDestCards.findViewById(R.id.return_cards_button);
 
         if (drawnCards == null){
-            dialog.hide();
+            dialogReturnDestCards.hide();
             return;
         }
 
@@ -747,10 +758,10 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             slot0.setImageResource(getCityFileId(cards.get(0)));
             slot1.setImageResource(getCityFileId(cards.get(1)));
             slot2.setImageResource(getCityFileId(cards.get(2)));
-            final TextView text0 = (TextView) dialog.findViewById(R.id.dest_text_0);
-            final TextView text1 = (TextView) dialog.findViewById(R.id.dest_text_1);
-            final TextView text2 = (TextView) dialog.findViewById(R.id.dest_text_2);
-            final TextView textNone = (TextView) dialog.findViewById(R.id.dest_text_none);
+            final TextView text0 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_0);
+            final TextView text1 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_1);
+            final TextView text2 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_2);
+            final TextView textNone = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_none);
             text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
             text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
@@ -787,13 +798,13 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         returnCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.hide();
+                dialogReturnDestCards.hide();
                 returnDestCards();
             }
         });
-        dialog.getWindow().setLayout(1400, 1000);
-        dialog.setTitle(R.string.return_cards_title);
-        dialog.show();
+        dialogReturnDestCards.getWindow().setLayout(1400, 1000);
+        dialogReturnDestCards.setTitle(R.string.return_cards_title);
+        dialogReturnDestCards.show();
 
     }
 

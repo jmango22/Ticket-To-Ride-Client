@@ -24,7 +24,7 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="10.24.197.90"
+        android:text="10.24.71.134"
 
         android:hint="Host" />
 
@@ -50,7 +50,7 @@
         android:hint="Username"
         style="@android:style/Widget.Holo.EditText"
 
-        android:text="340"
+        android:text="mckean"
         android:layout_above="@+id/passwordText"
         android:layout_alignStart="@+id/passwordText"
         android:layout_alignEnd="@+id/passwordText" />
