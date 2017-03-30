@@ -211,7 +211,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     public void sendTakeTrainCardsCommand(int index){
 
        DrawTrainCardCommand command = new DrawTrainCardCommand(model.getNextCommandNumber(), index);
-
+        command.setAsMyCommand();
+        command.setCard(model.getAllBankTrainCards().get(index));
         proxy.doCommand(command,myCommandCallback);
 
     }
@@ -223,6 +224,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendTakeDestCardsCommand() {
         DrawDestCardsCommand command = new DrawDestCardsCommand(model.getNextCommandNumber());
+        command.setAsMyCommand();
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -233,6 +235,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
     public void sendReturnDestCardsCommand(List<DestCard> toReturn) {
         ReturnDestCardsCommand command = new ReturnDestCardsCommand(model.getNextCommandNumber(), toReturn);
+        command.setAsMyCommand();
         proxy.doCommand(command, myCommandCallback);
     }
 
@@ -262,6 +265,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     command.setTrack(track);
                     command.execute();
                     dialog.dismiss();
+                    command.setAsMyCommand();
                     proxy.doCommand(command, myCommandCallback);
             }
         });
