@@ -73,7 +73,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             }
         };
         StateSelector.setPresenter(this);
-        model.setState(StateSelector.InitializeHand());
+        model.setState(new State(this));
         handInitialized = false;
     }
 
@@ -260,9 +260,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                     command.setCards(handAdapter.getCards());
                     command.setTrack(track);
-                    command.execute();
-                    dialog.dismiss();
                     proxy.doCommand(command, myCommandCallback);
+                    dialog.dismiss();
             }
         });
 
