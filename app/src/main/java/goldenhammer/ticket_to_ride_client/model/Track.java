@@ -11,6 +11,7 @@ public class Track {
     private int length;
     private Color color;
     private int owner;
+    private int route_number;
     private Boolean secondTrack;
     private PointF location1;
     private PointF location2;
@@ -24,6 +25,14 @@ public class Track {
         secondTrack = false;
         location1 = new PointF();
         location2 = new PointF();
+    }
+
+    public int getRoute_number() {
+        return route_number;
+    }
+
+    public void setRoute_number(int route_number) {
+        this.route_number = route_number;
     }
 
     public Track(City city1, City city2, int length, Color color, int owner, Boolean secondTrack, PointF location1, PointF location2) {
