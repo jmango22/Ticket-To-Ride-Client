@@ -53,7 +53,7 @@ public class DrawTrainCardCommand extends BaseCommand {
 
     private void setState(){
         if(ClientModelFacade.SINGLETON.getState() instanceof MyTurnState){
-            if((card.getColor() == Color.WILD)&&(slot != -1)){
+            if((card.getColor() == Color.WILD)&&(slot != 5)){
                 ClientModelFacade.SINGLETON.setState(StateSelector.NotMyTurn());
             }else {
                 ClientModelFacade.SINGLETON.setState(StateSelector.DrawSecondTrainCard());
