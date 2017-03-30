@@ -45,6 +45,7 @@ public class ClientModelFacade extends Observable {
 
     public void setState(State state){
         this.state = state;
+        changed();
     }
 
     public State getState(){
