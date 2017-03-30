@@ -58,9 +58,9 @@ public class ClientModelFacade extends Observable {
         changed();
     }
 
-    public synchronized void addPoints(int points){
-        int myPoints = getLeaderboard().get(getMyPlayerNumber()).getPoints();
-        getLeaderboard().get(getMyPlayerNumber()).setPoints(points+myPoints);
+    public synchronized void addPoints(int playernumber, int points){
+        int myPoints = getLeaderboard().get(playernumber).getPoints();
+        getLeaderboard().get(playernumber).setPoints(points+myPoints);
         changed();
     }
 
