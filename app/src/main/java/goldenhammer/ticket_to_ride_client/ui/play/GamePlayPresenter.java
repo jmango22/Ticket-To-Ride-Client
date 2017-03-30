@@ -218,7 +218,8 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
        DrawTrainCardCommand command = new DrawTrainCardCommand(model.getNextCommandNumber(), index);
         command.setAsMyCommand();
-        command.setCard(model.getAllBankTrainCards().get(index));
+        if(index >=0 && index <=4)
+            command.setCard(model.getAllBankTrainCards().get(index));
         proxy.doCommand(command,myCommandCallback);
 
     }
