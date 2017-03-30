@@ -477,7 +477,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
                 p.setColor(ContextCompat.getColor(getBaseContext(),R.color.white));
             }
             else{
-                p.setColor(getBoardColor(players.get(t.getOwner()).getColor()));
+                p.setColor(getBoardColor(players.get(getPlayerIndex(t.getOwner())).getColor()));
             }
                 p.setStrokeWidth(8);
             PointF pt1 = t.getLocation1();
@@ -533,6 +533,16 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         mapView.setImageBitmap(bmp);
         //mapView.draw(c);
         //mapView.setImageBitmap(bmp);
+    }
+
+    private int getPlayerIndex(int id){
+        PlayerOverview p = ClientModelFacade.SINGLETON.getLeaderboard().get(id);
+        for(int i = 0; i < players.size(); i++){
+            if(p.getPlayer() == players.get(i).getPlayer()){
+                return i;
+            }
+        }
+        return 0;
     }
 
 
@@ -960,16 +970,5 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         ClientModelFacade.SINGLETON.clearCurrentGame();
         super.onBackPressed();
     }
-
-
-    /*@Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_UP) {
-            float xChange = (mapWindowWidth);//*mapScaleX;
-            float yChange = (mapWindowHeight);//*mapScaleY;
-            presenter.clickTrack(new PointF(event.getX()+xChange,event.getY()-yChange));
-        }
-        return true;
-    }*/
 }
 
