@@ -269,9 +269,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                     LayTrackCommand command = new LayTrackCommand(model.getNextCommandNumber());
                     command.setCards(handAdapter.getCards());
                     command.setTrack(track);
-
                     command.setAsMyCommand();
-
                     proxy.doCommand(command, myCommandCallback);
                     dialog.dismiss();
             }
