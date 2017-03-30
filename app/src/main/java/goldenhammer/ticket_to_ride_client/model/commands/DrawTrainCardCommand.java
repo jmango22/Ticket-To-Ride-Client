@@ -33,13 +33,14 @@ public class DrawTrainCardCommand extends BaseCommand {
     public void execute() {
         if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
             ClientModelFacade.SINGLETON.addTrainCard(card);
-            TrainCard[] bankCards = new TrainCard[bank.size()];
-            for (int i = 0; i < bank.size(); i++) {
-                bankCards[i] = new TrainCard(bank.get(i));
-            }
-            ClientModelFacade.SINGLETON.setBankCards(bankCards);
             setState();
         }
+        TrainCard[] bankCards = new TrainCard[bank.size()];
+        for (int i = 0; i < bank.size(); i++) {
+            bankCards[i] = new TrainCard(bank.get(i));
+        }
+        ClientModelFacade.SINGLETON.setBankCards(bankCards);
+
     }
 
     public void setCard(TrainCard card){
