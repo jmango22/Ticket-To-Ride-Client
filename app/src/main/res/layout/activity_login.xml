@@ -38,7 +38,7 @@
         style="@android:style/Widget.Holo.EditText"
         android:layout_above="@+id/hostText"
         android:layout_alignStart="@+id/hostText"
-        android:text=""
+        android:text="password"
         android:layout_alignEnd="@+id/hostText"/>
 
     <EditText
@@ -50,7 +50,7 @@
         android:hint="Username"
         style="@android:style/Widget.Holo.EditText"
 
-        android:text=""
+        android:text="mckean"
         android:layout_above="@+id/passwordText"
         android:layout_alignStart="@+id/passwordText"
         android:layout_alignEnd="@+id/passwordText" />

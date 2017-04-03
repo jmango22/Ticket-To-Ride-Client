@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     
     public void toastMessage(String message) {
         Context context = this.getApplicationContext();
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.show();
     }
 
