@@ -47,9 +47,6 @@ public class DrawTrainCardCommand extends BaseCommand {
         this.card = card;
     }
 
-    public void setSlot(int slot){
-        this.slot = slot;
-    }
 
     private void setState(){
         if(ClientModelFacade.SINGLETON.getState() instanceof MyTurnState){

@@ -218,4 +218,11 @@ public class GameSelectorActivity extends AppCompatActivity {
         availableGamesPresenter.onResume();
         myGamesPresenter.onResume();
     }
+
+    @Override
+    public void onBackPressed(){
+        ServerProxy.SINGLETON.stopGameListPolling();
+        ServerProxy.SINGLETON.clearUserData();
+        finish();
+    }
 }
