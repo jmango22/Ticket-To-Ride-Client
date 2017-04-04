@@ -15,5 +15,6 @@ public class WaitingState extends State {
     public void updateView() {
         super.updateView();
         presenter.updateTitle("Waiting for other players");
+        presenter.closeInitHandDialog();
     }
 }
