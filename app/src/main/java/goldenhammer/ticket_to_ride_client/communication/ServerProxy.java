@@ -297,4 +297,10 @@ public class ServerProxy implements IProxy {
         commandPoller.timer.purge();
         commandPoller = null;
     }
+
+    public void clearUserData(){
+        communicator.setGameName(null);
+        communicator.setAuthorizationToken(null);
+        communicator.setGameName(null);
+    }
 }
