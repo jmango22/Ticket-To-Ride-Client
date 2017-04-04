@@ -6,6 +6,8 @@ import java.util.List;
 import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 import goldenhammer.ticket_to_ride_client.model.DestCard;
 import goldenhammer.ticket_to_ride_client.model.Hand;
+import goldenhammer.ticket_to_ride_client.ui.play.states.InitializeHandState;
+import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
 /**
@@ -41,6 +43,10 @@ public class ReturnDestCardsCommand extends BaseCommand {
     }
 
     private void setState(){
-        ClientModelFacade.SINGLETON.setState(StateSelector.NotMyTurn());
+        if(ClientModelFacade.SINGLETON.getState() instanceof InitializeHandState){
+            ClientModelFacade.SINGLETON.setState(StateSelector.Waiting());
+        }else {
+            ClientModelFacade.SINGLETON.setState(StateSelector.NotMyTurn());
+        }
     }
 }
