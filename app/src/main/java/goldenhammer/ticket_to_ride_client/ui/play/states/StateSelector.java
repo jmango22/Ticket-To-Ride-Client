@@ -37,6 +37,8 @@ public class StateSelector {
         return new DrawSecondTrainCardsState(presenter);
     }
 
+    public static State Waiting(){  return new WaitingState(presenter);    }
+
     public static State EndGame(){
         return new EndGameState(presenter);
     }
