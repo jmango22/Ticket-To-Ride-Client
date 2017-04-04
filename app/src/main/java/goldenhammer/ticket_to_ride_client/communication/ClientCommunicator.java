@@ -60,11 +60,11 @@ public class ClientCommunicator {
         new GetTask(url,this, callback).execute();
     }
 
-    public void setHeader(HttpURLConnection connection){
-        if(authorizationToken != null){
+    public void setHeader(HttpURLConnection connection) {
+        if (authorizationToken != null) {
             connection.setRequestProperty("Authorization", authorizationToken);
         }
-        if(gameName == null) {
+        if (ClientModelFacade.SINGLETON.getCurrentGame() != null){
             gameName = ClientModelFacade.SINGLETON.getGameName();
         }
         if(gameName != null){
