@@ -1,6 +1,7 @@
 package goldenhammer.ticket_to_ride_client.ui.play;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.Context;
@@ -60,6 +61,7 @@ import goldenhammer.ticket_to_ride_client.model.Map;
 import goldenhammer.ticket_to_ride_client.model.PlayerOverview;
 import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
+import goldenhammer.ticket_to_ride_client.ui.play.states.InitializeHandState;
 import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
 
 public class GamePlayActivity extends AppCompatActivity /*implements ImageView.OnTouchListener*/{
@@ -106,6 +108,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
@@ -131,6 +134,14 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
         dialogReturnDestCards  = new Dialog(GamePlayActivity.this);
         InitDialog = new Dialog(GamePlayActivity.this);
+        InitDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (ClientModelFacade.SINGLETON.getState() instanceof InitializeHandState){
+                    InitDialog.show();
+                }
+            }
+        });
         initialized = false;
         dTrainCards = new Dialog(GamePlayActivity.this);
         dTrainCards.setContentView(R.layout.dialog_train_cards);
