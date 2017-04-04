@@ -100,14 +100,16 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized void setCurrentGame(GameModel mCurrentGame) {
-        messages = new ChatMessages(new ArrayList<Message>());
-        mCommandMgr = new CommandManager();
-        lastRound = false;
-        this.mCurrentGame = mCurrentGame;
-        mCurrentGame.updatePoints();
-        offsetTracks();
-        mBank = new Bank(mCurrentGame.getBankCards());
-        changed();
+        if(getCurrentGame() == null) {
+            messages = new ChatMessages(new ArrayList<Message>());
+            mCommandMgr = new CommandManager();
+            lastRound = false;
+            this.mCurrentGame = mCurrentGame;
+            mCurrentGame.updatePoints();
+            offsetTracks();
+            mBank = new Bank(mCurrentGame.getBankCards());
+            changed();
+        }
     }
     public synchronized void clearCurrentGame(){
         mCurrentGame = null;
