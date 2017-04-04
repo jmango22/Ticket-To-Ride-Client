@@ -75,6 +75,10 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         handInitialized = false;
     }
 
+    public void closeTrainCardsDialog(){
+        owner.closeTrainCardsDialog();
+    }
+
     public void closeInitHandDialog(){
         owner.closeInitHandDialog();
     }

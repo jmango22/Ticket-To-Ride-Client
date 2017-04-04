@@ -384,6 +384,10 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         }
     }
 
+    public void closeTrainCardsDialog(){
+        dTrainCards.hide();
+    }
+
     public void trainCardsDialog(){
         dTrainCards.setTitle(R.string.draw_train_card);
         //dTrainCards.setContentView(R.layout.dialog_train_cards);
