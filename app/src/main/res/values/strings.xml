@@ -33,6 +33,7 @@
     <string name="total"><u>Total\nPoints</u></string>
     <string name="game_over"><u><b>Game Over</b></u></string>
     <string name="returnToMenu">Return To Menu</string>
+    <string name="returning_dest">You can only return at most two destination cards.</string>
 
 
     <string-array name="nav_drawer_items_array">

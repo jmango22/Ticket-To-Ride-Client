@@ -265,12 +265,19 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
 
     public void returnDestCards(){
         List<DestCard> toReturn = new ArrayList<>();
+        int counter=0;
         for (int i=0; i<3; i++){
             if (returningDestCards[i]){
+                counter++;
                 toReturn.add(drawnDestCards.getRemainingDestCards().get(i));
             }
         }
-        presenter.returnDestCards(toReturn);
+        if (counter <3) {
+            presenter.returnDestCards(toReturn);
+        }
+        else{
+            toastMessage(getResources().getString(R.string.returning_dest));
+        }
     }
 
     public void updateChat(String chatString){
@@ -375,6 +382,10 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         if (view != null) {
             view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.card_orange));
         }
+    }
+
+    public void closeTrainCardsDialog(){
+        dTrainCards.hide();
     }
 
     public void trainCardsDialog(){
@@ -751,11 +762,11 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
 
     public void returnDestCardsDialog(DrawnDestCards drawnCards){
         this.drawnDestCards = drawnCards;
-        dialogReturnDestCards.setContentView(R.layout.dialog_init_hand2);
+        dialogReturnDestCards.setContentView(R.layout.dialog_return_dest);
         ImageButton slot0 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_0) ;
         ImageButton slot1 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_1);
         ImageButton slot2 = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_2);
-        ImageButton none = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_none);
+        //ImageButton none = (ImageButton) dialogReturnDestCards.findViewById(R.id.dest_card_none);
         Button returnCards = (Button) dialogReturnDestCards.findViewById(R.id.return_cards_button);
 
         if (drawnCards == null){
@@ -771,11 +782,11 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             final TextView text0 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_0);
             final TextView text1 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_1);
             final TextView text2 = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_2);
-            final TextView textNone = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_none);
+            //final TextView textNone = (TextView) dialogReturnDestCards.findViewById(R.id.dest_text_none);
             text0.setText(drawnCards.getRemainingDestCards().get(0).toString());
             text1.setText(drawnCards.getRemainingDestCards().get(1).toString());
             text2.setText(drawnCards.getRemainingDestCards().get(2).toString());
-            textNone.setText("Keep all cards");
+            //textNone.setText("Keep all cards");
 
             slot0.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -798,25 +809,26 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
                 }
             });
 
-            none.setOnClickListener(new View.OnClickListener() {
+            /*none.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setSelectedDestCard(textNone, -1);
                 }
-            });
+            });*/
         }
         returnCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogReturnDestCards.hide();
+                //dialogReturnDestCards.hide();
                 returnDestCards();
             }
         });
         dialogReturnDestCards.getWindow().setLayout(1400, 1000);
         dialogReturnDestCards.setTitle(R.string.return_cards_title);
         dialogReturnDestCards.show();
-
     }
+
+
 
     public void updateBank(TrainCard[] bankCards){
         View slot0 =  findViewById(R.id.card_slot_0);
@@ -836,6 +848,27 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         tSlot2.setBackgroundColor(getBoardColor(bankCards[2].getColor()));
         tSlot3.setBackgroundColor(getBoardColor(bankCards[3].getColor()));
         tSlot4.setBackgroundColor(getBoardColor(bankCards[4].getColor()));
+        
+        if (bankCards[0].getColor() == Color.WILD){
+            slot0.setBackgroundResource(R.drawable.wild);
+            tSlot0.setBackgroundResource(R.drawable.wild);
+        }
+        if (bankCards[1].getColor() == Color.WILD){
+            slot1.setBackgroundResource(R.drawable.wild);
+            tSlot1.setBackgroundResource(R.drawable.wild);
+        }
+        if (bankCards[2].getColor() == Color.WILD){
+            slot2.setBackgroundResource(R.drawable.wild);
+            tSlot2.setBackgroundResource(R.drawable.wild);
+        }
+        if (bankCards[3].getColor() == Color.WILD){
+            slot3.setBackgroundResource(R.drawable.wild);
+            tSlot3.setBackgroundResource(R.drawable.wild);
+        }
+        if (bankCards[4].getColor() == Color.WILD){
+            slot4.setBackgroundResource(R.drawable.wild);
+            tSlot4.setBackgroundResource(R.drawable.wild);
+        }
     }
 
     public int getBoardColor(Color t){
