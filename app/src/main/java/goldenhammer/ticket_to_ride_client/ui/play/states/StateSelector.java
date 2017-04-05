@@ -42,4 +42,8 @@ public class StateSelector {
     public static State EndGame(){
         return new EndGameState(presenter);
     }
+
+    public static State BrokenGame(){
+        return new BrokenGameState(presenter);
+    }
 }

@@ -63,6 +63,7 @@ import goldenhammer.ticket_to_ride_client.model.Track;
 import goldenhammer.ticket_to_ride_client.model.TrainCard;
 import goldenhammer.ticket_to_ride_client.ui.play.states.InitializeHandState;
 import goldenhammer.ticket_to_ride_client.ui.play.states.MyTurnState;
+import goldenhammer.ticket_to_ride_client.ui.play.states.ReturnDestCardsState;
 
 public class GamePlayActivity extends AppCompatActivity /*implements ImageView.OnTouchListener*/{
     private List<PlayerOverview> players;
@@ -133,12 +134,22 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         mapScaleX = (float)(mapWindowWidth)/(float)mapX;
         mapScaleY = (float)(mapWindowHeight)/(float)mapY;
         dialogReturnDestCards  = new Dialog(GamePlayActivity.this);
+        dialogReturnDestCards.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (ClientModelFacade.SINGLETON.getState() instanceof ReturnDestCardsState){
+                    dialogReturnDestCards.show();
+                    toastMessage("You must choose which destination cards to return.");
+                }
+            }
+        });
         InitDialog = new Dialog(GamePlayActivity.this);
         InitDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if (ClientModelFacade.SINGLETON.getState() instanceof InitializeHandState){
                     InitDialog.show();
+                    toastMessage("You must choose which destination cards to return.");
                 }
             }
         });
@@ -288,6 +299,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         }
         else{
             toastMessage(getResources().getString(R.string.returning_dest));
+            toReturn.clear();
         }
     }
 
@@ -391,7 +403,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         this.selectedTrainCard = view;
         this.selectedTrainIndex = index;
         if (view != null) {
-            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.card_orange));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
         }
     }
 
@@ -654,6 +666,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             @Override
             public void onClick(View v) {
                 //dialog.hide();
+                toastMessage("Sending...");
                 returnInitDestCards();
             }
         });
@@ -832,6 +845,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             public void onClick(View v) {
                 //dialogReturnDestCards.hide();
                 returnDestCards();
+                toastMessage("Sending...");
             }
         });
         dialogReturnDestCards.getWindow().setLayout(1400, 1000);
@@ -966,7 +980,6 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             wildText.setText(Integer.toString(wild));
             blackText.setText(Integer.toString(black));
             whiteText.setText(Integer.toString(white));
-
 
     }
 

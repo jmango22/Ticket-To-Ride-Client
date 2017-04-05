@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="500dp" android:layout_height="300dp">
+    android:layout_width="500dp" android:layout_height="300dp"
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -8,7 +9,9 @@
         android:orientation="horizontal"
         android:id="@+id/card_bank_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:background="@color/white">
         <TextView
             android:layout_width="50dp"
             android:layout_height="80dp"
