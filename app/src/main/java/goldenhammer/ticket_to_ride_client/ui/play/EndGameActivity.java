@@ -35,4 +35,10 @@ public class EndGameActivity extends AppCompatActivity implements Button.OnClick
     public void onClick(View v) {
         presenter.buttonClicked();
     }
+
+    @Override
+    public void onBackPressed(){
+        presenter.buttonClicked();
+        super.onBackPressed();
+    }
 }
