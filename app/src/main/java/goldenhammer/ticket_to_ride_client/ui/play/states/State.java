@@ -72,4 +72,7 @@ public class State {
 
     public Track onTouchEvent(PointF pt, List<Track> tracks){ return null; }
 
+    public void showToast(String message){
+        presenter.showToast(message);
+    }
 }

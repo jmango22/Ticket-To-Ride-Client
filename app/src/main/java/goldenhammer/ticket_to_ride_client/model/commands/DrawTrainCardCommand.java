@@ -40,6 +40,9 @@ public class DrawTrainCardCommand extends BaseCommand {
             bankCards[i] = new TrainCard(bank.get(i));
         }
         ClientModelFacade.SINGLETON.setBankCards(bankCards);
+        if(slot == 5){
+            ClientModelFacade.SINGLETON.getState().showToast("You have selected a " + card.getColor() + " card");
+        }
 
     }
 

@@ -113,6 +113,7 @@ public class ClientModelFacade extends Observable {
     }
     public synchronized void clearCurrentGame(){
         mCurrentGame = null;
+        mCommandMgr = null;
     }
 
     public synchronized void offsetTracks(){
