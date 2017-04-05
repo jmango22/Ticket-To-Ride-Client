@@ -34,15 +34,15 @@ public class DrawTrainCardCommand extends BaseCommand {
         if(ClientModelFacade.SINGLETON.getMyPlayerNumber() == getPlayerNumber()) {
             ClientModelFacade.SINGLETON.addTrainCard(card);
             setState();
+            if(slot == 5){
+                //ClientModelFacade.SINGLETON.getState().showToast("You drew a " + card.getColor() + " card");
+            }
         }
         TrainCard[] bankCards = new TrainCard[bank.size()];
         for (int i = 0; i < bank.size(); i++) {
             bankCards[i] = new TrainCard(bank.get(i));
         }
         ClientModelFacade.SINGLETON.setBankCards(bankCards);
-        if(slot == 5){
-            ClientModelFacade.SINGLETON.getState().showToast("You have selected a " + card.getColor() + " card");
-        }
 
     }
 
