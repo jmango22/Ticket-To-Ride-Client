@@ -76,63 +76,63 @@
                     android:id="@+id/red_card_num"
                     android:background="@color/card_red"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/orange_card_num"
                     android:background="@color/card_orange"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/yellow_card_num"
                     android:background="@color/card_yellow"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/green_card_num"
                     android:background="@color/card_green"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/blue_card_num"
                     android:background="@color/card_blue"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/pink_card_num"
                     android:background="@color/card_pink"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/white_card_num"
                     android:background="@color/card_white"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/black_card_num"
                     android:background="@color/card_black"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    />
                 <TextView
                     style="@style/HandCards"
 
                     android:id="@+id/wild_card_num"
                     android:background="@drawable/wild"
                     android:textColor="@color/card_black"
-                    android:textSize="20sp"/>
+                   />
             </LinearLayout>
             <View style="@style/Divider"/>
             <TextView
