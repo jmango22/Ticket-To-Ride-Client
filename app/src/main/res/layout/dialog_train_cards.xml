@@ -9,8 +9,7 @@
         android:orientation="horizontal"
         android:id="@+id/card_bank_layout"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
+        android:layout_margin="20dp"
         android:background="@color/white">
         <TextView
             android:layout_width="50dp"
