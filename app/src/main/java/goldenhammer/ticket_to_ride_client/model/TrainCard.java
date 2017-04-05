@@ -1,10 +1,12 @@
 package goldenhammer.ticket_to_ride_client.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by jon on 2/22/17.
  */
 
-public class TrainCard {
+public class TrainCard implements Comparable {
     private Color color;
 
     public TrainCard() {
@@ -58,7 +60,16 @@ public class TrainCard {
             case WHITE:
                 return "WHITE";
             default:
-                return "UKNOWN";
+                return "UNKNOWN";
         }
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if(o instanceof TrainCard){
+            TrainCard c = (TrainCard)o;
+            return this.toString().compareTo(c.toString());
+           }
+        return -1;
     }
 }

@@ -45,7 +45,7 @@ public class MyTurnState extends State {
     public void clickTracks() {
         if(!layTrack) {
             layTrack = true;
-            presenter.showToast("Select a train to claim.");
+            presenter.showToast("Select a track to claim.");
         }else{
             layTrack=false;
         }

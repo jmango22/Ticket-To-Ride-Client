@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="200dp">
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lay_track_message"
-        android:textSize="15sp"
-        android:layout_margin="10dp"
-        android:layout_centerHorizontal="true" />
-    <CheckBox
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lay_track_message"
-        android:id ="@+id/secondTrackCheck"
-        android:layout_margin="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/second_track_message"
-        android:layout_toRightOf="@id/secondTrackCheck"
-        android:layout_below="@id/lay_track_message"
-        android:textSize="15sp"
-        android:layout_margin="10dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:id = "@+id/titleText"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lay_track_button"
-        android:layout_below="@id/second_track_message"
+        android:layout_below="@id/titleText"
         android:text="@string/confirm_track"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"/>
+        android:layout_margin="15dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/retry_button"
-        android:layout_below="@id/lay_track_button"
+        android:layout_below="@id/titleText"
+        android:layout_toRightOf="@id/lay_track_button"
         android:text="@string/retry"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"/>
+        android:layout_margin="15dp"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@id/lay_track_button"
+        android:id="@+id/radiogroup">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/confirm_cards_button"
+                android:id ="@+id/firstTrackCheck"
+                android:checked="true"
+                android:layout_margin="10dp"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstTrackCheck"
+                android:id ="@+id/secondTrackCheck"
+                android:layout_margin="10dp"/>
+    </RadioGroup>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lay_track_message"
+        android:layout_below="@id/lay_track_button"
+        android:layout_toRightOf="@id/radiogroup"
+        android:textSize="15sp"
+        android:layout_margin="15dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/second_track_message"
+        android:layout_toRightOf="@id/radiogroup"
+        android:layout_below="@id/lay_track_message"
+        android:textSize="15sp"
+        android:layout_margin="15dp" />
 </RelativeLayout>
