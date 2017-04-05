@@ -9,10 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,6 +44,7 @@ import goldenhammer.ticket_to_ride_client.ui.play.states.EndGameState;
 import goldenhammer.ticket_to_ride_client.ui.play.states.State;
 import goldenhammer.ticket_to_ride_client.ui.play.states.StateSelector;
 
+import static java.lang.Character.toString;
 import static java.lang.Character.toUpperCase;
 
 /**
@@ -98,22 +106,22 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
     }
 
     public void clickTrack(PointF pt){
-        final Track selected = model.getState().onTouchEvent(pt, model.getAllTracks());
-        if(selected != null) {
-            if (selected.getOwner() != -1) {
-                showToast("Track already claimed");
-            } else {
+        ArrayList<Track> selectedTracks = testingBounds(model.getState().onTouchEvent(pt, model.getAllTracks()));
+        final Track selected = selectedTracks.get(0);
+        final Track secondT = selectedTracks.get(1);
+        if(selected!= null){
                 final Dialog dialog = new Dialog(owner);
                 dialog.setContentView(R.layout.dialog_lay_track);
-                final TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
-                text.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "? \n" +selected.infotoString());
-                final Track secondT = secondTrack(selected);
-                final CheckBox secondCheck = (CheckBox) dialog.findViewById(R.id.secondTrackCheck);
+                final TextView title = (TextView) dialog.findViewById(R.id.titleText);
+                title.setText("Are you selecting the track between " + selected.getCity1().getName() + " and " + selected.getCity2().getName() + "?");
+                final RadioGroup button = (RadioGroup) dialog.findViewById(R.id.radiogroup);
                 if(secondT != null)
                 {
+                    TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
+                    text.setText(selected.infotoString());
+                    button.setVisibility(View.VISIBLE);
                     TextView second = (TextView) dialog.findViewById(R.id.second_track_message);
-                    second.setText("There is also a second track connecting those cities. Is this the intended track?" + "\n" + secondT.infotoString());
-                    secondCheck.setVisibility(View.VISIBLE);
+                    second.setText(secondT.infotoString());
                 }
                 Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                 Button close = (Button) dialog.findViewById(R.id.retry_button);
@@ -121,16 +129,21 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Track selectedTrack = selected;
-                        if(secondCheck.isChecked()){
+                        Track selectedTrack;
+                        if(button.getCheckedRadioButtonId() == R.id.firstTrackCheck){
+                            selectedTrack = selected;
+                        }else{
                             selectedTrack = secondT;
                         }
                         if(!enoughCards(selectedTrack)) {
-                            text.setText("Not enough Cards! Please select another track");
+                            title.setText("Not enough Cards! Please select another track");
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
-                            Button close = (Button) dialog.findViewById(R.id.retry_button);
-                            close.setVisibility(View.VISIBLE);
+                            button.setVisibility(View.INVISIBLE);
+                            TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
+                            text.setText("");
+                            text = (TextView) dialog.findViewById(R.id.second_track_message);
+                            text.setText("");
                         }else {
                            model.getState().layTrack(selectedTrack);
                            dialog.hide();
@@ -145,6 +158,37 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 });
             }
         }
+
+    private ArrayList<Track> testingBounds(Track t){
+        ArrayList<Track> oneAndTwo = new ArrayList<>();
+        oneAndTwo.add(null);
+        oneAndTwo.add(null);
+        if(t != null){
+            Track second = secondTrack(t);
+            if(second != null){
+                if((t.getOwner() == -1)&&(second.getOwner() == -1)){
+                    oneAndTwo.set(0,t);
+                    oneAndTwo.set(1,second);
+                }else if(model.getLeaderboard().size() >= 4){
+                    if ((t.getOwner() == -1) && (second.getOwner() != model.getMyPlayerNumber())) {
+                        oneAndTwo.set(0, t);
+                    } else if ((second.getOwner() == -1) && (t.getOwner() != model.getMyPlayerNumber())) {
+                        oneAndTwo.set(0, second);
+                    } else {
+                        showToast("Track both claimed or you have claimed one side!");
+                    }
+                }else {
+                    showToast("One side claimed and not enough players to claim the other side!");
+                }
+            }else{
+                if(t.getOwner() == -1){
+                    oneAndTwo.set(0,t);
+                }else{
+                    showToast("Track already claimed!");
+                }
+            }
+        }
+        return oneAndTwo;
     }
 
     private Track secondTrack(Track track) {
@@ -379,6 +423,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         TextView cardText;
         CheckBox onOff;
         HandAdapter owner;
+       int position;
 
         public ViewHolder(View itemView, HandAdapter owner) {
             super(itemView);
@@ -389,17 +434,23 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             this.owner = owner;
         }
 
-        public void bindView(TrainCard card) {
+        public void bindView(TrainCard card, int checked, int position) {
             this.card = card;
+            this.position = position;
+            if(checked ==  0){
+                onOff.setChecked(false);
+            }else{
+                onOff.setChecked(true);
+            }
             cardText.setText(card.getColor().toString());
         }
 
         @Override
         public void onClick(View v) {
             if(onOff.isChecked()){
-                owner.addCard(card);
+                owner.addCard(card, position);
             }else{
-                owner.removeCard(card);
+                owner.removeCard(card, position);
             }
         }
 
@@ -407,14 +458,19 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
 
 
     private class HandAdapter extends RecyclerView.Adapter<ViewHolder> {
-        ArrayList<TrainCard> cards;
+        private ArrayList<TrainCard> cards;
         private List<TrainCard> hand;
+        private ArrayList<Integer> checked = new ArrayList<>();
         ViewHolder view;
         Track selected;
         Button confirm;
 
         public HandAdapter(List<TrainCard> hand, Track selected, Button confirm) {
             this.hand = hand;
+            Collections.sort(this.hand);
+            for(int i = 0 ; i < hand.size();i++){
+                checked.add(0);
+            }
             cards = new ArrayList<>();
             this.selected = selected;
             this.confirm = confirm;
@@ -431,7 +487,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             TrainCard card = hand.get(position);
-            holder.bindView(card);
+            holder.bindView(card, checked.get(position), position);
         }
 
         @Override
@@ -439,15 +495,18 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             return hand.size();
         }
 
-        public void addCard(TrainCard card){
+        public void addCard(TrainCard card, int position){
             cards.add(card);
+            checked.set(position, 1);
             buttonSet();
         }
 
-        public void removeCard(TrainCard card){
+        public void removeCard(TrainCard card,int position){
             cards.remove(card);
+            checked.set(position, 0);
             buttonSet();
         }
+
 
         private void buttonSet(){
             if ((cards.size() == selected.getLength()) && (checkCards(cards,selected))) {
