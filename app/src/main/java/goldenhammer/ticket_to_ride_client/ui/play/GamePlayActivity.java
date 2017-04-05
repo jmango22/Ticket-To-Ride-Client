@@ -391,7 +391,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
         this.selectedTrainCard = view;
         this.selectedTrainIndex = index;
         if (view != null) {
-            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.card_orange));
+            view.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
         }
     }
 
@@ -654,6 +654,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             @Override
             public void onClick(View v) {
                 //dialog.hide();
+                toastMessage("Sending...");
                 returnInitDestCards();
             }
         });
@@ -832,6 +833,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             public void onClick(View v) {
                 //dialogReturnDestCards.hide();
                 returnDestCards();
+                toastMessage("Sending...");
             }
         });
         dialogReturnDestCards.getWindow().setLayout(1400, 1000);
@@ -966,7 +968,6 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
             wildText.setText(Integer.toString(wild));
             blackText.setText(Integer.toString(black));
             whiteText.setText(Integer.toString(white));
-
 
     }
 
