@@ -35,7 +35,7 @@ public class DrawTrainCardCommand extends BaseCommand {
             ClientModelFacade.SINGLETON.addTrainCard(card);
             setState();
             if(slot == 5){
-                ClientModelFacade.SINGLETON.getState().showToast("You drew a " + card.getColor() + " card");
+                //ClientModelFacade.SINGLETON.getState().showToast("You drew a " + card.getColor() + " card");
             }
         }
         TrainCard[] bankCards = new TrainCard[bank.size()];
