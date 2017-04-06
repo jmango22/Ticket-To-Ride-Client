@@ -129,13 +129,25 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Track selectedTrack;
-                        if(button.getCheckedRadioButtonId() == R.id.firstTrackCheck){
-                            selectedTrack = selected;
-                        }else{
-                            selectedTrack = secondT;
+                        Track selectedTrack = selected;
+                        if(secondT != null) {
+                            if (button.getCheckedRadioButtonId() == R.id.firstTrackCheck) {
+                                selectedTrack = selected;
+                            } else {
+                                selectedTrack = secondT;
+                            }
                         }
-                        if(!enoughCards(selectedTrack)) {
+                        ClientModelFacade model = ClientModelFacade.SINGLETON;
+                        if(selectedTrack.getLength() > model.getLeaderboard().get(model.getMyPlayerNumber()).getNumPieces()) {
+                            title.setText("Not enough Trains! Please select another track");
+                            Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
+                            confirm.setVisibility(View.INVISIBLE);
+                            button.setVisibility(View.INVISIBLE);
+                            TextView text = (TextView) dialog.findViewById(R.id.lay_track_message);
+                            text.setText("");
+                            text = (TextView) dialog.findViewById(R.id.second_track_message);
+                            text.setText("");
+                        }else if(!enoughCards(selectedTrack)) {
                             title.setText("Not enough Cards! Please select another track");
                             Button confirm = (Button) dialog.findViewById(R.id.lay_track_button);
                             confirm.setVisibility(View.INVISIBLE);
