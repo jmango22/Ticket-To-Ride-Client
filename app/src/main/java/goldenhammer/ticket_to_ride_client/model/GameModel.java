@@ -9,8 +9,6 @@ import java.util.List;
 
 public class GameModel {
     private List<PlayerOverview> players;
-    private List<DestCard> destinationDeck;
-    private List<TrainCard> trainCardDeck;
     private List<Color> mBank;
     private Map map;
     private GameName name;
@@ -20,8 +18,6 @@ public class GameModel {
 
     public GameModel() {
         players = new ArrayList<>();
-        destinationDeck = new ArrayList<>();
-        trainCardDeck = new ArrayList<>();
         map = new Map();
         currentTurn = 0;
     }
@@ -34,9 +30,6 @@ public class GameModel {
         this.checkpointIndex = checkpointIndex;
     }
 
-    public List<TrainCard> getTrainCardDeck(){
-        return trainCardDeck;
-    }
 
     public TrainCard[] getBankCards(){
         TrainCard[] deck = new TrainCard[mBank.size()];
