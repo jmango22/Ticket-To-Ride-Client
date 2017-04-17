@@ -12,8 +12,10 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 
 public class CommandPoller {
     Timer timer;
+    private int toastPopper;
 
     public CommandPoller(){
+        toastPopper = 2000;
         timer = new Timer();
         timer.schedule(new commandpollerTask(), 0, 1000);
 
@@ -38,9 +40,19 @@ public class CommandPoller {
                 public void run(Results res) {
                     if(res.getResponseCode() == HttpURLConnection.HTTP_OK){
                         ClientModelFacade.SINGLETON.addCommands(Serializer.deserializeCommands(res.getBody()));
+                    }else{
+                        popFailToast();
                     }
                 }
             });
+        }
+    }
+
+    private void popFailToast(){
+       toastPopper--;
+        if(toastPopper == 0){
+            ClientModelFacade.SINGLETON.getState().showToast("Server unavailable");
+            toastPopper = 2000;
         }
     }
 }

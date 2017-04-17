@@ -15,9 +15,11 @@ import goldenhammer.ticket_to_ride_client.model.ClientModelFacade;
 
 public class GamePoller {
     Timer timer;
+    int toastPopper;
 
     public GamePoller(){
         timer = new Timer();
+        toastPopper = 2000;
         timer.schedule(new pollerTask(), 0, 1000);
     }
 
@@ -50,6 +52,14 @@ public class GamePoller {
                     }
                 }
             });
+        }
+    }
+
+    private void popFailToast(){
+        toastPopper--;
+        if(toastPopper == 0){
+            ClientModelFacade.SINGLETON.getState().showToast("Server unavailable");
+            toastPopper = 2000;
         }
     }
 }

@@ -55,7 +55,7 @@ public class PostTask extends AsyncTask<Void, Void, Results> {
             }
         }catch(MalformedURLException e){
             return new Results("Wrong URL. Check Port and Host", 500);
-        }catch (IOException e){
+        }catch (Exception e){
             return new Results(e.getMessage(), 600);
         }
     }

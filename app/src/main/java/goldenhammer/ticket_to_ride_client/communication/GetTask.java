@@ -45,7 +45,7 @@ public class GetTask extends AsyncTask<Void, Void, Results> {
             return new Results(result, connection.getResponseCode());
         }catch(MalformedURLException e){
             return new Results("Wrong URL. Check Port and Host", 500);
-        }catch (IOException e){
+        }catch (Exception e){
             return new Results(e.getMessage(), 600);
         }
     }
