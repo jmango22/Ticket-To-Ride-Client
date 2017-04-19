@@ -80,14 +80,18 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
         };
         StateSelector.setPresenter(this);
         State state = new State(this);
-        if(model.getCurrentGame().isMyTurn()) {
-            switch(model.getCurrentGame().getState()){
-                case "2ndtrain":
-                    state = StateSelector.DrawSecondTrainCard();
-                    break;
-                case "returnDestCards":
-                    state = StateSelector.MustReturnDestCard();
-                    break;
+        if(model.getCurrentGame().getCheckpointIndex() > -1) {
+            state = StateSelector.NotMyTurn();
+            if (model.getCurrentGame().isMyTurn()) {
+                state = StateSelector.MyTurn();
+                switch (model.getCurrentGame().getState()) {
+                    case "2ndtrain":
+                        state = StateSelector.DrawSecondTrainCard();
+                        break;
+                    case "returnDestCards":
+                        state = StateSelector.MustReturnDestCard();
+                        break;
+                }
             }
         }
         model.setState(state);
