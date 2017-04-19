@@ -26,6 +26,7 @@ public class ClientModelFacade extends Observable {
     private ChatMessages messages;
     private boolean lastRound;
     private State state;
+
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
 
     private ClientModelFacade(){
@@ -41,6 +42,10 @@ public class ClientModelFacade extends Observable {
 
     public synchronized ArrayList<EndResult> getEndResults(){
         return mCurrentGame.getEndResults();
+    }
+
+    public String getUsername(){
+        return mUser.getUsername().getString();
     }
 
     public void setState(State state){
@@ -153,23 +158,23 @@ public class ClientModelFacade extends Observable {
      */
     //get user train cards
     public synchronized List<TrainCard> getUserTrainCards() {
-        return mUser.getTrainCards();
+        return mCurrentGame.getTrainCards(getUsername());
     }
 
     //get user destination cards
     public synchronized List<DestCard> getUserDestCards() {
-        return mUser.getDestinationCards();
+        return mCurrentGame.getDestinationCards(getUsername());
     }
 
     //add train cards to the player's hand
     public synchronized void drawTrainCards(List<TrainCard> drawnCards) {
-        mUser.addTrainCards(drawnCards);
+        mCurrentGame.addTrainCards(drawnCards,getUsername());
         changed();
     }
 
     //remove Train cards from the player's hand
     public synchronized void removeTrainCards(List<TrainCard> cards) {
-        mUser.removeTrainCards(cards);
+        mCurrentGame.removeTrainCards(cards,getUsername());
         changed();
     }
 
@@ -177,18 +182,18 @@ public class ClientModelFacade extends Observable {
     public synchronized void takeBankCard(int pos) {
         TrainCard temp;
         if((temp = mBank.getTrainCard(pos)) != null) {
-            mUser.addBankCard(temp);
+            mCurrentGame.addBankCard(temp,getUsername());
             changed();
         }
     }
 
     public synchronized void setDrawnDestCards(List<DestCard> cards) {
-        mUser.setDrawDestCards(cards);
+        mCurrentGame.setDrawDestCards(cards,getUsername());
         changed();
     }
 
     public synchronized void moveDrawnDestCardsToHand(List<DestCard> discardedCards) {
-        mUser.moveDrawnDestCards(discardedCards);
+        mCurrentGame.moveDrawnDestCards(discardedCards,getUsername());
         changed();
     }
 
@@ -289,11 +294,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized Hand getHand() {
-        return mUser.getHand();
+        return mCurrentGame.getHand(getUsername());
     }
 
     public synchronized void setHand(Hand hand){
-        mUser.setHand(hand);
+        mCurrentGame.setHand(hand,getUsername());
     }
 
     public synchronized boolean shouldInitializeHand() {
@@ -354,7 +359,7 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized void removeTrainCards(ArrayList<TrainCard> cards){
-        mUser.getHand().removeTrainCards(cards);
+        mCurrentGame.getHand(getUsername()).removeTrainCards(cards);
         changed();
     }
 
@@ -370,14 +375,14 @@ public class ClientModelFacade extends Observable {
 
     public synchronized void setDrawnDestCards(ArrayList<DestCard> cards){
         DrawnDestCards tempCards = new DrawnDestCards(cards);
-        mUser.getHand().setDrawnDestinationCards(tempCards);
+        mCurrentGame.getHand(getUsername()).setDrawnDestinationCards(tempCards);
         changed();
     }
 
     public synchronized void addTrainCard(TrainCard card){
         ArrayList cards = new ArrayList<TrainCard>();
         cards.add(card);
-        mUser.getHand().addTrainCards(cards);
+        mCurrentGame.getHand(getUsername()).addTrainCards(cards);
         changed();
     }
 

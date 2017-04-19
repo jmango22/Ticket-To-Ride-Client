@@ -24,7 +24,7 @@
         android:layout_alignStart="@+id/portText"
         android:layout_alignEnd="@+id/portText"
         android:id="@+id/hostText"
-        android:text="35.167.43.52"
+        android:text="10.24.213.88"
 
         android:hint="Host" />
 

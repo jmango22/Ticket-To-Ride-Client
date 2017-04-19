@@ -8,54 +8,15 @@ import java.util.List;
 
 public class Player {
     private Username mUsername;
-    private Password mPassword;
-    private Hand mHand;
 
     public Player(Username username, Password password){
         mUsername = username;
-        mPassword = password;
-        mHand = new Hand();
     }
 
-    public void setHand(Hand hand){
-        mHand = hand;
-    }
     public Username getUsername(){
         return mUsername;
     }
 
-    public Password getPassword(){
-        return mPassword;
-    }
 
-    public List<DestCard> getDestinationCards() {
-        return mHand.getDestinationCards();
-    }
 
-    public List<TrainCard> getTrainCards() {
-        return mHand.getTrainCards();
-    }
-
-    public void addTrainCards(List<TrainCard> drawnCards) {
-        mHand.addTrainCards(drawnCards);
-    }
-
-    public void addBankCard(TrainCard card) {
-        mHand.addBankCard(card);
-    }
-
-    public void removeTrainCards(List<TrainCard> cards) {
-        mHand.removeTrainCards(cards);
-    }
-
-    public void setDrawDestCards(List<DestCard> cards) {
-        mHand.setDrawnDestinationCards(cards);
-    }
-
-    public void moveDrawnDestCards(List<DestCard> discardedCards) {
-        mHand.moveDrawnDestCardToHand(discardedCards);
-    }
-    public Hand getHand(){
-        return mHand;
-    }
 }
