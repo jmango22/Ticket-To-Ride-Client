@@ -2,6 +2,7 @@ package goldenhammer.ticket_to_ride_client.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by McKean on 2/3/2017.
@@ -65,6 +66,12 @@ public class GameModel {
         hands.get(myName).moveDrawnDestCardToHand(discardedCards);
     }
     public Hand getHand(String myName){
+        if (hands==null) {
+            hands = new TreeMap<>();
+        }
+        if(!hands.containsKey(myName)) {
+            hands.put(myName,new Hand());
+        }
         return hands.get(myName);
     }
 
