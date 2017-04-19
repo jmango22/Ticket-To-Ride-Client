@@ -15,7 +15,7 @@ public class GameModel {
     private int currentTurn;
     private ArrayList<EndResult> results;
     private int checkpointIndex;
-
+    private String state;
     public GameModel() {
         players = new ArrayList<>();
         map = new Map();
@@ -144,4 +144,11 @@ public class GameModel {
         return results;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }
