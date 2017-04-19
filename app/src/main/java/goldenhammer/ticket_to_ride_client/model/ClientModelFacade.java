@@ -269,7 +269,8 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized int getNextCommandNumber() {
-        return mCommandMgr.getCommandList().size();
+
+        return mCommandMgr.getCommandList().get(mCommandMgr.getCommandList().size()-1).getCommandNumber() + 1;
     }
 
     public synchronized boolean isMyTurn() {
