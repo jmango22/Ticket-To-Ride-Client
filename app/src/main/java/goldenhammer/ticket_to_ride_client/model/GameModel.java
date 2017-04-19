@@ -15,12 +15,63 @@ public class GameModel {
     private int currentTurn;
     private ArrayList<EndResult> results;
     private int checkpointIndex;
+
     private String state;
+
+    private java.util.Map<String,Hand> hands;
+    private boolean lastRound;
+
+
     public GameModel() {
         players = new ArrayList<>();
         map = new Map();
         currentTurn = 0;
     }
+
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
+    }
+
+    public List<DestCard> getDestinationCards(String myName) {
+        return hands.get(myName).getDestinationCards();
+    }
+
+    public List<TrainCard> getTrainCards(String myName) {
+        return hands.get(myName).getTrainCards();
+    }
+
+    public void addTrainCards(List<TrainCard> drawnCards,String myName) {
+        hands.get(myName).addTrainCards(drawnCards);
+    }
+
+    public void addBankCard(TrainCard card,String myName) {
+        hands.get(myName).addBankCard(card);
+    }
+
+    public void removeTrainCards(List<TrainCard> cards,String myName) {
+        hands.get(myName).removeTrainCards(cards);
+    }
+
+    public void setDrawDestCards(List<DestCard> cards,String myName) {
+        hands.get(myName).setDrawnDestinationCards(cards);
+    }
+
+    public void moveDrawnDestCards(List<DestCard> discardedCards,String myName) {
+        hands.get(myName).moveDrawnDestCardToHand(discardedCards);
+    }
+    public Hand getHand(String myName){
+        return hands.get(myName);
+    }
+
+    public void setHand(Hand hand, String myName){
+        hands.put(myName,hand);
+    }
+
 
     public int getCheckpointIndex() {
         return checkpointIndex;
