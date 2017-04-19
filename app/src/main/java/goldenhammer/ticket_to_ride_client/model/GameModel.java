@@ -15,8 +15,12 @@ public class GameModel {
     private int currentTurn;
     private ArrayList<EndResult> results;
     private int checkpointIndex;
+
+    private String state;
+
     private java.util.Map<String,Hand> hands;
     private boolean lastRound;
+
 
     public GameModel() {
         players = new ArrayList<>();
@@ -191,4 +195,11 @@ public class GameModel {
         return results;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }
