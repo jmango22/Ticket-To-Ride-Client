@@ -20,8 +20,7 @@ public class CommandManager {
 
     public void addCommands(List<BaseCommand> newCommands) {
         for (BaseCommand command : newCommands) {
-            if(!commandList.contains(command) &&
-                    command.getCommandNumber() == model.getCurrentGame().getCheckpointIndex()+1) {
+            if(!commandList.contains(command) ) {
                 command.execute();
                 commandList.add(command);
                 //increment the checkpoint index.
