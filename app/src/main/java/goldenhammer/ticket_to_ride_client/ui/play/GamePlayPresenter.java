@@ -78,9 +78,11 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
                 }
             }
         };
+        handInitialized = false;
         StateSelector.setPresenter(this);
         State state = new State(this);
         if(model.getCurrentGame().getCheckpointIndex() > -1) {
+            handInitialized = true;
             state = StateSelector.NotMyTurn();
             if (model.getCurrentGame().isMyTurn()) {
                 state = StateSelector.MyTurn();
@@ -95,7 +97,7 @@ public class GamePlayPresenter implements Observer, IGamePlayPresenter {
             }
         }
         model.setState(state);
-        handInitialized = false;
+
     }
 
     public void closeTrainCardsDialog(){

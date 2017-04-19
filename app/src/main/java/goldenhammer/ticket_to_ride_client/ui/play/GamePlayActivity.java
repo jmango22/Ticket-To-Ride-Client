@@ -109,7 +109,7 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        players = ClientModelFacade.SINGLETON.getLeaderboard();
         setContentView(R.layout.activity_game_play2);
         presenter = new GamePlayPresenter(this);
         ServerProxy.SINGLETON.stopGameListPolling();
@@ -576,6 +576,9 @@ public class GamePlayActivity extends AppCompatActivity /*implements ImageView.O
 
     private int getPlayerIndex(int id){
         PlayerOverview p = ClientModelFacade.SINGLETON.getLeaderboard().get(id);
+        if(players == null) {
+            players = ClientModelFacade.SINGLETON.getLeaderboard();
+        }
         for(int i = 0; i < players.size(); i++){
             if(p.getPlayer() == players.get(i).getPlayer()){
                 return i;
