@@ -16,15 +16,22 @@ public class GameModel {
     private ArrayList<EndResult> results;
     private int checkpointIndex;
     private java.util.Map<String,Hand> hands;
+    private boolean lastRound;
 
     public GameModel() {
         players = new ArrayList<>();
         map = new Map();
         currentTurn = 0;
     }
-    
-    
 
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
+    }
 
     public List<DestCard> getDestinationCards(String myName) {
         return hands.get(myName).getDestinationCards();

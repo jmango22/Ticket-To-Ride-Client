@@ -24,7 +24,6 @@ public class ClientModelFacade extends Observable {
     private Player mUser;
     private CommandManager mCommandMgr = new CommandManager();
     private ChatMessages messages;
-    private boolean lastRound;
     private State state;
 
     public  static final  ClientModelFacade SINGLETON = new ClientModelFacade();
@@ -33,11 +32,11 @@ public class ClientModelFacade extends Observable {
     }
 
     public synchronized void setLastRound(boolean isLastRound){
-        lastRound = isLastRound;
+        mCurrentGame.setLastRound(isLastRound);
     }
 
     public synchronized boolean  getLastRound(){
-        return lastRound;
+        return mCurrentGame.isLastRound();
     }
 
     public synchronized ArrayList<EndResult> getEndResults(){
@@ -108,7 +107,7 @@ public class ClientModelFacade extends Observable {
         if(getCurrentGame() == null) {
             messages = new ChatMessages(new ArrayList<Message>());
             mCommandMgr = new CommandManager();
-            lastRound = false;
+            mCurrentGame.setLastRound(false);
             this.mCurrentGame = mCurrentGame;
             mCurrentGame.updatePoints();
             offsetTracks();
