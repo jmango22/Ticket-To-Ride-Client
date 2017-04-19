@@ -11,7 +11,7 @@ import goldenhammer.ticket_to_ride_client.model.commands.BaseCommand;
  */
 
 public class CommandManager {
-
+    private ClientModelFacade model = ClientModelFacade.SINGLETON;
     private List<BaseCommand> commandList;
 
     public CommandManager(){
@@ -20,9 +20,12 @@ public class CommandManager {
 
     public void addCommands(List<BaseCommand> newCommands) {
         for (BaseCommand command : newCommands) {
-            if(!commandList.contains(command)) {
+            if(!commandList.contains(command) &&
+                    command.getCommandNumber() == model.getCurrentGame().getCheckpointIndex()+1) {
                 command.execute();
                 commandList.add(command);
+                //increment the checkpoint index.
+                model.getCurrentGame().setCheckpointIndex(model.getCurrentGame().getCheckpointIndex()+1);
             }
         }
     }
